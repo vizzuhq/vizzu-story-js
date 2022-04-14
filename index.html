@@ -1,0 +1,1025 @@
+
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vizzu - Carrot</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./scrollyTelling.css" />
+    <style>
+        ::root {
+            --vizzu-passive-thumbcolor: #fff;
+        }
+        #vizzuWrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #vizzuWrapper:fullscreen {
+            display: grid;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #vizzuWrapper:fullscreen > #vizzuCanvas {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #vizzuWrapper:fullscreen > .vizzu-navcontainer {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            max-width: 100vw;
+        }
+
+        
+        #vizzuWrapper:fullscreen .vizzu-navright
+        {
+            display: flex;
+            position: fixed;
+            right: 10px;
+            top: 35px;
+        }
+
+        #vizzuWrapper:fullscreen .vizzu-navmiddle
+        {
+            position: absolute;
+            max-width: 550px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .disabledbtn
+        {
+            opacity: 0;
+        }
+
+        #vizzuWrapper:fullscreen .vizzu-navright .vizzu-navtooltip, #vizzuWrapper:fullscreen .vizzu-navright .vizzu-fullscreentooltip
+        {
+            top: 50%;
+            transform: translateY(-50%);
+            left: -60px;
+        }
+
+        
+        #vizzuWrapper:fullscreen .vizzu-navleft
+        {
+            display: flex;
+            position: fixed;
+            left: 10px;
+            top: 10px;
+        }
+
+        #vizzuCanvas
+        {
+            border: 1px solid #ff0000;
+            width: 800px; height: 558px;
+        }
+        
+
+        #vizzuControls .controlBtn 
+        {
+            cursor:pointer;
+            background:transparent;
+            background-size:contain;
+            background-repeat:no-repeat;
+            transition: all .25s linear;
+            position: relative;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 4em;
+            flex: none;
+            
+        }
+
+        .vizzu-hidden
+        {
+            opacity: 0;
+            cursor: auto !important;
+        }
+
+        .vizzu-navcontainer {
+            width: 100%;
+            position: relative;
+            display: -moz-box;
+            display: flex;
+            height: 30px;
+            margin-top:22px;
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+        .vizzu-navleft {
+            display: -moz-box;
+            display: flex;
+            justify-content: flex-start;
+            -moz-box-flex: 1;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 120px;
+            align-items: center;
+            overflow: hidden;
+        }
+        .vizzu-navmiddle {
+            display: -moz-box;
+            display: flex;
+            -moz-box-flex: 1;
+            flex-basis: calc(2 * 200px);
+            flex-shrink: 1;
+            flex-grow: 0;
+            align-items: center;
+            justify-content: center;
+        }
+        .vizzu-navright {
+            display: -moz-box;
+            display: flex;
+            justify-content: flex-end;
+            -moz-box-flex: 1;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 120px;
+            align-items: center;
+        }
+        .vizzu-navbutton {
+            position:relative;
+            overflow: visible;
+            background-color: transparent;
+            border: 0;
+            outline: none;
+            display: -moz-box;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            padding: 0px;
+            border-radius: 0;
+        }
+
+        .fullscreen-icon
+        {
+            width: 15px;
+            height: 15px;
+            object-fit: contain;
+            background-size: 15px 15px;
+            background-image: url(img/fullscreen_pass.svg);
+        }
+        #vizzuControls #previousButton
+        {
+            background-image: url(img/previous_pass.svg);
+        }
+
+        #vizzuControls #previousButton:hover
+        {
+            background-image: url(img/previous_act.svg);
+        }
+
+        #vizzuControls #fullScreenButton
+        {
+            background-image: url(img/fullscreen_pass.svg);
+        }
+
+        #vizzuControls #fullScreenButton:hover
+        {
+            background-image: url(img/fullscreen_act.svg);
+        }
+
+        #vizzuControls #nextButton
+        {
+            background-image: url(img/next_pass.svg);
+        }
+
+        #vizzuControls #nextButton:hover
+        {
+            background-image: url(img/next_act.svg);
+        }
+
+
+        .vizzu-navbar-button {
+            overflow: visible;
+            background-color: transparent;
+            border: 0;
+            outline: none;
+            display: -moz-box;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            padding: 0px;
+            border-radius: 0;
+        }
+        .vizzu-navbar-button:active {
+        
+        }
+        .vizzu-navbar-button:hover {
+        
+        }
+        .vizzu-navbar-button:disabled {
+            pointer-events: none;
+            background-color: transparent;
+            opacity: 0.2;
+        }
+        .vizzu-navbar-button.hidden {
+            visibility: hidden;
+        }
+        .vizzu-navbar-button-prev {
+            flex-basis: 65px;
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+
+        .vizzu-navbar-button-first, .vizzu-navbar-button-last {
+            flex-basis: 30px;
+            flex-grow: 1;
+            flex-shrink: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vizzu-sliderWrapper
+        {
+            position:relative;
+            flex-grow: 1;
+            flex-shrink: 1;
+            max-width: 350px;
+            min-width: 15px;
+            top: -4px;
+        }
+
+        #vizzuWrapper:fullscreen .vizzu-sliderWrapper
+        {
+            width:350px;
+        }
+
+        .vizzu-navbar-button-next {
+            flex-basis: 70px;
+            flex-grow: 1;
+            flex-shrink: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vizzu-navbar-prev-icon {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            margin: auto;
+        }
+
+        .vizzu-slider, .vizzu-slider-disabled, .vizzu-slider-passive {
+            -webkit-appearance: none;
+            position: relative;
+            width:100%;
+            height: 5px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 1;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        
+        .vizzu-slider:hover {
+           opacity: 1;
+        }
+        
+        .vizzu-slider-disabled::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: none;
+        } 
+
+        .vizzu-slider-disabled::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--vizzu-passive-thumbcolor);
+            cursor: pointer;
+        }
+
+        .vizzu-slider-passive::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: solid 2px #d3d3d3;
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        .vizzu-slider-passive::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--vizzu-passive-thumbcolor);
+            cursor: pointer;
+        }
+
+
+        .vizzu-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #009edb;
+            cursor: pointer;
+        }
+
+        .vizzu-slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #009edb;
+            cursor: pointer;
+        }
+
+        .vizzu-navbutton > svg {
+            width: 13px;
+            height: 13px;
+        }
+        .vizzu-navbutton path 
+        {
+            fill: #A2A2A2;
+        }
+
+        .vizzu-navbutton:hover path
+        {
+            fill: #404040;
+        }
+
+        .vizzu-navstatustext {
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            color: #0095d2;
+        }
+
+        .vizzu-navtooltip {
+            position: absolute;
+            text-align: center;
+            left: 50%;
+            transform: translateX(-50%);
+            display:none;
+            top: -15px;
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+
+        .vizzu-fullscreentooltip 
+        {
+            position: absolute;
+            text-align: left;
+            display:none;
+            right: 0;
+            top: -15px;
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+        .vizzu-navbutton:hover .vizzu-navtooltip, .vizzu-navbutton:hover .vizzu-fullscreentooltip {
+            display: block;
+        }
+        
+
+    </style>
+
+</head>
+<body>
+    <div id="vizzuWrapper">
+    </div>
+    <!--<div id="myVizzu" style="width: 800px; height: 558px;border:1px solid gray;"></div>-->
+<style>.footer,.generic-footer{margin-bottom:98px}@media (min-width:374px){.footer,.generic-footer{margin-bottom:78px}}@media (min-width:546px){.footer,.generic-footer{margin-bottom:56px}}@media (min-width:1055px){.footer,.generic-footer{margin-bottom:0}}.disclaimer{position:fixed;z-index:9999999;bottom:0;right:0;border-top:2px solid #ff5c62;text-align:center;font-size:14px;font-weight:400;background-color:#fff;padding:5px 10px 5px 10px}.disclaimer a:hover{text-decoration:underline}@media (min-width:1052px){.disclaimer{text-align:right;border-left:2px solid red;border-top-left-radius:10px}}@media (min-width:1920px){.disclaimer{width:60%}}</style><div class="disclaimer">We support Ukraine and condemn war. Push Russian government to act against war. Be brave, vocal and show your support to Ukraine. Follow the latest news <a title="https://www.bbc.com/news/live/world-europe-60517447" target="_blank" href="https://www.bbc.com/news/live/world-europe-60517447" style="color: black;"><b>HERE</b></a></div></body>
+
+<script type="module" defer>
+    window.onbeforeunload = function() {
+    window.scrollTo(0, 0);
+}
+
+import VizzuSlides from './vizzu-slides.js';
+
+let data = {
+    series: [{
+            name: 'Actors',
+            type: 'dimension'
+        },
+        {
+            name: 'Label',
+            type: 'dimension'
+        },
+        {
+            name: 'Carrot',
+            type: 'dimension'
+        },
+        {
+            name: 'Plant',
+            type: 'measure'
+        },
+        {
+            name: 'Growing',
+            type: 'measure'
+        },
+        {
+            name: 'Before pulling',
+            type: 'measure'
+        },
+        {
+            name: 'Pulling1',
+            type: 'measure'
+        },
+        {
+            name: 'Pulling2',
+            type: 'measure'
+        },
+        {
+            name: 'Pulling3',
+            type: 'measure'
+        },
+        {
+            name: 'Pulling4',
+            type: 'measure'
+        },
+        {
+            name: 'Pulling5',
+            type: 'measure'
+        },
+        {
+            name: 'Out',
+            type: 'measure'
+        },
+        {
+            name: 'Out back',
+            type: 'measure'
+        },
+        {
+            name: 'Before jump',
+            type: 'measure'
+        },
+        {
+            name: 'Jump',
+            type: 'measure'
+        },
+    ],
+    records: [
+        ['Big carrot', ' ', 'under', '-1', '-42', '-42', '-40', '-38', '-36', '-34', '-32', '0', '0', '0', '0'],
+        ['Big carrot', ' ', 'upper', '1', '44', '44', '44', '44', '44', '44', '44', '44', '44', '44', '44'],
+        ['Big carrot', 'Big carrot', 'green', '1', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3'],
+        ['Grandpa', ' ', 'jump1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+        ['Grandpa', 'Grandpa', 'Grandpa', '17', '17', '15', '19', '21', '23', '25', '27', '29', '17', '15', '19'],
+        ['Grandma', ' ', 'jump2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+        ['Grandma', 'Grandma', 'Grandma', '16', '16', '14', '16', '18', '20', '22', '24', '26', '16', '14', '18'],
+        ['Grandson', ' ', 'jump3', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '3'],
+        ['Grandson', 'Grandson', 'Grandson', '11', '11', '9', '11', '11', '13', '15', '17', '19', '11', '9', '13'],
+        ['Dog', ' ', 'jump4', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '5'],
+        ['Dog', 'Dog', 'Dog', '7', '7', '5', '7', '7', '7', '9', '11', '13', '7', '5', '9'],
+        ['Cat', ' ', 'jump5', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '6'],
+        ['Cat', 'Cat', 'Cat', '6', '6', '4', '6', '6', '6', '6', '8', '10', '6', '4', '8'],
+        ['Mouse', ' ', 'jump6', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '8'],
+        ['Mouse', 'Mouse', 'Mouse', '3', '3', '1', '3', '3', '3', '3', '3', '5', '3', '1', '5'],
+    ]
+};
+
+let myVizzuSlides = new VizzuSlides('#vizzuWrapper',
+[
+    [
+    chart => chart.animate({
+            data: data,
+            config: {
+                channels: {
+                    y: {
+                        set: ['Plant', 'Carrot', 'Label'],
+                        range: {
+                            min: '-50',
+                            max: '50'
+                        }
+                    },
+                    x: {
+                        set: ['Actors'],
+                        range: {
+                            min: '0',
+                            max: '7'
+                        }
+                    },
+                    color: 'Carrot',
+                    label: {
+                        set: ['Label']
+                    },
+                },
+                title: 'The Enormous Carrot',
+                legend: null
+            },
+            style: {
+                plot: {
+                    paddingLeft: '9em',
+                    marker: {
+                        colorPalette: '#fd7000 #fd7000 #2e6b00 #ffffff #338da2 #ffffff #00a07a #ffffff #d63661 #ffffff #b57537 #ffffff #d69814 #ffffff #a1a1a1',
+                        label: {
+                            position: 'top',
+                            fontSize: '1em'
+                        }
+                    },
+                    yAxis: {
+                        label: {
+                            fontSize: '0em',
+                            paddingRight: '1em'
+                        },
+                        title: {
+                            fontSize: '0em'
+                        },
+                        interlacing: {
+                            color: '#ffffffFF'
+                        }
+                    },
+                    xAxis: {
+                        label: {
+                            angle: 0,
+                            fontSize: '0em'
+                        },
+                        title: {
+                            fontSize: '0em',
+                            paddingTop: '2.5em'
+                        }
+                    }
+                }
+            }
+        }, {
+            duration: '0'
+        }, ),
+        chart => chart.animate({
+            data: {
+                filter: record => record.Actors != 'Grandma' &&
+                    record.Actors != 'Grandson' &&
+                    record.Actors != 'Dog' &&
+                    record.Actors != 'Cat' &&
+                    record.Actors != 'Mouse',
+            },
+
+
+            config: {
+                channels: {
+                    y: {
+                        set: ['Plant', 'Carrot', 'Label'],
+                        range: {
+                            min: '-50',
+                            max: '50'
+                        }
+                    },
+                    x: {
+                        set: ['Actors'],
+                        range: {
+                            min: '0',
+                            max: '7'
+                        }
+                    },
+                    color: 'Carrot',
+                    label: {
+                        set: ['Label']
+                    },
+                },
+                title: 'The Enormous Carrot',
+                legend: null
+            },
+            style: {
+                plot: {
+                    paddingLeft: '9em',
+                    marker: {
+                        colorPalette: '#fd7000 #fd7000 #2e6b00 #ffffff #338da2 #ffffff #00a07a #ffffff #d63661 #ffffff #b57537 #ffffff #d69814 #ffffff #a1a1a1',
+                        label: {
+                            position: 'top',
+                            fontSize: '1em'
+                        }
+                    },
+                    yAxis: {
+                        label: {
+                            fontSize: '0em',
+                            paddingRight: '1em'
+                        }
+                    },
+                    //                 interlacing: {color:'#ffffffFF'},
+                    xAxis: {
+                        label: {
+                            angle: 0,
+                            fontSize: '0em'
+                        },
+                        title: {
+                            fontSize: '0em',
+                            paddingTop: '2.5em'
+                        }
+                    }
+                }
+            }
+        }, {
+            duration: '0'
+        }, ),
+
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Growing', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '4'
+        }, ),
+
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Before pulling', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1'
+        }, ),
+
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Pulling1', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.3'
+        }, ),
+
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Growing', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1.5'
+        }, )
+    ],
+    
+    //grandma
+    [
+        chart => chart.animate({
+                data: {
+                    filter: record =>
+                        record.Actors != 'Grandson' &&
+                        record.Actors != 'Dog' &&
+                        record.Actors != 'Cat' &&
+                        record.Actors != 'Mouse',
+                },
+                config: {
+                    channels: {
+                        y: {
+                            set: ['Growing', 'Label', 'Carrot']
+                        }
+                    }
+                }
+            }, {
+                duration: '0.5'
+            }, ),
+            chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Before pulling', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Pulling2', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.3'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Growing', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1.5'
+        }, )
+
+    ],
+
+    //granddoughter
+    [
+        chart => chart.animate({
+                data: {
+                    filter: record =>
+                        record.Actors != 'Dog' &&
+                        record.Actors != 'Cat' &&
+                        record.Actors != 'Mouse',
+                },
+                config: {
+                    channels: {
+                        y: {
+                            set: ['Growing', 'Label', 'Carrot']
+                        }
+                    }
+                }
+            }, {
+                duration: '0.5'
+            }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Before pulling', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Pulling3', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.3'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Growing', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1.5'
+        }, ),
+
+    ],
+    //dog
+    [
+        chart => chart.animate({
+            data: {
+                filter: record =>
+                    record.Actors != 'Cat' &&
+                    record.Actors != 'Mouse',
+            },
+            config: {
+                channels: {
+                    y: {
+                        set: ['Growing', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.5'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Before pulling', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Pulling4', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.3'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Growing', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1.5'
+        }, )
+    ],
+    //cat
+    [
+        chart => chart.animate({
+            data: {
+                filter: record =>
+                    record.Actors != 'Mouse',
+            },
+            config: {
+                channels: {
+                    y: {
+                        set: ['Growing', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.5'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Before pulling', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Pulling5', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.3'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Growing', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1.5'
+        }, )
+    ],
+    //mouse
+    [
+        chart => chart.animate({
+                data: {
+                    filter: null,
+                },
+                config: {
+                    channels: {
+                        y: {
+                            set: ['Growing', 'Label', 'Carrot']
+                        }
+                    }
+                }
+            }, {
+                duration: '0.5'
+            }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Before pulling', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Out', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.3'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Out back', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '1.2'
+        }, )
+    ],
+    //jumping
+    [
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Jump', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.3'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Before jump', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.5'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Jump', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.3'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Before jump', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.5'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Jump', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.3'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Before jump', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.5'
+        }, ),
+        chart => chart.animate({
+            config: {
+                channels: {
+                    y: {
+                        set: ['Out back', 'Label', 'Carrot']
+                    }
+                }
+            }
+        }, {
+            duration: '0.6'
+        }, )
+    ]
+]
+);
+
+myVizzuSlides.initialized.then(() => {
+	myVizzuSlides.play();
+});
+
+    </script>
