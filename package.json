@@ -1,0 +1,30 @@
+{
+  "name": "vizzu-ext-slides",
+  "version": "0.0.1",
+  "description": "A presentation extension for the Vizzu charting library to create presentations with animated data visualisations with ease.",
+  "main": "src/vizzu-slides.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vizzuhq/vizzu-ext-slides-js.git"
+  },
+  "keywords": [
+    "template",
+    "interactive",
+    "presentation",
+    "data-visualization",
+    "charting",
+    "vizzu"
+  ],
+  "author": "VizzuHQ",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/vizzuhq/vizzu-ext-slides-js/issues"
+  },
+  "homepage": "https://github.com/vizzuhq/vizzu-ext-slides-js#readme"
+}
