@@ -2,7 +2,7 @@ window.onbeforeunload = function() {
     window.scrollTo(0, 0);
 }
 
-import VizzuSlides from '../src/vizzu-slides.js';
+import VizzuSlides from './vizzu-slides.js';
 import data from './data.js';
 import style from './style.js';
 
