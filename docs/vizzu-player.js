@@ -184,14 +184,30 @@ class VizzuPlayer extends HTMLElement {
     return await this.vizzu.animate(...step);
   }
 
-  async _jump(subSlide, percent) {
+  async _jump(cs, ss, percent) {
     return new Promise(resolve => setTimeout(async () => {
-      this.log("jump to", subSlide, percent);
-      const _seek = () => this._seekTo(percent);
+      this.log("jump to", cs, ss, percent);
+      const subSlide = this._slides[cs][ss];
+      const seek = () => this._seekTo(percent);
+      // animate to previous slide
+      if (ss > 0) {
+        const prevSubSlide = this._slides[cs][ss - 1];
+        const seekToEnd = () => this._seekToEnd();
+        this.vizzu.on("animation-begin", seekToEnd);
+        await this.vizzu.animate(...prevSubSlide);
+        this.vizzu.off("animation-begin", seekToEnd);
+      } else if (cs > 0) {
+        const prevSlide = this._slides[cs - 1];
+        const prevSubSlide = prevSlide[prevSlide.length - 1];
+        const seekToEnd = () => this._seekToEnd();
+        this.vizzu.on("animation-begin", seekToEnd);
+        await this.vizzu.animate(...prevSubSlide);
+        this.vizzu.off("animation-begin", seekToEnd);
+      }
       // jump to subSlide
-      this.vizzu.on("animation-begin", _seek);
-      await this.vizzu.animate(subSlide);
-      this.vizzu.off("animation-begin", _seek);
+      this.vizzu.on("animation-begin", seek);
+      await this.vizzu.animate(...subSlide);
+      this.vizzu.off("animation-begin", seek);
 
       resolve(this.vizzu);
     }, 0));
@@ -281,7 +297,7 @@ class VizzuPlayer extends HTMLElement {
       }
       if (ss !== this._subSlide) { // need to change subslide
         this._subSlide = ss;
-        await this._jump(this.slide[ss][0], sp);
+        await this._jump(this._currentSlide, this._subSlide, sp);
       } else {
         this.vizzu.animation.seek(`${sp}%`);
       }
