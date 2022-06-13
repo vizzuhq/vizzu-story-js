@@ -9,7 +9,8 @@
 
 body
 {
-    overflow-x: none;
+  padding: 0;
+  margin: 0;
 }
 
 #vizzuWrapper {
