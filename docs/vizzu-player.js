@@ -1,7 +1,8 @@
 import VizzuController from './vizzu-controller.js';
 
 // TODO
-import Vizzu from 'https://cdn.jsdelivr.net/npm/vizzu@latest/dist/vizzu.min.js';
+// import Vizzu from 'https://cdn.jsdelivr.net/npm/vizzu@latest/dist/vizzu.min.js';
+import Vizzu from 'https://vizzu-lib-main.storage.googleapis.com/lib/vizzu.min.js';
 
 const LOG_PREFIX = ["%cVIZZU%cPLAYER", "background: #e2ae30; color: #3a60bf; font-weight: bold", "background: #3a60bf; color: #e2ae30;"];
 
@@ -184,11 +185,14 @@ class VizzuPlayer extends HTMLElement {
     return await this.vizzu.animate(...step);
   }
 
+  // TODO proper exception handling to re-enable rendering and such
   async _jump(cs, ss, percent) {
     return new Promise(resolve => setTimeout(async () => {
       this.log("jump to", cs, ss, percent);
       const subSlide = this._slides[cs][ss];
       const seek = () => this._seekTo(percent);
+
+      this.vizzu.feature("rendering", false);
       // animate to previous slide
       if (ss > 0) {
         const prevSubSlide = this._slides[cs][ss - 1];
@@ -204,6 +208,8 @@ class VizzuPlayer extends HTMLElement {
         await this.vizzu.animate(...prevSubSlide);
         this.vizzu.off("animation-begin", seekToEnd);
       }
+      this.vizzu.feature("rendering", true);
+
       // jump to subSlide
       this.vizzu.on("animation-begin", seek);
       await this.vizzu.animate(...subSlide);
