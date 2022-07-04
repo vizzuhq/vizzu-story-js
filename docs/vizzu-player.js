@@ -238,6 +238,7 @@ class VizzuPlayer extends HTMLElement {
     if (this.length === 0 || !this.acquireLock()) {
       return;
     }
+    this._update(this._state);
 
     if (slide < 0) {
       slide = 0;
@@ -293,6 +294,7 @@ class VizzuPlayer extends HTMLElement {
 
   async seek(percent) {
     if (this.acquireLock()) {
+      this._update(this._state);
       this.log(`seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}/${this._subSlide}]`);
       let sspercent = 100 / this.slide.length;
       let ss = Math.floor(percent / sspercent); // new subslide
@@ -323,6 +325,7 @@ class VizzuPlayer extends HTMLElement {
       seekPosition: this._seekPosition,
       subSeekPosition: this._subSeekPosition,
       length: this.length,
+      locked: this._locked,
     };
   }
 
@@ -342,6 +345,8 @@ class VizzuPlayer extends HTMLElement {
           width: 100%;
           height: 100%;
           --_c: var(--vizzu-color, #333);
+          --_bg: var(--vizzu-background-color, #fff);
+          background-color: var(--_bg);
         }
         :host([initializing]) #vizzu {
           visibility: hidden;
@@ -355,7 +360,7 @@ class VizzuPlayer extends HTMLElement {
           justify-content: center;
           align-items: center;
           width: 100%;
-          max-height: calc(100% - 32px);
+          max-height: calc(100% - 50px);
           box-sizing: border-box;
           flex: 1;
         }
