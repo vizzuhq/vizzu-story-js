@@ -272,6 +272,7 @@ class VizzuPlayer extends HTMLElement {
     this._seekPosition = 100;
     this._subSeekPosition = 100;
     this.releaseLock();
+    this._update(this._state);
   }
 
   next() {
@@ -311,6 +312,23 @@ class VizzuPlayer extends HTMLElement {
       this._subSeekPosition = sp;
       this.releaseLock();
     }
+    this._update(this._state);
+  }
+
+  get _state() {
+    return {
+      currentSlide: this.currentSlide,
+      slide: this.slide,
+      subSlide: this._subSlide,
+      seekPosition: this._seekPosition,
+      subSeekPosition: this._subSeekPosition,
+      length: this.length,
+    };
+  }
+
+  _update(state) {
+    const e = new CustomEvent("update", { detail: state });
+    this.dispatchEvent(e);
   }
 
   _render() {

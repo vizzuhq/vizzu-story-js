@@ -9,6 +9,8 @@ class VizzuController extends HTMLElement {
 
     this._sliderUpdate = this.getAttribute("slider-update") || "change"; // change or input
 
+    this._update = this.update.bind(this);
+
     this.shadowRoot.addEventListener("click", e => {
       let btn = e.target.closest("button");
 
@@ -36,8 +38,48 @@ class VizzuController extends HTMLElement {
     });
   }
 
+  update(e) {
+    const data = e.detail;
+    this.log("update", data);
+    this._state = data;
+    this.shadowRoot.getElementById("status").innerText = `${(data.currentSlide || 0) + 1}/${data.length || '?'}`;
+    if (this.slider) {
+      this.slider.value = data.seekPosition * 10;
+    }
+  }
+
+  _unsubscribe(player) {
+    player?.removeEventListener("update", this._update);
+    this._player = null;
+  }
+
+  _subscribe(player) {
+    player?.addEventListener("update", this._update);
+    this._player = player;
+  }
+
+  get slider() {
+    return this.shadowRoot.getElementById("slider");
+  }
+
+  connectedCallback() {
+    if (!this._player) {
+      const p = this.getRootNode()?.host;
+      if (p.nodeName === 'VIZZU-PLAYER') {
+        this._player = this.getRootNode()?.host;
+        this._subscribe(this._player);
+      }
+    }
+  }
+
+  disconnectedCallback() {
+    if (this._player) {
+      this._unsubscribe(this._player);
+    }
+  }
+
   get player() {
-    return this._player || this.getRootNode()?.host;
+    return this._player;
   }
 
   set player(player) {
@@ -117,7 +159,7 @@ class VizzuController extends HTMLElement {
           width: 3em;
         }
       </style>
-      <div id="status">21/32</div>
+      <div id="status">${(this._state?.currentSlide || 0) + 1}/${(this._state?.length || '?')}</div>
       <div id="playerctrls">
         <button id="start" aria-label="Jump to start">|&lt;</button>
         <button id="previous" aria-label="Previous slide">&lt;</button>
