@@ -1,3 +1,3 @@
-# vizzu-ext-slides-js
+# vizzu-story
 
 Work in progress
