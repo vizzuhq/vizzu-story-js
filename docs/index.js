@@ -1,5 +1,5 @@
-import VizzuSlides from './vizzu-slides.js';
-import VizzuPlayer from './vizzu-player.js';
+import VizzuSlides from '../src/vizzu-slides.js';
+import VizzuPlayer from '../src/vizzu-player.js';
 import data from './data.js';
 import style from './style.js';
 
