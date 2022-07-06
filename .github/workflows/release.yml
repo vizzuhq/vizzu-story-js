@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Initialize development environment
+      run: npm install
+
+    - name: Build package
+      run: npm run build
+
+    - name: Publish package
+      run: |
+        npm config set registry=https://registry.npmjs.org/
+        npm config set //registry.npmjs.org/:_authToken=${NPM_API_TOKEN}
+        npm publish
+      env:
+        NPM_API_TOKEN: ${{ secrets.NPM_API_TOKEN }}
+      if: ( github.event_name == 'release' && github.event.action == 'published' ) || github.event_name == 'workflow_dispatch'
+
+    - name: Upload package
+      run: |
+        echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+        gh release upload ${{ github.event.release.tag_name }} build/*tgz --clobber
+      if: ( github.event_name == 'release' && github.event.action == 'published' ) || github.event_name == 'workflow_dispatch'
