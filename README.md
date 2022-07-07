@@ -4,7 +4,7 @@
   </a>
   <p align="center"><b>Vizzu - Story</b> JavaScript Extension</p>
   <p align="center">
-    <a href="https://vizzuhq.github.io/vizzu-ext-js-story/">Example</a>
+    <a href="https://vizzuhq.github.io/vizzu-ext-js-story/docs/">Example</a>
     · <a href="https://github.com/vizzuhq/vizzu-ext-js-story/">Repository</a>
   </p>
 </p>
