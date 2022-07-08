@@ -67,7 +67,10 @@ class VizzuPlayer extends HTMLElement {
 
   async _convertSlides(slides) {
     if (slides?.slides?.length) {
-      const firstSlide = slides.slides[0];
+      if (!Array.isArray(slides.slides[0])) {
+        slides.slides[0] = [slides.slides[0]];
+      }
+      const firstSlide = slides.slides[0][0];
       firstSlide.data = firstSlide.data || Object.assign({}, slides.data);
       firstSlide.style = firstSlide.style || slides.style;
     }
