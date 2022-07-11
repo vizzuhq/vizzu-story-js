@@ -190,7 +190,6 @@ class VizzuController extends HTMLElement {
         button > svg path {
           fill: var(--_c);
         }
-        button:focus > svg path,
         button:hover > svg path {
           fill: var(--_hc);
         }
@@ -216,7 +215,6 @@ class VizzuController extends HTMLElement {
         [aria-label] {
           position: relative;
         }
-        [aria-label]:focus::after,
         [aria-label]:hover::after {
           content: attr(aria-label);
           color: var(--_hc);
