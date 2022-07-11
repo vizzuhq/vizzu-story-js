@@ -67,7 +67,10 @@ class VizzuPlayer extends HTMLElement {
 
   async _convertSlides(slides) {
     if (slides?.slides?.length) {
-      const firstSlide = slides.slides[0];
+      if (!Array.isArray(slides.slides[0])) {
+        slides.slides[0] = [slides.slides[0]];
+      }
+      const firstSlide = slides.slides[0][0];
       firstSlide.data = firstSlide.data || Object.assign({}, slides.data);
       firstSlide.style = firstSlide.style || slides.style;
     }
@@ -334,6 +337,10 @@ class VizzuPlayer extends HTMLElement {
     this.dispatchEvent(e);
   }
 
+  get customSpinner() {
+    return this.getAttribute("custom-spinner");
+  }
+
   _render() {
     return `
       <style>
@@ -380,6 +387,14 @@ class VizzuPlayer extends HTMLElement {
           width: 80px;
           height: 80px;
         }
+        ${this.customSpinner ? `
+        .spinner {
+          background-image: url(${this.customSpinner});
+          background-repeat: no-repeat;
+          background-position: center;
+          width: auto;
+          height: auto;
+        }` : `
         .spinner:after {
           content: " ";
           display: block;
@@ -390,7 +405,7 @@ class VizzuPlayer extends HTMLElement {
           border: 6px solid #fff;
           border-color: var(--_c) transparent var(--_c) transparent;
           animation: spin 1.2s linear infinite;
-        }
+        }`}
         @keyframes spin {
           0% {
             transform: rotate(0deg);

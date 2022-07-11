@@ -107,10 +107,10 @@ vp.vizzu.initializing.then(chart => chart.on('plot-axis-label-draw', labelHandle
 
 /*
 TODO:
- - attach / detach controller
- - controller updates (events?)
+ - vizzu spinner
+ - `animate` with seek
+ - `reverse` animation
  - !SEEK!
- - render w/o controller
- - basic styling
+ - animOptions check
  - styling with CSS variables
 */
