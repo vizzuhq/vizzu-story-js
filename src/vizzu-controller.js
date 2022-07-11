@@ -10,6 +10,7 @@ class VizzuController extends HTMLElement {
     this._sliderUpdate = this.getAttribute("slider-update") || "change"; // change or input
 
     this._update = this.update.bind(this);
+    this._keyHandler = this._handleKey.bind(this);
 
     this.shadowRoot.addEventListener("click", e => {
       let btn = e.target.closest("button");
@@ -71,6 +72,25 @@ class VizzuController extends HTMLElement {
     return this.shadowRoot.getElementById("slider");
   }
 
+  _handleKey(e) {
+    this.log("key", e.key);
+    if (e.key === "PageDown" || e.key === "ArrowRight") {
+      this.next();
+    } else if (e.key === "PageUp" || e.key === "ArrowLeft") {
+      this.previous();
+    } else if (e.key === "Home") {
+      this.toStart();
+    } else if (e.key === "End") {
+      this.toEnd();
+    } else if (e.key === "f" || e.key === "F") {
+      this.fullscreen();
+    } else if (e.key === "Escape") {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    }
+  }
+
   connectedCallback() {
     if (!this._player) {
       const p = this.getRootNode()?.host;
@@ -79,12 +99,14 @@ class VizzuController extends HTMLElement {
         this._subscribe(this._player);
       }
     }
+    document.addEventListener("keydown", this._keyHandler);
   }
 
   disconnectedCallback() {
     if (this._player) {
       this._unsubscribe(this._player);
     }
+    document.removeEventListener("keydown", this._keyHandler);
   }
 
   get player() {
