@@ -46,7 +46,7 @@ class VizzuController extends HTMLElement {
       this.removeAttribute("first");
     }
 
-    // last currentSlide
+    // last slide
     if (data.currentSlide === data.length - 1) {
       this.setAttribute("last", "");
     } else {
