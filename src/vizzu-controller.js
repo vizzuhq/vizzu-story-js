@@ -38,6 +38,21 @@ class VizzuController extends HTMLElement {
     } else {
       this.removeAttribute("locked");
     }
+
+    // first slide
+    if (data.currentSlide === 0) {
+      this.setAttribute("first", "");
+    } else {
+      this.removeAttribute("first");
+    }
+
+    // last slide
+    if (data.currentSlide === data.length - 1) {
+      this.setAttribute("last", "");
+    } else {
+      this.removeAttribute("last");
+    }
+
     this.shadowRoot.getElementById("status").innerHTML = this._html_status;
   }
 
@@ -171,6 +186,10 @@ class VizzuController extends HTMLElement {
           --_hc: var(--vizzu-button-hover-color, #494949);
           color: var(--_c);
         }
+        :host([first]) #start,
+        :host([first]) #previous,
+        :host([last]) #end,
+        :host([last]) #next,
         :host([locked]) {
           pointer-events: none;
           opacity: 0.5;
