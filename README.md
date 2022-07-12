@@ -116,6 +116,8 @@ const vp = document.querySelector("vizzu-player");
 vp.slides = story;
 ```
 
+> [Try it out in JSFiddle!](https://jsfiddle.net/VizzuHQ/topcmuyf/3/)
+
 See [vizzu-story.d.ts](https://github.com/vizzuhq/vizzu-ext-js-story/blob/main/src/vizzu-story.d.ts) 
 and [vizzu.d.ts](https://cdn.jsdelivr.net/npm/vizzu@latest/dist/vizzu.d.ts) for detailed API type declarations.
 
