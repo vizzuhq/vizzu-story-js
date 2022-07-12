@@ -13,10 +13,10 @@
 
 Vizzu-Story is an extension for the [Vizzu](https://github.com/vizzuhq/vizzu-lib)
 library that allows users to create interactive presentations with animated data 
-visualisations.
+visualizations.
 
 The extension provides a Web Component to contain the Vizzu data story and adds 
-controls for navigate between the story steps.
+controls for navigating between the story steps.
 
 # Installation
 
@@ -67,7 +67,7 @@ const data = {
 Define the sequence of slides, creating a data story. A slide can be a single 
 transition phase, corresponding to a single '[animation()](https://lib.vizzuhq.com/latest/#chapter-0.0)' call from Vizzu.
 Or can be a list of phases. The navigation controls will navigate between slides,
-so with multiple phases you can create more complex transitions.
+so with multiple phases, you can create more complex transitions.
 
 ```javascript
 const slides = [
@@ -87,8 +87,8 @@ const slides = [
 ]
 ```
 
-In the phases you can define the chart configuration and style with the same
-objects as in Vizzu. However the undelying data cannot be modified between the
+In each phase, you can define the chart configuration and style with the same
+objects as in Vizzu. However, the underlying data cannot be modified between the
 slides, only the used data filter.
 
 ```typescript
@@ -117,6 +117,8 @@ Then get the created element and set it up with the configuration object:
 const vp = document.querySelector("vizzu-player");
 vp.slides = story;
 ```
+
+> [Try it out in JSFiddle!](https://jsfiddle.net/VizzuHQ/topcmuyf/3/)
 
 See [vizzu-story.d.ts](https://github.com/vizzuhq/vizzu-ext-js-story/blob/main/src/vizzu-story.d.ts) 
 and [vizzu.d.ts](https://cdn.jsdelivr.net/npm/vizzu@latest/dist/vizzu.d.ts) for detailed API type declarations.
