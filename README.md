@@ -30,6 +30,8 @@ Or use it from CDN:
 
 # Usage
 
+![Readme example](assets/readme-example.gif)
+
 Create a 'vizzu-player' element that will contain the rendered story:
 
 ```html
