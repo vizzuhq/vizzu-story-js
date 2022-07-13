@@ -97,6 +97,14 @@ let vpd = {
       config: {
         title: 'Total U.S. R&D Budget',
       }
+    },
+    { // slide 6
+        config: {
+            title: "Total U.S. R&D Budget - Components Side by Side",
+            x: "Year", y: "Amount[B$]", noop: "Function",
+            align: "none",
+            geometry: "line"
+        }
     }
   ]
 };
