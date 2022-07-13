@@ -1,4 +1,4 @@
-import VizzuPlayer from '../src/vizzu-player.js';
+import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@~0.1.0/dist/vizzu-story.min.js';
 import data from './data.js';
 import style from './style.js';
 
