@@ -1,8 +1,6 @@
 import VizzuController from './vizzu-controller.js';
 
-// TODO
-// import Vizzu from 'https://cdn.jsdelivr.net/npm/vizzu@latest/dist/vizzu.min.js';
-import Vizzu from 'https://vizzu-lib-main.storage.googleapis.com/lib/vizzu.min.js';
+import Vizzu from 'https://cdn.jsdelivr.net/npm/vizzu@~0.5.0/dist/vizzu.min.js';
 
 const LOG_PREFIX = ["%cVIZZU%cPLAYER", "background: #e2ae30; color: #3a60bf; font-weight: bold", "background: #3a60bf; color: #e2ae30;"];
 
