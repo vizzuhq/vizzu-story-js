@@ -1,29 +1,26 @@
 name: Release
 
 on:
-  workflow_dispatch:
-  release:
-    types: [published]
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_call:
 
 jobs:
-  deploy:
 
-    runs-on: ubuntu-latest
+  release_package:
+
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Initialize development environment
-      run: npm install
+    - uses: actions/cache@v3
+      with:
+        path: ./node_modules
+        key: node_modules-${{ github.run_id }}
 
     - name: Build package
       run: npm run build
 
-    - name: Publish package
+    - name: Release package
       run: |
         npm config set registry=https://registry.npmjs.org/
         npm config set //registry.npmjs.org/:_authToken=${NPM_API_TOKEN}

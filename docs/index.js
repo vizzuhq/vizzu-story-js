@@ -1,6 +1,6 @@
-import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@~0.1.0/dist/vizzu-story.min.js';
-import data from './data.js';
-import style from './style.js';
+import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@~0.1.0/dist/vizzu-story.min.js";
+import data from "./data.js";
+import style from "./style.js";
 
 function labelHandler(event) {
   let Year = parseFloat(event.data.text);
@@ -18,100 +18,115 @@ let vizzuPlayerData = {
       config: {}, // Config.Chart
       filter: () => true, // data.filter TODO: not declarative, cannot be serialized ??? string => Function
       style: {}, // Styles.Chart
-      animOptions: {} // Anim.Options
+      animOptions: {}, // Anim.Options
     },
     // ... or list of slides
     [
       {}, // phase1,
-      {}  // phase2, ...
-    ]
-  ]
+      {}, // phase2, ...
+    ],
+  ],
 };
 
 let vpd = {
   data: data,
   style: style,
   slides: [
-    { // slide 1
-      filter: record => record.Function !== 'Defense',
+    {
+      // slide 1
+      filter: (record) => record.Function !== "Defense",
       config: {
         channels: {
           y: {
-            set: ['Amount[B$]', 'Function'],
+            set: ["Amount[B$]", "Function"],
             range: {
-              min: '0%',
-              max: '100%'
-            }
+              min: "0%",
+              max: "100%",
+            },
           },
           x: {
-            set: ['Year']
+            set: ["Year"],
           },
-          color: 'Function'
+          color: "Function",
         },
-        title: 'U.S. Non-Defense R&D Budget by Functions',
-        geometry: 'area'
-      }
-    },
-    { // slide 2
-      config: {
-        title: 'Share of Total Expenditures %',
-        align: 'stretch'
-      }
-    },
-    [ // slide 3
-      { // slide 3.1
-        filter: record => record.Function === 'Health' || record.Function === 'Space',
-        config: {
-          title: 'Compare Space & Health',
-          align: 'min',
-          split: true
-        }
+        title: "U.S. Non-Defense R&D Budget by Functions",
+        geometry: "area",
       },
-      { // slide 3.2
-        filter: record => record.Function !== 'Defense',
+    },
+    {
+      // slide 2
+      config: {
+        title: "Share of Total Expenditures %",
+        align: "stretch",
+      },
+    },
+    [
+      // slide 3
+      {
+        // slide 3.1
+        filter: (record) =>
+          record.Function === "Health" || record.Function === "Space",
         config: {
-          title: 'All Non-defense Functions Side-by-Side',
-          align: 'min',
-          split: true
-        }
-      }
+          title: "Compare Space & Health",
+          align: "min",
+          split: true,
+        },
+      },
+      {
+        // slide 3.2
+        filter: (record) => record.Function !== "Defense",
+        config: {
+          title: "All Non-defense Functions Side-by-Side",
+          align: "min",
+          split: true,
+        },
+      },
     ],
-    [ // slide 4
-      { // slide 4.1
+    [
+      // slide 4
+      {
+        // slide 4.1
         filter: null,
         config: {
-          title: 'Show Defense Expenditures',
-          split: false
-        }
+          title: "Show Defense Expenditures",
+          split: false,
+        },
       },
-      { // slide 4.2
-        filter: record => record.Function === 'Defense',
+      {
+        // slide 4.2
+        filter: (record) => record.Function === "Defense",
         config: {
-          title: 'Defense Expenditures',
-          align: 'min'
-        }
-      }
+          title: "Defense Expenditures",
+          align: "min",
+        },
+      },
     ],
-    { // slide 5
+    {
+      // slide 5
       filter: null,
       config: {
-        title: 'Total U.S. R&D Budget',
-      }
+        title: "Total U.S. R&D Budget",
+      },
     },
-    { // slide 6
-        config: {
-            title: "Total U.S. R&D Budget - Components Side by Side",
-            x: "Year", y: "Amount[B$]", noop: "Function",
-            align: "none",
-            geometry: "line"
-        }
-    }
-  ]
+    {
+      // slide 6
+      config: {
+        title: "Total U.S. R&D Budget - Components Side by Side",
+        x: "Year",
+        y: "Amount[B$]",
+        noop: "Function",
+        align: "none",
+        geometry: "line",
+      },
+    },
+  ],
 };
 
 const vp = document.querySelector("vizzu-player");
 vp.slides = vpd; // init slides
-vp.vizzu.initializing.then(chart => chart.on('plot-axis-label-draw', labelHandler));
+vp.vizzu.initializing.then((chart) =>
+  chart.on("plot-axis-label-draw", labelHandler)
+);
 
 /*
 TODO:
