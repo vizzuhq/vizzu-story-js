@@ -1,4 +1,4 @@
-let style = {
+const style = {
   plot: {
     paddingLeft: "0em",
     yAxis: {

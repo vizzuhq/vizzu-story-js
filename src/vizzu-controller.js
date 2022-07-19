@@ -15,7 +15,7 @@ class VizzuController extends HTMLElement {
     this._keyHandler = this._handleKey.bind(this);
 
     this.shadowRoot.addEventListener("click", (e) => {
-      let btn = e.target.closest("button");
+      const btn = e.target.closest("button");
 
       if (btn) {
         if (btn.id === "start") {
@@ -122,7 +122,7 @@ class VizzuController extends HTMLElement {
   }
 
   get debug() {
-    let debugCookie = document.cookie
+    const debugCookie = document.cookie
       .split(";")
       .some((c) => c.startsWith("vizzu-debug"));
     return debugCookie || this.hasAttribute("debug");
@@ -134,7 +134,7 @@ class VizzuController extends HTMLElement {
 
   log(...msg) {
     if (this.debug) {
-      console.log(...LOG_PREFIX, ...msg); // eslint-disable-line no-console
+      console.log(...LOG_PREFIX, ...msg);
     }
   }
 
