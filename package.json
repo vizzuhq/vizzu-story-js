@@ -3,11 +3,12 @@
   "version": "0.1.1",
   "description": "A presentation extension for the Vizzu charting library to create presentations with animated data visualisations with ease.",
   "main": "dist/vizzu-story.min.js",
+  "type": "module",
   "files": [],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' npx jest",
     "prepare": "husky install",
-    "check": "npm-run-all check-prettier check-eslint",
+    "check": "npm-run-all check-prettier check-eslint test",
     "prettier": "prettier -w '**/*js'",
     "check-prettier": "prettier -c '**/*js'",
     "eslint": "eslint --fix '**/*js'",
@@ -39,6 +40,8 @@
     "eslint": "^8.14.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
+    "jest": "^28.1.3",
+    "jest-environment-jsdom": "^28.1.3",
     "rollup": "^2.70.2",
     "rollup-plugin-terser": "^7.0.2"
   }
