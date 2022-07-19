@@ -1,4 +1,8 @@
-const LOG_PREFIX = ["%cVIZZU%cCONTROLLER", "background: #e2ae30; color: #3a60bf; font-weight: bold", "background: #3a60bf; color: #e2ae30;"];
+const LOG_PREFIX = [
+  "%cVIZZU%cCONTROLLER",
+  "background: #e2ae30; color: #3a60bf; font-weight: bold",
+  "background: #3a60bf; color: #e2ae30;",
+];
 
 class VizzuController extends HTMLElement {
   constructor() {
@@ -10,7 +14,7 @@ class VizzuController extends HTMLElement {
     this._update = this.update.bind(this);
     this._keyHandler = this._handleKey.bind(this);
 
-    this.shadowRoot.addEventListener("click", e => {
+    this.shadowRoot.addEventListener("click", (e) => {
       let btn = e.target.closest("button");
 
       if (btn) {
@@ -57,7 +61,9 @@ class VizzuController extends HTMLElement {
   }
 
   get _html_status() {
-    return `<span class="current">${(this._state?.currentSlide || 0) + 1}</span>/<span class="length">${(this._state?.length || '?')}</span>`;
+    return `<span class="current">${
+      (this._state?.currentSlide || 0) + 1
+    }</span>/<span class="length">${this._state?.length || "?"}</span>`;
   }
 
   _unsubscribe(player) {
@@ -92,7 +98,7 @@ class VizzuController extends HTMLElement {
   connectedCallback() {
     if (!this._player) {
       const p = this.getRootNode()?.host;
-      if (p.nodeName === 'VIZZU-PLAYER') {
+      if (p.nodeName === "VIZZU-PLAYER") {
         this._player = this.getRootNode()?.host;
         this._subscribe(this._player);
       }
@@ -116,7 +122,9 @@ class VizzuController extends HTMLElement {
   }
 
   get debug() {
-    let debugCookie = document.cookie.split(";").some(c => c.startsWith("vizzu-debug"));
+    let debugCookie = document.cookie
+      .split(";")
+      .some((c) => c.startsWith("vizzu-debug"));
     return debugCookie || this.hasAttribute("debug");
   }
 
@@ -156,7 +164,9 @@ class VizzuController extends HTMLElement {
   }
 
   get fullscreenTarget() {
-    return this._fullscreenTarget || this.getRootNode()?.host || this.parentElement;
+    return (
+      this._fullscreenTarget || this.getRootNode()?.host || this.parentElement
+    );
   }
 
   fullscreen() {
@@ -277,6 +287,6 @@ class VizzuController extends HTMLElement {
   }
 }
 
-customElements.define('vizzu-controller', VizzuController);
+customElements.define("vizzu-controller", VizzuController);
 
 export default VizzuController;

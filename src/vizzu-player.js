@@ -1,21 +1,27 @@
-import VizzuController from './vizzu-controller.js';
+import VizzuController from "./vizzu-controller.js";
 
-import Vizzu from 'https://cdn.jsdelivr.net/npm/vizzu@~0.5.0/dist/vizzu.min.js';
+import Vizzu from "https://cdn.jsdelivr.net/npm/vizzu@~0.5.0/dist/vizzu.min.js";
 
-const LOG_PREFIX = ["%cVIZZU%cPLAYER", "background: #e2ae30; color: #3a60bf; font-weight: bold", "background: #3a60bf; color: #e2ae30;"];
+const LOG_PREFIX = [
+  "%cVIZZU%cPLAYER",
+  "background: #e2ae30; color: #3a60bf; font-weight: bold",
+  "background: #3a60bf; color: #e2ae30;",
+];
 
 class VizzuPlayer extends HTMLElement {
   constructor() {
     super();
 
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = this._render();
 
     this._initVizzu();
   }
 
   get debug() {
-    let debugCookie = document.cookie.split(";").some(c => c.startsWith("vizzu-debug"));
+    let debugCookie = document.cookie
+      .split(";")
+      .some((c) => c.startsWith("vizzu-debug"));
     return debugCookie || this.hasAttribute("debug");
   }
 
@@ -46,7 +52,8 @@ class VizzuPlayer extends HTMLElement {
       if (slide.data) {
         animTarget.data = slide.data;
       }
-      if (typeof slide.filter !== "undefined") { // null is valid
+      if (typeof slide.filter !== "undefined") {
+        // null is valid
         if (!animTarget.data) {
           animTarget.data = {};
         }
@@ -136,7 +143,9 @@ class VizzuPlayer extends HTMLElement {
       return false;
     }
     this.log("acquire lock");
-    this._locked = setTimeout(() => { this._locked = false; }, timeout);
+    this._locked = setTimeout(() => {
+      this._locked = false;
+    }, timeout);
     return this._locked;
   }
 
@@ -158,7 +167,7 @@ class VizzuPlayer extends HTMLElement {
   }
 
   get vizzuCanvas() {
-    return this.shadowRoot.getElementById('vizzu');
+    return this.shadowRoot.getElementById("vizzu");
   }
 
   get length() {
@@ -188,43 +197,47 @@ class VizzuPlayer extends HTMLElement {
 
   // TODO proper exception handling to re-enable rendering and such
   async _jump(cs, ss, percent) {
-    return new Promise(resolve => setTimeout(async () => {
-      this.log("jump to", cs, ss, percent);
-      const subSlide = this._slides[cs][ss];
-      const seek = () => this._seekTo(percent);
+    return new Promise((resolve) =>
+      setTimeout(async () => {
+        this.log("jump to", cs, ss, percent);
+        const subSlide = this._slides[cs][ss];
+        const seek = () => this._seekTo(percent);
 
-      this.vizzu.feature("rendering", false);
-      // animate to previous slide
-      if (ss > 0) {
-        const prevSubSlide = this._slides[cs][ss - 1];
-        const seekToEnd = () => this._seekToEnd();
-        this.vizzu.on("animation-begin", seekToEnd);
-        await this.vizzu.animate(...prevSubSlide);
-        this.vizzu.off("animation-begin", seekToEnd);
-      } else if (cs > 0) {
-        const prevSlide = this._slides[cs - 1];
-        const prevSubSlide = prevSlide[prevSlide.length - 1];
-        const seekToEnd = () => this._seekToEnd();
-        this.vizzu.on("animation-begin", seekToEnd);
-        await this.vizzu.animate(...prevSubSlide);
-        this.vizzu.off("animation-begin", seekToEnd);
-      }
-      this.vizzu.feature("rendering", true);
+        this.vizzu.feature("rendering", false);
+        // animate to previous slide
+        if (ss > 0) {
+          const prevSubSlide = this._slides[cs][ss - 1];
+          const seekToEnd = () => this._seekToEnd();
+          this.vizzu.on("animation-begin", seekToEnd);
+          await this.vizzu.animate(...prevSubSlide);
+          this.vizzu.off("animation-begin", seekToEnd);
+        } else if (cs > 0) {
+          const prevSlide = this._slides[cs - 1];
+          const prevSubSlide = prevSlide[prevSlide.length - 1];
+          const seekToEnd = () => this._seekToEnd();
+          this.vizzu.on("animation-begin", seekToEnd);
+          await this.vizzu.animate(...prevSubSlide);
+          this.vizzu.off("animation-begin", seekToEnd);
+        }
+        this.vizzu.feature("rendering", true);
 
-      // jump to subSlide
-      this.vizzu.on("animation-begin", seek);
-      await this.vizzu.animate(...subSlide);
-      this.vizzu.off("animation-begin", seek);
+        // jump to subSlide
+        this.vizzu.on("animation-begin", seek);
+        await this.vizzu.animate(...subSlide);
+        this.vizzu.off("animation-begin", seek);
 
-      resolve(this.vizzu);
-    }, 0));
+        resolve(this.vizzu);
+      }, 0)
+    );
   }
 
   async _seekTo(percent) {
-    return new Promise((resolve) => setTimeout(() => {
-      this.vizzu.animation.seek(`${percent}%`);
-      resolve(this.vizzu);
-    }, 0));
+    return new Promise((resolve) =>
+      setTimeout(() => {
+        this.vizzu.animation.seek(`${percent}%`);
+        resolve(this.vizzu);
+      }, 0)
+    );
   }
 
   async _seekToStart() {
@@ -250,7 +263,8 @@ class VizzuPlayer extends HTMLElement {
     if (typeof subSlide !== "undefined") {
       this._subSlide = subSlide;
       await this._step(this._slides[slide][subSlide]);
-    } else if (this._currentSlide - slide === 1) { // previous
+    } else if (this._currentSlide - slide === 1) {
+      // previous
       let cs = this._slides[this._currentSlide];
       for (let i = cs.length - 1; i >= 0; i--) {
         this._subSlide = i;
@@ -258,13 +272,15 @@ class VizzuPlayer extends HTMLElement {
       }
       let ns = this._slides[slide];
       await this._step(ns[ns.length - 1]);
-    } else if (this._currentSlide - slide === -1) { // next
+    } else if (this._currentSlide - slide === -1) {
+      // next
       let ns = this._slides[slide];
       for (let i = 0; i < ns.length; i++) {
         this._subSlide = i;
         await this._step(ns[i]);
       }
-    } else { // jump
+    } else {
+      // jump
       let cs = this._slides[slide];
       this._subSlide = cs.length - 1;
       await this._step(cs[cs.length - 1]);
@@ -296,16 +312,19 @@ class VizzuPlayer extends HTMLElement {
   async seek(percent) {
     if (this.acquireLock()) {
       this._update(this._state);
-      this.log(`seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}/${this._subSlide}]`);
+      this.log(
+        `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}/${this._subSlide}]`
+      );
       let sspercent = 100 / this.slide.length;
       let ss = Math.floor(percent / sspercent); // new subslide
-      let sp = 100 * (percent - (ss * sspercent)) / sspercent; // new seek position
+      let sp = (100 * (percent - ss * sspercent)) / sspercent; // new seek position
       this.log(`ss ${ss}, sp ${sp}`);
       if (ss >= this.slide.length) {
         ss = this.slide.length - 1;
         sp = 100;
       }
-      if (ss !== this._subSlide) { // need to change subslide
+      if (ss !== this._subSlide) {
+        // need to change subslide
         this._subSlide = ss;
         await this._jump(this._currentSlide, this._subSlide, sp);
       } else {
@@ -385,14 +404,17 @@ class VizzuPlayer extends HTMLElement {
           width: 80px;
           height: 80px;
         }
-        ${this.customSpinner ? `
+        ${
+          this.customSpinner
+            ? `
         .spinner {
           background-image: url(${this.customSpinner});
           background-repeat: no-repeat;
           background-position: center;
           width: auto;
           height: auto;
-        }` : `
+        }`
+            : `
         .spinner:after {
           content: " ";
           display: block;
@@ -403,7 +425,8 @@ class VizzuPlayer extends HTMLElement {
           border: 6px solid #fff;
           border-color: var(--_c) transparent var(--_c) transparent;
           animation: spin 1.2s linear infinite;
-        }`}
+        }`
+        }
         @keyframes spin {
           0% {
             transform: rotate(0deg);
@@ -417,12 +440,16 @@ class VizzuPlayer extends HTMLElement {
         <canvas id="vizzu"></canvas>
         <div class="spinner"></div>
       </div>
-      ${this._includeController ? `<vizzu-controller id="controller" slider-update="input"></vizzu-controller>` : ''}
+      ${
+        this._includeController
+          ? `<vizzu-controller id="controller" slider-update="input"></vizzu-controller>`
+          : ""
+      }
       `;
   }
 }
 
-customElements.define('vizzu-player', VizzuPlayer);
+customElements.define("vizzu-player", VizzuPlayer);
 
 export default VizzuPlayer;
 export { VizzuController };
