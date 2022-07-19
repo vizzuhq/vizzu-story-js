@@ -22,3 +22,6 @@ jobs:
 
     - name: Run eslint
       run: npm run check-eslint
+
+    - name: Run test
+      run: npm test
