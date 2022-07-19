@@ -6,6 +6,10 @@
   "files": [],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "check": "npm-run-all check-prettier",
+    "prettier": "prettier -w ./*js ./src/*js ./docs/*js",
+    "check-prettier": "prettier -c ./*js ./src/*js ./docs/*js",
     "rollup": "rm -rf dist && rollup -c",
     "pack": "rm -rf build && mkdir -p build && npm pack --pack-destination build && tar -ztvf build/*.tgz",
     "build": "npm-run-all rollup pack"
@@ -25,9 +29,11 @@
   "author": "Vizzu Kft.",
   "license": "Apache-2.0",
   "homepage": "https://github.com/vizzuhq/vizzu-ext-js-story#readme",
-  "url" : "https://github.com/vizzuhq/vizzu-ext-js-story/issues",
+  "url": "https://github.com/vizzuhq/vizzu-ext-js-story/issues",
   "devDependencies": {
     "npm-run-all": "^4.1.5",
+    "husky": "^8.0.1",
+    "prettier": "^2.6.2",
     "rollup": "^2.70.2",
     "rollup-plugin-terser": "^7.0.2"
   }
