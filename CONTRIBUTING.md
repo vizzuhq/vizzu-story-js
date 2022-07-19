@@ -24,7 +24,7 @@ npm run prepare
 
 ### CI
 
-The CI steps check code formatting.
+The CI steps check code formatting and run code analyses.
 
 The `check` script runs the above tasks.
 
@@ -46,6 +46,22 @@ Run the `check-prettier` script to check code formatting.
 
 ```sh
 npm run check-prettier
+```
+
+#### Code analyses
+
+The vizzu-story project is analysed with `eslint`.
+
+Run the `check-eslint` script to run code analyses.
+
+```sh
+npm run check-eslint
+```
+
+Run the `eslint` script to solve the fixable problems.
+
+```sh
+npm run eslint
 ```
 
 ### Release

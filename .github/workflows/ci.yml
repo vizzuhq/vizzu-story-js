@@ -19,3 +19,6 @@ jobs:
           
     - name: Check format
       run: npm run check-prettier
+
+    - name: Run eslint
+      run: npm run check-eslint
