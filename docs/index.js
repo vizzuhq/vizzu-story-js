@@ -1,17 +1,18 @@
-import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@~0.1.0/dist/vizzu-story.min.js";
+import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@~0.1.0/dist/vizzu-story.min.js"; // eslint-disable-line no-unused-vars
 import data from "./data.js";
 import style from "./style.js";
 
 function labelHandler(event) {
-  let Year = parseFloat(event.data.text);
+  const Year = parseFloat(event.data.text);
   if (!isNaN(Year) && Year > 1950 && Year < 2020 && Year % 5 !== 0) {
     event.preventDefault();
   }
 }
 
-let vizzuPlayerData = {
-  data: data, // data, copied into the initializer slide (if not present)
-  style: style, // style, copied into the initializer slide (if not present)
+// eslint-disable-next-line no-unused-vars
+const vizzuPlayerData = {
+  data, // data, copied into the initializer slide (if not present)
+  style, // style, copied into the initializer slide (if not present)
   slides: [
     // silde
     {
@@ -28,9 +29,9 @@ let vizzuPlayerData = {
   ],
 };
 
-let vpd = {
-  data: data,
-  style: style,
+const vpd = {
+  data,
+  style,
   slides: [
     {
       // slide 1
