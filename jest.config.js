@@ -12,7 +12,9 @@ export default {
       statements: 0,
     },
   },
+  coveragePathIgnorePatterns: ["assets"],
   testEnvironment: "jsdom",
+  testPathIgnorePatterns: ["assets"],
   transform: {},
   moduleNameMapper: {
     "https://cdn.jsdelivr.net/npm/vizzu@~0.5.0/dist/vizzu.min.js":

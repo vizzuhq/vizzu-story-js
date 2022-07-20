@@ -1,11 +1,20 @@
 class Vizzu {
-  constructor() {} // eslint-disable-line no-useless-constructor
+  constructor() {
+    this._snapshot = {};
+  }
 
   on() {}
 
   off() {}
 
-  store() {}
+  async animate() {
+    this._snapshot = [...arguments][0];
+    return Promise.resolve();
+  }
+
+  store() {
+    return this._snapshot;
+  }
 }
 
 export default Vizzu;
