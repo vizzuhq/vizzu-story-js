@@ -70,7 +70,7 @@ slides.push(
       [
         [
           {
-            data: Object.assign(dataAssets.data1, {
+            data: Object.assign({}, dataAssets.data1, {
               filter: dataFilterAssets.filter1,
             }),
           },
@@ -95,7 +95,7 @@ slides.push(
       [
         [
           {
-            data: Object.assign(dataAssets.data1, {
+            data: Object.assign({}, dataAssets.data1, {
               filter: dataFilterAssets.filter1,
             }),
           },
