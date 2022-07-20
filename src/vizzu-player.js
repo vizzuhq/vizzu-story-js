@@ -254,7 +254,7 @@ class VizzuPlayer extends HTMLElement {
     }
     this._update(this._state);
 
-    if (slide < 0) {
+    if (!slide || slide < 0) {
       slide = 0;
     } else if (slide >= this.length) {
       slide = this.length - 1;
