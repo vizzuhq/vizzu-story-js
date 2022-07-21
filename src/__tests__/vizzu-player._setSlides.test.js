@@ -16,7 +16,6 @@ describe("VizzuPlayer class", () => {
       "should return valid slides if %s",
       (name, passedSlides, expectedSlides) => {
         const vizzuPlayer = new VizzuPlayer();
-        vizzuPlayer._currentSlide = 0;
         return vizzuPlayer._setSlides(passedSlides).then(() => {
           expect(vizzuPlayer.slides).toStrictEqual(expectedSlides);
         });
