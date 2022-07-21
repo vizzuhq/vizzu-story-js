@@ -24,7 +24,7 @@ npm run prepare
 
 ### CI
 
-The CI steps check code formatting and run code analyses.
+The CI steps check code formatting, run code analyses and run unit tests over the vizzu-story project.
 
 The `check` script runs the above tasks.
 
@@ -62,6 +62,16 @@ Run the `eslint` script to solve the fixable problems.
 
 ```sh
 npm run eslint
+```
+
+#### Testing
+
+The vizzu-story project is tested with `jest` testing framework.
+
+Run the `test` script to run the tests.
+
+```sh
+npm test
 ```
 
 ### Release
