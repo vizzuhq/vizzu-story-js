@@ -171,7 +171,7 @@ class VizzuPlayer extends HTMLElement {
   }
 
   get length() {
-    return this._slides.length || 0;
+    return this._slides?.length || 0;
   }
 
   get currentSlide() {
