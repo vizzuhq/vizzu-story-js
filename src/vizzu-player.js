@@ -19,9 +19,9 @@ class VizzuPlayer extends HTMLElement {
   }
 
   connectedCallback() {
-    if (!this.hasAttribute('tabindex')) {
-        this.setAttribute('tabindex', 0);
-        this.tabIndex = 0;
+    if (!this.hasAttribute("tabindex")) {
+      this.setAttribute("tabindex", 0);
+      this.tabIndex = 0;
     }
   }
 
