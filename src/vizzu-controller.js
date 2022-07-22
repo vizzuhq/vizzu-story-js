@@ -103,14 +103,17 @@ class VizzuController extends HTMLElement {
         this._subscribe(this._player);
       }
     }
-    document.addEventListener("keydown", this._keyHandler);
+
+    if (this._player) {
+      this._player.addEventListener("keydown", this._keyHandler);
+    }
   }
 
   disconnectedCallback() {
     if (this._player) {
       this._unsubscribe(this._player);
+      this._player.removeEventListener("keydown", this._keyHandler);
     }
-    document.removeEventListener("keydown", this._keyHandler);
   }
 
   get player() {
@@ -189,7 +192,7 @@ class VizzuController extends HTMLElement {
           max-width: 100%;
           overflow-x: hidden;
           padding: 20px 0 10px;
-          height: 22px;
+          min-height: 22px;
           font-family: sans-serif;
           --_c: var(--vizzu-button-color, #c6c6c6);
           --_bg: var(--vizzu-button-background-color, #fff);
