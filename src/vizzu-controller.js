@@ -77,20 +77,23 @@ class VizzuController extends HTMLElement {
   }
 
   _handleKey(e) {
-    this.log("key", e.key);
-    if (e.key === "PageDown" || e.key === "ArrowRight") {
-      this.next();
-    } else if (e.key === "PageUp" || e.key === "ArrowLeft") {
-      this.previous();
-    } else if (e.key === "Home") {
-      this.toStart();
-    } else if (e.key === "End") {
-      this.toEnd();
-    } else if (e.key === "f" || e.key === "F") {
-      this.fullscreen();
-    } else if (e.key === "Escape") {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
+    const kbmode = this._player?.getAttribute("keyboard") || "focus";
+    this.log(`key[${kbmode}]: ${e.key}`);
+    if (kbmode === "focus" || (kbmode === "fullscreen" && document.fullscreenElement)) {
+      if (e.key === "PageDown" || e.key === "ArrowRight") {
+        this.next();
+      } else if (e.key === "PageUp" || e.key === "ArrowLeft") {
+        this.previous();
+      } else if (e.key === "Home") {
+        this.toStart();
+      } else if (e.key === "End") {
+        this.toEnd();
+      } else if (e.key === "f" || e.key === "F") {
+        this.fullscreen();
+      } else if (e.key === "Escape") {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
       }
     }
   }
