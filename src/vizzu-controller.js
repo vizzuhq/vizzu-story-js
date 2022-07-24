@@ -79,7 +79,10 @@ class VizzuController extends HTMLElement {
   _handleKey(e) {
     const kbmode = this._player?.getAttribute("keyboard") || "focus";
     this.log(`key[${kbmode}]: ${e.key}`);
-    if (kbmode === "focus" || (kbmode === "fullscreen" && document.fullscreenElement)) {
+    if (
+      kbmode === "focus" ||
+      (kbmode === "fullscreen" && document.fullscreenElement)
+    ) {
       if (e.key === "PageDown" || e.key === "ArrowRight") {
         this.next();
       } else if (e.key === "PageUp" || e.key === "ArrowLeft") {
