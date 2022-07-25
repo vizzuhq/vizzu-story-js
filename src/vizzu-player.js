@@ -474,4 +474,3 @@ customElements.define("vizzu-player", VizzuPlayer);
 
 export default VizzuPlayer;
 export { VizzuController };
-export { Vizzu };
