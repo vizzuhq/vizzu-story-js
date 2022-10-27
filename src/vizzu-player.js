@@ -26,10 +26,14 @@ class VizzuPlayer extends HTMLElement {
   }
 
   get debug() {
-    const debugCookie = document.cookie
-      .split(";")
-      .some((c) => c.startsWith("vizzu-debug"));
-    return debugCookie || this.hasAttribute("debug");
+    try {
+      const debugCookie = document.cookie
+        .split(";")
+        .some((c) => c.startsWith("vizzu-debug"));
+      return debugCookie || this.hasAttribute("debug");
+    } catch (e) {
+      return this.hasAttribute("debug");
+    }
   }
 
   log(...msg) {
