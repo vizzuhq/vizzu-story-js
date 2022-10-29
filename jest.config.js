@@ -17,7 +17,7 @@ export default {
   testPathIgnorePatterns: ["assets"],
   transform: {},
   moduleNameMapper: {
-    "https://cdn.jsdelivr.net/npm/vizzu@~0.6.0/dist/vizzu.min.js":
+    "https://cdn.jsdelivr.net/npm/vizzu@0.6/dist/vizzu.min.js":
       "<rootDir>/src/__mocks__/vizzu.js",
   },
 };
