@@ -1,4 +1,4 @@
-import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@~0.1.0/dist/vizzu-story.min.js"; // eslint-disable-line no-unused-vars
+import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@0.2/dist/vizzu-story.min.js"; // eslint-disable-line no-unused-vars
 import data from "./data.js";
 import style from "./style.js";
 

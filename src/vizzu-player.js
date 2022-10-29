@@ -1,6 +1,6 @@
 import VizzuController from "./vizzu-controller.js";
 
-import Vizzu from "https://cdn.jsdelivr.net/npm/vizzu@~0.6.0/dist/vizzu.min.js";
+import Vizzu from "https://cdn.jsdelivr.net/npm/vizzu@0.6/dist/vizzu.min.js";
 
 const LOG_PREFIX = [
   "%cVIZZU%cPLAYER",
