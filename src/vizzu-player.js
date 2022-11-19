@@ -463,7 +463,15 @@ class VizzuPlayer extends HTMLElement {
   }
 }
 
-customElements.define("vizzu-player", VizzuPlayer);
+try {
+  if (!customElements.get("vizzu-player")) {
+    customElements.define("vizzu-player", VizzuPlayer);
+  } else {
+    console.warn("VizzuPlayer already defined");
+  }
+} catch (e) {
+  console.error("Failed to register custom element: ", e);
+}
 
 export default VizzuPlayer;
 export { VizzuController };
