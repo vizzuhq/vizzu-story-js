@@ -300,6 +300,14 @@ class VizzuController extends HTMLElement {
   }
 }
 
-customElements.define("vizzu-controller", VizzuController);
+try {
+  if (!customElements.get("vizzu-controller")) {
+    customElements.define("vizzu-controller", VizzuController);
+  } else {
+    console.warn("VizzuController already defined");
+  }
+} catch (e) {
+  console.error("Failed to register custom element: ", e);
+}
 
 export default VizzuController;
