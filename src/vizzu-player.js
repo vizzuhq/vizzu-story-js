@@ -1,6 +1,7 @@
 import VizzuController from "./vizzu-controller.js";
 
-import Vizzu from "https://cdn.jsdelivr.net/npm/vizzu@0.6/dist/vizzu.min.js";
+// import Vizzu from "https://cdn.jsdelivr.net/npm/vizzu@0.6/dist/vizzu.min.js"; // TODO proper version
+import Vizzu from "https://vizzu-lib-main-sha.storage.googleapis.com/lib-3b73f2f/vizzu.js";
 
 const LOG_PREFIX = [
   "%cVIZZU%cPLAYER",
@@ -47,35 +48,32 @@ class VizzuPlayer extends HTMLElement {
   }
 
   _slideToAnimparams(slide) {
-    const animParams = [];
-
     if (slide._id) {
       // already got an ID
-      animParams.push(slide._id);
-    } else {
-      const animTarget = {};
-      if (slide.config) {
-        animTarget.config = slide.config;
-      }
-      if (slide.style) {
-        animTarget.style = slide.style;
-      }
-      if (slide.data) {
-        animTarget.data = slide.data;
-      }
-      if (typeof slide.filter !== "undefined") {
-        // null is valid
-        if (!animTarget.data) {
-          animTarget.data = {};
-        }
-        animTarget.data.filter = slide.filter;
-      }
-
-      animParams.push(animTarget);
+      return slide._id;
     }
 
+    const animTarget = {};
+    if (slide.config) {
+      animTarget.config = slide.config;
+    }
+    if (slide.style) {
+      animTarget.style = slide.style;
+    }
+    if (slide.data) {
+      animTarget.data = slide.data;
+    }
+    if (typeof slide.filter !== "undefined") {
+      // null is valid
+      if (!animTarget.data) {
+        animTarget.data = {};
+      }
+      animTarget.data.filter = slide.filter;
+    }
+
+    const animParams = { target: animTarget };
     if (slide.animOptions) {
-      animParams.push(slide.animOptions);
+      animParams.options = slide.animOptions;
     }
 
     return animParams;
@@ -105,12 +103,11 @@ class VizzuPlayer extends HTMLElement {
       }
 
       const chartSteps = [];
-      for (const step of steps) {
-        const animParams = this._slideToAnimparams(step);
-        await this.vizzu.animate(...animParams);
-        animParams[0] = this.vizzu.store();
-        chartSteps.push(animParams);
-      }
+      const animParams = steps.map((step) => this._slideToAnimparams(step));
+      this.log("animating", animParams);
+      await this.vizzu.animate(animParams);
+      chartSteps.push([this.vizzu.store()]); // TODO - remove array
+
       convertedSlides.push(chartSteps);
     }
     if (convertedSlides.length) {
