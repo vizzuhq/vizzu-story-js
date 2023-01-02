@@ -106,12 +106,12 @@ class VizzuPlayer extends HTMLElement {
       const animParams = steps.map((step) => this._slideToAnimparams(step));
       this.log("animating", animParams);
       await this.vizzu.animate(animParams);
-      chartSteps.push([this.vizzu.store()]); // TODO - remove array
+      chartSteps.push(this.vizzu.store());
 
       convertedSlides.push(chartSteps);
     }
     if (convertedSlides.length) {
-      await this.vizzu.animate(...convertedSlides[0][0]);
+      await this.vizzu.animate(...convertedSlides[0]);
     }
     this.vizzu.off("animation-begin", seekToEnd);
 
@@ -122,7 +122,6 @@ class VizzuPlayer extends HTMLElement {
     return this._slides;
   }
 
-  // TODO
   set slides(slides) {
     this._currentSlide = 0;
     this._setSlides(slides);
@@ -198,28 +197,21 @@ class VizzuPlayer extends HTMLElement {
     return this.hasAttribute("controller");
   }
 
-  // TODO
   async _step(step) {
-    return await this.vizzu.animate(...step);
+    return await this.vizzu.animate(step);
   }
 
   // TODO proper exception handling to re-enable rendering and such
-  async _jump(cs, ss, percent) {
+  async _jump(cs, percent) {
     return new Promise((resolve) =>
       setTimeout(async () => {
-        this.log("jump to", cs, ss, percent);
-        const subSlide = this._slides[cs][ss];
+        this.log("jump to", cs, percent);
+        const subSlide = this._slides[cs];
         const seek = () => this._seekTo(percent);
 
         this.vizzu.feature("rendering", false);
         // animate to previous slide
-        if (ss > 0) {
-          const prevSubSlide = this._slides[cs][ss - 1];
-          const seekToEnd = () => this._seekToEnd();
-          this.vizzu.on("animation-begin", seekToEnd);
-          await this.vizzu.animate(...prevSubSlide);
-          this.vizzu.off("animation-begin", seekToEnd);
-        } else if (cs > 0) {
+        if (cs > 0) {
           const prevSlide = this._slides[cs - 1];
           const prevSubSlide = prevSlide[prevSlide.length - 1];
           const seekToEnd = () => this._seekToEnd();
@@ -256,7 +248,7 @@ class VizzuPlayer extends HTMLElement {
     return this._seekTo(100);
   }
 
-  async setSlide(slide, subSlide) {
+  async setSlide(slide) {
     if (this.length === 0 || !this.acquireLock()) {
       return;
     }
@@ -269,8 +261,7 @@ class VizzuPlayer extends HTMLElement {
     }
 
     if (typeof subSlide !== "undefined") {
-      this._subSlide = subSlide;
-      await this._step(this._slides[slide][subSlide]);
+      await this._step(this._slides[slide]);
     } else if (this._currentSlide - slide === 1) {
       // previous
       const cs = this._slides[this._currentSlide];
