@@ -77,20 +77,26 @@ class VizzuController extends HTMLElement {
   }
 
   _handleKey(e) {
-    this.log("key", e.key);
-    if (e.key === "PageDown" || e.key === "ArrowRight") {
-      this.next();
-    } else if (e.key === "PageUp" || e.key === "ArrowLeft") {
-      this.previous();
-    } else if (e.key === "Home") {
-      this.toStart();
-    } else if (e.key === "End") {
-      this.toEnd();
-    } else if (e.key === "f" || e.key === "F") {
-      this.fullscreen();
-    } else if (e.key === "Escape") {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
+    const kbmode = this._player?.getAttribute("keyboard") || "focus";
+    this.log(`key[${kbmode}]: ${e.key}`);
+    if (
+      kbmode === "focus" ||
+      (kbmode === "fullscreen" && document.fullscreenElement)
+    ) {
+      if (e.key === "PageDown" || e.key === "ArrowRight") {
+        this.next();
+      } else if (e.key === "PageUp" || e.key === "ArrowLeft") {
+        this.previous();
+      } else if (e.key === "Home") {
+        this.toStart();
+      } else if (e.key === "End") {
+        this.toEnd();
+      } else if (e.key === "f" || e.key === "F") {
+        this.fullscreen();
+      } else if (e.key === "Escape") {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
       }
     }
   }
@@ -103,14 +109,17 @@ class VizzuController extends HTMLElement {
         this._subscribe(this._player);
       }
     }
-    document.addEventListener("keydown", this._keyHandler);
+
+    if (this._player) {
+      this._player.addEventListener("keydown", this._keyHandler);
+    }
   }
 
   disconnectedCallback() {
     if (this._player) {
       this._unsubscribe(this._player);
+      this._player.removeEventListener("keydown", this._keyHandler);
     }
-    document.removeEventListener("keydown", this._keyHandler);
   }
 
   get player() {
@@ -122,10 +131,14 @@ class VizzuController extends HTMLElement {
   }
 
   get debug() {
-    const debugCookie = document.cookie
-      .split(";")
-      .some((c) => c.startsWith("vizzu-debug"));
-    return debugCookie || this.hasAttribute("debug");
+    try {
+      const debugCookie = document.cookie
+        .split(";")
+        .some((c) => c.startsWith("vizzu-debug"));
+      return debugCookie || this.hasAttribute("debug");
+    } catch (e) {
+      return this.hasAttribute("debug");
+    }
   }
 
   set debug(debug) {
@@ -189,7 +202,7 @@ class VizzuController extends HTMLElement {
           max-width: 100%;
           overflow-x: hidden;
           padding: 20px 0 10px;
-          height: 22px;
+          min-height: 22px;
           font-family: sans-serif;
           --_c: var(--vizzu-button-color, #c6c6c6);
           --_bg: var(--vizzu-button-background-color, #fff);
@@ -287,6 +300,14 @@ class VizzuController extends HTMLElement {
   }
 }
 
-customElements.define("vizzu-controller", VizzuController);
+try {
+  if (!customElements.get("vizzu-controller")) {
+    customElements.define("vizzu-controller", VizzuController);
+  } else {
+    console.warn("VizzuController already defined");
+  }
+} catch (e) {
+  console.error("Failed to register custom element: ", e);
+}
 
 export default VizzuController;

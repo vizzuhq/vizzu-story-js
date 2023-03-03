@@ -27,11 +27,22 @@ class VizzuPlayer extends HTMLElement {
     }
   }
 
+  connectedCallback() {
+    if (!this.hasAttribute("tabindex")) {
+      this.setAttribute("tabindex", 0);
+      this.tabIndex = 0;
+    }
+  }
+
   get debug() {
-    const debugCookie = document.cookie
-      .split(";")
-      .some((c) => c.startsWith("vizzu-debug"));
-    return debugCookie || this.hasAttribute("debug");
+    try {
+      const debugCookie = document.cookie
+        .split(";")
+        .some((c) => c.startsWith("vizzu-debug"));
+      return debugCookie || this.hasAttribute("debug");
+    } catch (e) {
+      return this.hasAttribute("debug");
+    }
   }
 
   log(...msg) {
@@ -43,7 +54,7 @@ class VizzuPlayer extends HTMLElement {
   get vizzuUrl() {
     return (
       this.getAttribute("vizzu-url") ||
-      "https://cdn.jsdelivr.net/npm/vizzu@latest/dist/vizzu.min.js"
+      "https://cdn.jsdelivr.net/npm/vizzu@0.7/dist/vizzu.min.js"
     );
   }
 
@@ -393,6 +404,9 @@ class VizzuPlayer extends HTMLElement {
           --_bg: var(--vizzu-background-color, #fff);
           background-color: var(--_bg);
         }
+        :host(:focus) {
+          outline: none;
+        }
         :host([initializing]) #vizzu {
           visibility: hidden;
         }
@@ -405,7 +419,7 @@ class VizzuPlayer extends HTMLElement {
           justify-content: center;
           align-items: center;
           width: 100%;
-          max-height: calc(100% - 50px);
+          max-height: calc(100% - 52px);
           box-sizing: border-box;
           flex: 1;
         }
@@ -470,7 +484,15 @@ class VizzuPlayer extends HTMLElement {
   }
 }
 
-customElements.define("vizzu-player", VizzuPlayer);
+try {
+  if (!customElements.get("vizzu-player")) {
+    customElements.define("vizzu-player", VizzuPlayer);
+  } else {
+    console.warn("VizzuPlayer already defined");
+  }
+} catch (e) {
+  console.error("Failed to register custom element: ", e);
+}
 
 export default VizzuPlayer;
 export { VizzuController };
