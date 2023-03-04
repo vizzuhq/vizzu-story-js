@@ -117,8 +117,8 @@ class VizzuController extends HTMLElement {
 
   disconnectedCallback() {
     if (this._player) {
-      this._unsubscribe(this._player);
       this._player.removeEventListener("keydown", this._keyHandler);
+      this._unsubscribe(this._player);
     }
   }
 
