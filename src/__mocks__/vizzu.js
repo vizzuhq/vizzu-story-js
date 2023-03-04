@@ -15,6 +15,10 @@ class Vizzu {
   store() {
     return this._snapshot;
   }
+
+  async initializing() {
+    return Promise.resolve();
+  }
 }
 
 export default Vizzu;
