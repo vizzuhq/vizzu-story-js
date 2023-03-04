@@ -31,6 +31,7 @@ describe("VizzuPlayer class", () => {
 
     it("should call _update if slides are not empty and acquire lock", () => {
       const vizzuPlayer = new VizzuPlayer();
+      vizzuPlayer.initializing = Promise.resolve();
       vizzuPlayer.vizzu = new VizzuMock();
       vizzuPlayer._slides = story[2];
       vizzuPlayer._locked = false;

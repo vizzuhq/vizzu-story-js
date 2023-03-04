@@ -7,6 +7,7 @@ describe("VizzuPlayer class", () => {
   describe("_convertSlides method", () => {
     it("should throw error if slides do not contain slides", () => {
       const vizzuPlayer = new VizzuPlayer();
+      vizzuPlayer.initializing = Promise.resolve();
       vizzuPlayer.vizzu = new Vizzu();
       const passedSlides = {};
       return expect(
@@ -18,6 +19,7 @@ describe("VizzuPlayer class", () => {
       "should return valid slides if %s",
       (name, passedSlides, expectedSlides) => {
         const vizzuPlayer = new VizzuPlayer();
+        vizzuPlayer.initializing = Promise.resolve();
         vizzuPlayer.vizzu = new Vizzu();
         return vizzuPlayer
           ._convertSlides(passedSlides)
