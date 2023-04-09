@@ -5,9 +5,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     hljs.highlightElement(el); // eslint-disable-line no-undef
-    if (
-      window.location.href.includes("/examples/")
-    ) {
+    if (window.location.href.includes("/examples/")) {
       hljs.lineNumbersBlock(el); // eslint-disable-line no-undef
     }
   });

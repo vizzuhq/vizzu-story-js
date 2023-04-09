@@ -4,5 +4,5 @@ module.exports = {
     jest: true,
   },
   extends: ["standard", "prettier"],
-  ignorePatterns: ["node_modules/**", "dist/**", "build/**", ".coverage/**"],
+  ignorePatterns: ["**/node_modules/**", "**/dist/**", "**/build/**", "**/.coverage/**"],
 };
