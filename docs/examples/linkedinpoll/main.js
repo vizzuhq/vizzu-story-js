@@ -3,6 +3,9 @@
 import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js";
 import Csv2Js from "../../assets/javascripts/csv2js.js";
 
+// Get the created element
+const vp = document.querySelector("vizzu-player");
+
 // Create data object
 const dataLoaded = Csv2Js.csv("./linkedinpoll.csv", ["Year"]);
 dataLoaded.then((data) => {
@@ -94,7 +97,9 @@ dataLoaded.then((data) => {
     slides,
   };
 
+  // Set the size of the HTML element
+  vp.style.cssText = "width: 100%; height: 450px;";
+
   // Set up the created element with the configuration object
-  const vp = document.querySelector("vizzu-player");
   vp.slides = story;
 });

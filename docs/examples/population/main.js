@@ -3,7 +3,7 @@
 import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js";
 import Csv2Js from "../../assets/javascripts/csv2js.js";
 
-// Set up the created element with the configuration object
+// Get the created element
 const vp = document.querySelector("vizzu-player");
 const vizzuLoaded = import(vp.vizzuUrl);
 
@@ -55,6 +55,10 @@ Promise.all([dataLoaded, vizzuLoaded]).then((results) => {
     slides,
   };
 
+  // Set the size of the HTML element
+  vp.style.cssText = "width: 100%; height: 400px;";
+
+  // Set up the created element with the configuration object
   vp.slides = story;
   vp.initializing.then((chart) => {
     // Switch on the tooltip that appears

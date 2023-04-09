@@ -2,6 +2,9 @@
 // eslint-disable-next-line no-unused-vars
 import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js";
 
+// Get the created element
+const vp = document.querySelector("vizzu-player");
+
 // Create data object
 const data = {
   series: [
@@ -44,5 +47,4 @@ const story = {
 };
 
 // Set up the created element with the configuration object
-const vp = document.querySelector("vizzu-player");
 vp.slides = story;
