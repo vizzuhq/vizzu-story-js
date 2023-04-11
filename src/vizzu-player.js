@@ -118,8 +118,10 @@ class VizzuPlayer extends HTMLElement {
       const chartSteps = [];
       const animParams = steps.map((step) => this._slideToAnimparams(step));
       this.log("animating", animParams);
-      await this.vizzu.animate(animParams);
-      chartSteps.push(this.vizzu.store());
+      const anim = this.vizzu.animate(animParams);
+      const animCtrl = await anim.activated;
+      chartSteps.push(animCtrl.store());
+      await anim;
 
       convertedSlides.push(chartSteps);
     }
@@ -210,11 +212,12 @@ class VizzuPlayer extends HTMLElement {
     return this.hasAttribute("controller");
   }
 
-  async _step(step) {
-    return await this.vizzu.animate(step);
+  async _step(step, options = {}) {
+    return await this.vizzu.animate(step, options);
   }
 
   // TODO proper exception handling to re-enable rendering and such
+  // TODO remove subslide concept
   async _jump(cs, percent) {
     return new Promise((resolve) =>
       setTimeout(async () => {
@@ -273,34 +276,22 @@ class VizzuPlayer extends HTMLElement {
       slide = this.length - 1;
     }
 
-    if (typeof subSlide !== "undefined") {
-      await this._step(this._slides[slide]);
-    } else if (this._currentSlide - slide === 1) {
+    if (this._currentSlide - slide === 1) {
       // previous
       const cs = this._slides[this._currentSlide];
-      for (let i = cs.length - 1; i >= 0; i--) {
-        this._subSlide = i;
-        await this._step(cs[i]);
-      }
-      const ns = this._slides[slide];
-      await this._step(ns[ns.length - 1]);
+      await this._step(cs[0], { position: 1, direction: "reverse" });
     } else if (this._currentSlide - slide === -1) {
       // next
       const ns = this._slides[slide];
-      for (let i = 0; i < ns.length; i++) {
-        this._subSlide = i;
-        await this._step(ns[i]);
-      }
+      await this._step(ns[0]);
     } else {
       // jump
       const cs = this._slides[slide];
-      this._subSlide = cs.length - 1;
-      await this._step(cs[cs.length - 1]);
+      await this._step(cs[0]);
     }
 
     this._currentSlide = slide;
     this._seekPosition = 100;
-    this._subSeekPosition = 100;
     this.releaseLock();
     this._update(this._state);
   }
@@ -321,11 +312,11 @@ class VizzuPlayer extends HTMLElement {
     return this.setSlide(this.length - 1);
   }
 
-  async seek(percent) {
+  async seek(percent) { // TODO remove subslide concept
     if (this.acquireLock()) {
       this._update(this._state);
       this.log(
-        `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}/${this._subSlide}]`
+        `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`
       );
       const sspercent = 100 / this.slide.length;
       let ss = Math.floor(percent / sspercent); // new subslide
@@ -353,9 +344,7 @@ class VizzuPlayer extends HTMLElement {
     return {
       currentSlide: this.currentSlide,
       slide: this.slide,
-      subSlide: this._subSlide,
       seekPosition: this._seekPosition,
-      subSeekPosition: this._subSeekPosition,
       length: this.length,
       locked: this._locked,
     };
