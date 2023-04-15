@@ -312,7 +312,8 @@ class VizzuPlayer extends HTMLElement {
     return this.setSlide(this.length - 1);
   }
 
-  async seek(percent) { // TODO remove subslide concept
+  async seek(percent) {
+    // TODO remove subslide concept
     if (this.acquireLock()) {
       this._update(this._state);
       this.log(
