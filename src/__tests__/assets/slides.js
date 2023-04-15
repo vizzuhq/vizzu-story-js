@@ -30,12 +30,14 @@ const story = [
         config: configAssets.config4,
         style: styleAssets.style4,
         filter: dataFilterAssets.filter4,
+        animOptions: { duration: 1 },
       },
       [
         {
           config: configAssets.config1,
           style: styleAssets.style1,
           filter: dataFilterAssets.filter1,
+          animOptions: { duration: 1 },
         },
         {
           config: configAssets.config2,
@@ -83,6 +85,9 @@ const story = [
             config: configAssets.config4,
             style: styleAssets.style4,
           },
+          options: {
+            duration: 1,
+          },
         },
       ],
     ],
@@ -93,6 +98,9 @@ const story = [
             data: { filter: dataFilterAssets.filter1 },
             config: configAssets.config1,
             style: styleAssets.style1,
+          },
+          options: {
+            duration: 1,
           },
         },
         {
@@ -130,11 +138,45 @@ slides.push(
     [[[{ target: { data: {}, config: configAssets.config1 } }]]],
   ],
   [
+    "slides contain one slide with one step (object) with config and animOptions",
+    {
+      slides: [{ config: configAssets.config1, animOptions: { duration: 1 } }],
+    },
+    [
+      [
+        [
+          {
+            target: { data: {}, config: configAssets.config1 },
+            options: { duration: 1 },
+          },
+        ],
+      ],
+    ],
+  ],
+  [
     "slides contain one slide with one step (list) with config",
     {
       slides: [[{ config: configAssets.config1 }]],
     },
     [[[{ target: { data: {}, config: configAssets.config1 } }]]],
+  ],
+  [
+    "slides contain one slide with one step (list) with config and animOptions",
+    {
+      slides: [
+        [{ config: configAssets.config1, animOptions: { duration: 1 } }],
+      ],
+    },
+    [
+      [
+        [
+          {
+            target: { data: {}, config: configAssets.config1 },
+            options: { duration: 1 },
+          },
+        ],
+      ],
+    ],
   ],
   [
     "object contains style and slides contain one slide with one step (object) with style",
