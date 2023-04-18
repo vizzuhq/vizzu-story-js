@@ -149,7 +149,7 @@ class VizzuPlayer extends HTMLElement {
     let hashSlide = +document.location.hash.substring(1);
     if (hashSlide) {
       if (hashSlide < 0) {
-        hashSlide = 1 + length + hashSlide % length;
+        hashSlide = 1 + length + (hashSlide % length);
       } else {
         hashSlide = (hashSlide - 1) % length;
       }
