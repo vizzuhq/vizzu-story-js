@@ -17,6 +17,11 @@ class VizzuPlayer extends HTMLElement {
     this.initializing = new Promise((resolve) => {
       this._resolveVizzu = resolve;
     }).then(() => this.vizzu.initializing);
+
+    this._resolvePlayer = null;
+    this.ready = new Promise((resolve) => {
+      this._resolvePlayer = resolve;
+    });
   }
 
   async connectedCallback() {
@@ -25,6 +30,13 @@ class VizzuPlayer extends HTMLElement {
       this.setAttribute("tabindex", 0);
       this.tabIndex = 0;
     }
+
+    window.addEventListener("hashchange", () => {
+      const hashSlide = this._slideFromHash(this._slides.length);
+      if (this._currentSlide !== hashSlide) {
+        this.setSlide(hashSlide);
+      }
+    });
   }
 
   get debug() {
@@ -126,11 +138,24 @@ class VizzuPlayer extends HTMLElement {
       convertedSlides.push(chartSteps);
     }
     if (convertedSlides.length) {
-      await this.vizzu.animate(...convertedSlides[0]);
+      await this.vizzu.animate(...convertedSlides[this._currentSlide || 0]);
     }
     this.vizzu.off("animation-begin", seekToEnd);
 
     return convertedSlides;
+  }
+
+  _slideFromHash(length) {
+    let hashSlide = +document.location.hash.substring(1);
+    if (hashSlide) {
+      if (hashSlide < 0) {
+        hashSlide = 1 + length + hashSlide % length;
+      } else {
+        hashSlide = (hashSlide - 1) % length;
+      }
+    }
+
+    return hashSlide;
   }
 
   get slides() {
@@ -138,7 +163,12 @@ class VizzuPlayer extends HTMLElement {
   }
 
   set slides(slides) {
-    this._currentSlide = 0;
+    const hashSlide = this._slideFromHash(slides.slides.length);
+    if (hashSlide) {
+      this._currentSlide = hashSlide;
+    } else {
+      this._currentSlide = 0;
+    }
     this._setSlides(slides);
   }
 
@@ -186,6 +216,7 @@ class VizzuPlayer extends HTMLElement {
     this.releaseLock();
     this.setSlide(this._currentSlide);
     this.removeAttribute("initializing");
+    this._resolvePlayer();
   }
 
   get vizzuCanvas() {
@@ -294,6 +325,9 @@ class VizzuPlayer extends HTMLElement {
     this._seekPosition = 100;
     this.releaseLock();
     this._update(this._state);
+
+    // update url hash
+    document.location.hash = `#${slide + 1}`;
   }
 
   next() {
