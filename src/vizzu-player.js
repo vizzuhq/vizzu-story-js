@@ -166,7 +166,7 @@ class VizzuPlayer extends HTMLElement {
   _normalizeSlideNumber(nr, length) {
     if (nr) {
       if (nr < 0) {
-        nr = (length + nr % length) % length;
+        nr = (length + (nr % length)) % length;
       } else {
         nr = (nr - 1) % length;
       }
