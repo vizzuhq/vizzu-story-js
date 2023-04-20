@@ -32,9 +32,11 @@ class VizzuPlayer extends HTMLElement {
     }
 
     window.addEventListener("hashchange", () => {
-      const hashSlide = this._slideFromHash(this._slides.length);
-      if (this._currentSlide !== hashSlide) {
-        this.setSlide(hashSlide);
+      if (this.hashNavigation) {
+        const hashSlide = this._slideFromHash(this._slides.length);
+        if (this._currentSlide !== hashSlide) {
+          this.setSlide(hashSlide);
+        }
       }
     });
   }
@@ -54,6 +56,10 @@ class VizzuPlayer extends HTMLElement {
     if (this.debug) {
       console.log(...LOG_PREFIX, ...msg);
     }
+  }
+
+  get hashNavigation() {
+    return this.hasAttribute("hash-navigation");
   }
 
   get vizzuUrl() {
@@ -158,17 +164,24 @@ class VizzuPlayer extends HTMLElement {
     return hashSlide;
   }
 
+  get startSlide() {
+    const startSlide = +this.getAttribute("start-slide");
+    return startSlide ? startSlide - 1 : 0;
+  }
+
   get slides() {
     return this._slides;
   }
 
   set slides(slides) {
-    const hashSlide = this._slideFromHash(slides.slides.length);
-    if (hashSlide) {
-      this._currentSlide = hashSlide;
-    } else {
-      this._currentSlide = 0;
+    let startSlide = this.startSlide;
+    if (this.hashNavigation) {
+      const hashSlide = this._slideFromHash(slides.slides.length);
+      if (hashSlide) {
+        startSlide = hashSlide;
+      }
     }
+    this._currentSlide = startSlide;
     this._setSlides(slides);
   }
 
@@ -327,7 +340,9 @@ class VizzuPlayer extends HTMLElement {
     this._update(this._state);
 
     // update url hash
-    document.location.hash = `#${slide + 1}`;
+    if (this.hashNavigation) {
+      document.location.hash = `#${slide + 1}`;
+    }
   }
 
   next() {
