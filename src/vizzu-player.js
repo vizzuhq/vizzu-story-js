@@ -152,21 +152,27 @@ class VizzuPlayer extends HTMLElement {
   }
 
   _slideFromHash(length) {
-    let hashSlide = +document.location.hash.substring(1);
-    if (hashSlide) {
-      if (hashSlide < 0) {
-        hashSlide = 1 + length + (hashSlide % length);
+    const hashSlide = +document.location.hash.substring(1);
+
+    return this._normalizeSlideNumber(hashSlide, length);
+  }
+
+  _getStartSlide(length) {
+    const startSlide = +this.getAttribute("start-slide") || 0;
+
+    return this._normalizeSlideNumber(startSlide, length);
+  }
+
+  _normalizeSlideNumber(nr, length) {
+    if (nr) {
+      if (nr < 0) {
+        nr = (length + nr % length) % length;
       } else {
-        hashSlide = (hashSlide - 1) % length;
+        nr = (nr - 1) % length;
       }
     }
 
-    return hashSlide;
-  }
-
-  get startSlide() {
-    const startSlide = +this.getAttribute("start-slide");
-    return startSlide ? startSlide - 1 : 0;
+    return nr || 0;
   }
 
   get slides() {
@@ -174,7 +180,7 @@ class VizzuPlayer extends HTMLElement {
   }
 
   set slides(slides) {
-    let startSlide = this.startSlide;
+    let startSlide = this._getStartSlide(slides.slides.length);
     if (this.hashNavigation) {
       const hashSlide = this._slideFromHash(slides.slides.length);
       if (hashSlide) {
