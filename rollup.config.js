@@ -1,4 +1,5 @@
 import { terser } from "rollup-plugin-terser";
+import copy from 'rollup-plugin-copy';
 
 const path = require("path");
 
@@ -10,6 +11,13 @@ export default [
       format: "es",
       name: "bundle",
     },
-    plugins: [terser()],
+    plugins: [
+      terser(),
+      copy({
+        targets: [
+          { src: 'src/vizzu-story.d.ts', dest: 'dist', flatten: true },
+        ],
+      })
+    ],
   },
 ];
