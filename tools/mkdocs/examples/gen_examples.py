@@ -63,7 +63,7 @@ class GenExamples:
     def _set_csv_url(example: Path, content: str) -> str:
         return content.replace(
             'Csv2Js.csv("./',
-            f'Csv2Js.csv("{VIZZUSTORY_SITE_URL}/latest/examples/{example.stem}/{example.stem}.csv',
+            f'Csv2Js.csv("{VIZZUSTORY_SITE_URL}/latest/examples/{example.stem}/',
         )
 
     @staticmethod
