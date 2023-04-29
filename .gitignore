@@ -1,7 +1,15 @@
+.vscode
+
+site
+tools/mkdocs/reference/tmp/
 node_modules
 package-lock.json
 
-dist
+__pycache__
+
 build
+dist
 
 .coverage
+
+.venv_vizzu_story

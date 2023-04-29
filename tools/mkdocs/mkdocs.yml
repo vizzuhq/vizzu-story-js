@@ -1,0 +1,108 @@
+strict: true
+
+site_name: vizzu-story
+site_url: https://vizzu-story.vizzuhq.com
+copyright: Copyright &copy; 2022-2023 Vizzu Inc.
+
+docs_dir: ../../docs
+site_dir: ../../site
+
+repo_url: https://github.com/vizzuhq/vizzu-ext-js-story
+edit_uri: https://github.com/vizzuhq/vizzu-ext-js-story/edit/main/docs
+use_directory_urls: true
+
+theme:
+  name: material
+  palette:
+    scheme: vizzu
+  font:
+    text: Roboto
+    code: Roboto Mono
+  logo: assets/logo-white.svg
+  favicon: assets/favicon.svg
+  custom_dir: ./overrides
+  features:
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - content.action.edit
+
+extra_css:
+  - assets/stylesheets/vizzu.css
+  - assets/stylesheets/gallery.css
+  - assets/stylesheets/highlight.css
+
+extra_javascript:
+  - assets/javascripts/extlinks.js
+  - //cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7/build/highlight.min.js
+  - //cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js
+  - assets/javascripts/highlight.js
+
+extra:
+  version:
+    provider: mike
+    default: latest
+  social:
+    - icon: fontawesome/brands/slack
+      name: Vizzu on Slack
+      link: https://join.slack.com/t/vizzu-community/shared_invite/zt-w2nqhq44-2CCWL4o7qn2Ns1EFSf9kEg
+    - icon: fontawesome/brands/twitter
+      name: Vizzu on Twitter
+      link: https://twitter.com/VizzuHQ
+    - icon: fontawesome/brands/reddit
+      name: Vizzu on Reddit
+      link: https://www.reddit.com/user/VizzuHQ/?sort=top
+    - icon: fontawesome/brands/github
+      name: Vizzu on GitHub
+      link: https://github.com/vizzuhq/
+
+markdown_extensions:
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - mdx_truly_sane_lists
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.highlight:
+      use_pygments: false
+  - pymdownx.details
+  - pymdownx.superfences
+
+plugins:
+  #  - mike:
+  #      version_selector: true
+  #      alias_type: symlink
+  #      canonical_version: latest
+  #      redirect_template: ./tools/mkdocs/overrides/mike/redirect.html
+  - search
+  - section-index
+  - literate-nav:
+      implicit_index: true
+  - autorefs
+  - gen-files:
+      scripts:
+        - pages/gen_pages.py
+        - examples/gen_examples.py
+        - reference/gen_reference.py
+  - exclude:
+      glob:
+        - reference.md
+
+nav:
+  - Home: index.md
+  - installation.md
+  - Tutorial:
+      - tutorial/index.md
+      - tutorial/initialization.md
+      - tutorial/data.md
+      - Building blocks: tutorial/building_blocks.md
+  - Examples: examples/
+  - Code reference: reference/README.md
+  - Development:
+      - dev/index.md
+      - Contributing: CONTRIBUTING.md
+      - Code of Conduct: CODE_OF_CONDUCT.md
+  - License: LICENSE.md
