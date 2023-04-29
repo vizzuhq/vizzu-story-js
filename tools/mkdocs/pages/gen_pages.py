@@ -177,6 +177,20 @@ def main() -> None:
         )
 
         Page.generate(
+            src=REPO_PATH / "CONTRIBUTING.md",
+            dst="CONTRIBUTING.md",
+            pos="../",
+            site=config["site_url"],
+        )
+
+        Page.generate(
+            src=REPO_PATH / "CODE_OF_CONDUCT.md",
+            dst="CODE_OF_CONDUCT.md",
+            pos="../",
+            site=config["site_url"],
+        )
+
+        Page.generate(
             src=REPO_PATH / "LICENSE",
             dst="LICENSE.md",
             pos="../",

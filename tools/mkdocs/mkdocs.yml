@@ -98,4 +98,8 @@ nav:
       - tutorial/index.md
   - Examples: examples/
   - Code reference: reference/README.md
+  - Development:
+      - dev/index.md
+      - Contributing: CONTRIBUTING.md
+      - Code of Conduct: CODE_OF_CONDUCT.md
   - License: LICENSE.md
