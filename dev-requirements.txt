@@ -135,11 +135,14 @@ mkdocs==1.4.2
     #   -r dev-requirements.in
     #   mike
     #   mkdocs-autorefs
+    #   mkdocs-exclude
     #   mkdocs-gen-files
     #   mkdocs-literate-nav
     #   mkdocs-material
     #   mkdocs-section-index
 mkdocs-autorefs==0.4.1
+    # via -r dev-requirements.in
+mkdocs-exclude==1.0.2
     # via -r dev-requirements.in
 mkdocs-gen-files==0.5.0
     # via -r dev-requirements.in

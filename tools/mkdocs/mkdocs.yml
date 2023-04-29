@@ -86,10 +86,14 @@ plugins:
       scripts:
         - pages/gen_pages.py
         - examples/gen_examples.py
-        #- reference/gen_reference.py
+        - reference/gen_reference.py
+  - exclude:
+      glob:
+        - reference.md
 
 nav:
   - Home: index.md
   - installation.md
   - Examples: examples/
+  - Code reference: reference/README.md
   - License: LICENSE.md

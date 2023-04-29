@@ -38,6 +38,7 @@ mkdocs-section-index
 mkdocs-literate-nav
 mkdocs-autorefs
 mkdocs-gen-files
+mkdocs-exclude
 #
 #
 # yaml

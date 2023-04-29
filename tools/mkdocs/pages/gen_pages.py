@@ -165,7 +165,7 @@ def main() -> None:
     with chdir(REPO_PATH):
         config = MkdocsConfig.load(MKDOCS_PATH / "mkdocs.yml")
 
-        # Docs.generate()
+        Docs.generate(skip=["reference.md"])
 
         IndexPages.generate(nav_item=config["nav"])
 

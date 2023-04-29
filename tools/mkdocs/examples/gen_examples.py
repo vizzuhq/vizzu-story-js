@@ -89,7 +89,9 @@ class GenExamples:
             content = GenExamples._set_csv2js_url(content)
             content = GenExamples._set_csv_url(example, content)
             content = Vizzu.set_version(content)
-        mkdocs_gen_files.set_edit_path(f"examples/{example.name}", f"examples/{example.name}")
+        mkdocs_gen_files.set_edit_path(
+            f"examples/{example.name}", f"examples/{example.name}"
+        )
         with mkdocs_gen_files.open(f"examples/{example.name}", "w") as fh_md:
             fh_md.write(content)
 
