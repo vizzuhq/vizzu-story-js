@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://vizzu-story.vizzuhq.com/latest/">
-    <img src="https://ipyvizzu-story.vizzuhq.com/latest/assets/vizzu-story.gif" alt="Vizzu-Story" />
+    <img src="https://vizzu-story.vizzuhq.com/latest/assets/vizzu-story.gif" alt="Vizzu-Story" />
   </a>
   <p align="center"><b>Vizzu-Story</b> - Build and present animated data stories</p>
   <p align="center">
@@ -16,17 +16,17 @@
 
 # Vizzu-Story
 
-# About The Extension
+## About The Extension
 
-Vizzu-Story is an extension for the
-[Vizzu](https://github.com/vizzuhq/vizzu-lib) JavaScript library that allows
+`Vizzu-Story` is an extension for the
+[Vizzu](https://github.com/vizzuhq/vizzu-lib) `JavaScript` library that allows
 users to create interactive presentations from the animated data visualizations
-built with Vizzu.
+built with `Vizzu`.
 
-The extension provides a Web Component that contains the presentation and adds
+The extension provides a `Web Component` that contains the presentation and adds
 controls for navigating between slides - predefined stages within the story.
 
-# Installation
+## Installation
 
 Install via [npm](https://www.npmjs.com/package/vizzu-story):
 
@@ -40,13 +40,11 @@ Or use it from CDN:
 https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js
 ```
 
-# Usage
+## Usage
 
-<p align="center">
-  <img src="./assets/readme-example.gif" alt="vizzu-story" />
-</p>
+![Example story](https://vizzu-story.vizzuhq.com/latest/assets/readme-example.gif)
 
-Create a 'vizzu-player' element that will contain the rendered story:
+Create a `vizzu-player` element that will contain the rendered story:
 
 ```
 <vizzu-player controller></vizzu-player>
@@ -71,9 +69,9 @@ import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vi
 ```
 
 Add the underlying data for the data story. You can use the same data definition
-formats as in the Vizzu library, but you must add the entire data set for the
+formats as in the `Vizzu` library, but you must add the entire data set for the
 whole story in the initial step; you can not change this later. See
-[Vizzu tutorial - Data](https://lib.vizzuhq.com/latest/#chapter-0.1) for more
+[Vizzu tutorial - Data](https://lib.vizzuhq.com/latest/tutorial/data/) for more
 details on data formats.
 
 ```javascript
@@ -93,13 +91,13 @@ const data = {
 
 Create the data story by defining a sequence of slides. A slide can be a single
 chart corresponding to a single
-'[animation()](https://lib.vizzuhq.com/latest/#chapter-0.0)' call from Vizzu. Or
-a slide can be a sequence of animation calls, in which case all of these
+[animate](https://lib.vizzuhq.com/latest/tutorial/) call from `Vizzu`. Or a
+slide can be a sequence of animation calls, in which case all of these
 animations will be played until the last one in the sequence, allowing for more
 complex transitions between slides. Navigation controls beneath the chart will
-navigate between the slides. You can use the PgUp and PgDn buttons, left and
-right arrows to navigate between slides, and the Home and End buttons to jump to
-the first or last slide.
+navigate between the slides. You can use the `PgUp` and `PgDn` buttons, left and
+right arrows to navigate between slides, and the `Home` and `End` buttons to
+jump to the first or last slide.
 
 ```javascript
 const slides = [{
@@ -117,8 +115,8 @@ const slides = [{
 ```
 
 On each chart, you can define the chart configuration and style with the same
-objects as in Vizzu. However, you can not modify the underlying data between the
-slides, only the data filter used.
+objects as in `Vizzu`. However, you can not modify the underlying data between
+the slides, only the data filter used.
 
 ```typescript
 interface Chart
@@ -130,7 +128,7 @@ interface Chart
 ```
 
 Put the data object and the slide list into the story descriptor object. Here
-you can also set the 'story' objects 'style' property to set the chart style
+you can also set the `story` objects `style` property to set the chart style
 used for the whole story.
 
 ```javascript
@@ -149,20 +147,19 @@ vp.slides = story;
 
 > [Check out a live example in JSFiddle!](https://jsfiddle.net/VizzuHQ/topcmuyf/3/)
 
-See
-[vizzu-story.d.ts](https://github.com/vizzuhq/vizzu-ext-js-story/blob/main/src/vizzu-story.d.ts)
-and [vizzu.d.ts](https://cdn.jsdelivr.net/npm/vizzu@latest/dist/vizzu.d.ts) for
-detailed API type declarations.
+## Documentation
 
-Or check out the source of this example to see a more complex use case:
-[code](https://github.com/vizzuhq/vizzu-ext-js-story/blob/main/docs/index.js).
+Visit our [Documentation site](https://vizzu-story.vizzuhq.com/latest/) for more
+details and a step-by-step tutorial into `Vizzu-Story` or check out our
+[Example gallery](https://vizzu-story.vizzuhq.com/latest/examples/).
 
-# Contributing
+## Contributing
 
 We welcome contributions to the project; visit our
-[wiki page](https://github.com/vizzuhq/vizzu-lib/wiki) for further info.
+[Contributing guide](https://vizzu-story.vizzuhq.com/latest/CONTRIBUTING) for
+further info.
 
-# Contact
+## Contact
 
 - Join our Slack:
   [vizzu-community.slack.com](https://join.slack.com/t/vizzu-community/shared_invite/zt-w2nqhq44-2CCWL4o7qn2Ns1EFSf9kEg)
@@ -170,7 +167,7 @@ We welcome contributions to the project; visit our
 - Follow us on Twitter:
   [https://twitter.com/VizzuHQ](https://twitter.com/VizzuHQ)
 
-# License
+## License
 
 Copyright © 2022-2023 [Vizzu Inc.](https://vizzuhq.com)
 

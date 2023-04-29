@@ -94,6 +94,8 @@ plugins:
 nav:
   - Home: index.md
   - installation.md
+  - Tutorial:
+      - tutorial/index.md
   - Examples: examples/
   - Code reference: reference/README.md
   - License: LICENSE.md
