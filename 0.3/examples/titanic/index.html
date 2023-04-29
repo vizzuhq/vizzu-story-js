@@ -679,7 +679,7 @@ const vp = document.querySelector("vizzu-player");
 const vizzuLoaded = import(vp.vizzuUrl);
 
 // Create data object
-const dataLoaded = Csv2Js.csv("https://vizzu-story.vizzuhq.com/0.3/examples/titanic/titanic.csvtitanic.csv", ["Pclass"]);
+const dataLoaded = Csv2Js.csv("https://vizzu-story.vizzuhq.com/0.3/examples/titanic/titanic.csv", ["Pclass"]);
 
 Promise.all([dataLoaded, vizzuLoaded]).then((results) =&gt; {
   const data = results[0];
