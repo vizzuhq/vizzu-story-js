@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Union, Optional, List
 import sys
 
-import yaml
 import mkdocs_gen_files  # type: ignore
 
 
@@ -17,39 +16,9 @@ sys.path.insert(0, str(MKDOCS_PATH / "modules"))
 from context import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     chdir,
 )
-
-
-class MkdocsConfig:
-    """A class for loading mkdocs configuration."""
-
-    # pylint: disable=too-few-public-methods
-
-    @staticmethod
-    def _format_url(url: Optional[str]) -> Optional[str]:
-        if url and url.endswith("/"):
-            return url[:-1]
-        return url
-
-    @staticmethod
-    def _format(config: dict) -> dict:
-        if "site_url" in config:
-            config["site_url"] = MkdocsConfig._format_url(config["site_url"])
-        return config
-
-    @staticmethod
-    def load(config: Path) -> dict:
-        """
-        A method for loading mkdocs configuration from yaml file.
-
-        Args:
-            config: The path of the yaml configuration file.
-
-        Returns:
-            A dictionary that contains the mkdocs configuration.
-        """
-
-        with open(config, "rt", encoding="utf8") as f_yml:
-            return MkdocsConfig._format(yaml.load(f_yml, Loader=yaml.FullLoader))
+from mkdocsconfig import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
+    MkdocsConfig,
+)
 
 
 class IndexPages:

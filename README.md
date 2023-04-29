@@ -1,13 +1,20 @@
 <p align="center">
-  <a href="https://github.com/vizzuhq/vizzu-lib">
-    <img src="./assets/vizzu-story.gif" alt="Vizzu" />
+  <a href="https://vizzu-story.vizzuhq.com/latest/">
+    <img src="https://ipyvizzu-story.vizzuhq.com/latest/assets/vizzu-story.gif" alt="Vizzu-Story" />
   </a>
-  <p align="center"><b>Vizzu - Story</b> JavaScript Extension</p>
+  <p align="center"><b>Vizzu-Story</b> - Build and present animated data stories</p>
   <p align="center">
-    <a href="https://vizzuhq.github.io/vizzu-ext-js-story/docs/">Example</a>
+    <a href="https://vizzu-story.vizzuhq.com/latest/">Documentation</a>
+    . <a href="https://vizzu-story.vizzuhq.com/latest/examples/">Examples</a>
+    . <a href="https://vizzu-story.vizzuhq.com/latest/reference/">Code reference</a>
     · <a href="https://github.com/vizzuhq/vizzu-ext-js-story/">Repository</a>
   </p>
 </p>
+
+[![npm version](https://badge.fury.io/js/vizzu-story.svg)](https://badge.fury.io/js/vizzu-story)
+[![install size](https://packagephobia.com/badge?p=vizzu-story)](https://packagephobia.com/result?p=vizzu-story)
+
+# Vizzu-Story
 
 # About The Extension
 

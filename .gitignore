@@ -1,6 +1,7 @@
 .vscode
 
 site
+tools/mkdocs/reference/tmp/
 node_modules
 package-lock.json
 

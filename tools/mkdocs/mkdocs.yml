@@ -82,13 +82,11 @@ plugins:
   - literate-nav:
       implicit_index: true
   - autorefs
-  - include-markdown:
-      opening_tag: "// {%"
-      closing_tag: "%}"
   - gen-files:
       scripts:
         - pages/gen_pages.py
-        - pages/gen_examples.py
+        - examples/gen_examples.py
+        #- reference/gen_reference.py
 
 nav:
   - Home: index.md
