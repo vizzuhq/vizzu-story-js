@@ -5,7 +5,7 @@
     [Vizzu](https://github.com/vizzuhq/vizzu-lib) `JavaScript`/`C++`
     [library](https://www.jsdelivr.com/package/npm/vizzu) from `jsDelivr CDN`,
     but you can also use a different or self-hosted version of it. Check
-    [TODO](./TODO.md) for more details.
+    [Initialization chapter](./tutorial/initialization.md) for more details.
 
 Install via [npm](https://www.npmjs.com/package/vizzu-story):
 
