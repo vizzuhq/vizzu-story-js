@@ -5,8 +5,8 @@
   <p align="center"><b>Vizzu-Story</b> - Build and present animated data stories</p>
   <p align="center">
     <a href="https://vizzu-story.vizzuhq.com/latest/">Documentation</a>
-    . <a href="https://vizzu-story.vizzuhq.com/latest/examples/">Examples</a>
-    . <a href="https://vizzu-story.vizzuhq.com/latest/reference/">Code reference</a>
+    · <a href="https://vizzu-story.vizzuhq.com/latest/examples/">Examples</a>
+    · <a href="https://vizzu-story.vizzuhq.com/latest/reference/">Code reference</a>
     · <a href="https://github.com/vizzuhq/vizzu-ext-js-story/">Repository</a>
   </p>
 </p>

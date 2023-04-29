@@ -19,6 +19,9 @@ from context import (  # pylint: disable=import-error, wrong-import-position, wr
 from mkdocsconfig import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     MkdocsConfig,
 )
+from vizzu import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
+    Vizzu,
+)
 
 
 class IndexPages:
@@ -116,9 +119,7 @@ class Page:
             content = f_src.read()
 
         content = content.replace(f"{site}/latest/", pos).replace(f"{site}/latest", pos)
-
-        # content = Vizzu.set_version(content)
-
+        content = Vizzu.set_version(content)
         if keep:
             content = f"<pre>{content}</pre>"
 
@@ -149,7 +150,7 @@ class Docs:
                 dst = path.relative_to(docs_path)
                 content = f_src.read()
                 if path.suffix == ".md":
-                    # content = Vizzu.set_version(content)
+                    content = Vizzu.set_version(content)
                     mkdocs_gen_files.set_edit_path(dst, dst)
                 with mkdocs_gen_files.open(dst, "w") as f_dst:
                     f_dst.write(content)

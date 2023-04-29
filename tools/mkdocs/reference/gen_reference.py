@@ -25,6 +25,9 @@ from node import (  # pylint: disable=import-error, wrong-import-position, wrong
 from md import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     Md,
 )
+from vizzu import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
+    Vizzu,
+)
 
 
 class Reference:
@@ -55,7 +58,7 @@ class Reference:
             with open(path, "rt", encoding="utf8") as f_src:
                 content = f_src.read()
                 content = content.replace("##### ", "").replace("#### ", "")
-                # content = Vizzu.set_version(content)
+                content = Vizzu.set_version(content)
                 content = Md.format(content)
                 with mkdocs_gen_files.open(
                     f"{folder}/{path.relative_to(tmp_dir)}", "w"
