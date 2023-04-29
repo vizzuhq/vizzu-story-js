@@ -114,3 +114,6 @@ endif
 
 doc: $(DEV_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/mkdocs build -f ./tools/mkdocs/mkdocs.yml
+
+deploy: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
+	. $(VIRTUAL_ENV)/$(BIN_PATH)/activate; $(PYTHON_BIN) tools/release/deploy.py
