@@ -4,6 +4,6 @@ package-lock.json
 dist
 build
 
-.coverage
+coverage
 
 *.md

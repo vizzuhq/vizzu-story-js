@@ -14,7 +14,8 @@ endif
 	clean-dev update-dev-req install-dev-req touch-dev \
 	clean-dev-js touch-dev-js \
 	check format check-format lint check-lint check-typing \
-	clean-doc doc
+	clean-doc doc \
+	set-version restore-version
 
 VIRTUAL_ENV = .venv_vizzu_story
 
@@ -117,3 +118,13 @@ doc: $(DEV_BUILD_FLAG)
 
 deploy: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
 	. $(VIRTUAL_ENV)/$(BIN_PATH)/activate; $(PYTHON_BIN) tools/release/deploy.py
+
+
+
+# release
+
+set-version: $(DEV_BUILD_FLAG)
+	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) tools/release/set_version.py False
+
+restore-version: $(DEV_BUILD_FLAG)
+	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) tools/release/set_version.py True

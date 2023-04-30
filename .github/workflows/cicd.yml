@@ -1,7 +1,6 @@
 name: CI-CD
 
 on:
-  workflow_dispatch:
   release:
     types: [published]
   push:
@@ -18,7 +17,11 @@ jobs:
     uses: ./.github/workflows/ci.yml
     needs: init
 
+  doc:
+    uses: ./.github/workflows/doc.yml
+    needs: ci
+
   release:
     uses: ./.github/workflows/release.yml
     secrets: inherit
-    needs: ci
+    needs: doc

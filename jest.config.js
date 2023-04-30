@@ -3,7 +3,7 @@ export default {
   roots: ["<rootDir>/src"],
   collectCoverage: true,
   coverageProvider: "v8",
-  coverageDirectory: ".coverage",
+  coverageDirectory: "coverage",
   coverageThreshold: {
     global: {
       branches: 0,

@@ -7,15 +7,29 @@ jobs:
 
   release_package:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+
+    - uses: actions/cache@v3
+        with:
+          path: ./.venv_vizzu_story
+          key: venv-vizzu-story-${{ github.run_id }}
 
     - uses: actions/cache@v3
       with:
         path: ./node_modules
-        key: node_modules-${{ github.run_id }}
+        key: nodemodules-vizzu-story-${{ github.run_id }}
+
+    - name: Touch dev environment
+      run: make touch-dev
+
+    - name: Touch dev-js environment
+      run: make touch-dev-js
+
+    - name: Set version
+      run: make set-version
 
     - name: Build package
       run: npm run build

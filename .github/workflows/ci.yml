@@ -7,21 +7,42 @@ jobs:
 
   check_ci:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
+    steps:    
+    - uses: actions/cache@v3
+      with:
+        path: ./.venv_vizzu_story
+        key: venv-vizzu-story-${{ github.run_id }}
 
     - uses: actions/cache@v3
       with:
         path: ./node_modules
-        key: node_modules-${{ github.run_id }}
-          
+        key: nodemodules-vizzu-story-${{ github.run_id }}
+
+    - name: Touch dev environment
+      run: make touch-dev
+
+    - name: Touch dev-js environment
+      run: make touch-dev-js
+
+    - name: Check dts
+      run: npm run check-dts
+
     - name: Check format
       run: npm run check-prettier
+          
+    - name: Check doc format
+      run: make check-format
 
-    - name: Run eslint
+    - name: Check lint
       run: npm run check-eslint
+
+    - name: Check doc lint
+      run: make check-lint
+      
+    - name: Check doc typing
+      run: make check-typing
 
     - name: Run test
       run: npm test

@@ -8,6 +8,7 @@ REPO_PATH = Path(__file__).parent / ".." / ".." / ".."
 MKDOCS_PATH = REPO_PATH / "tools" / "mkdocs"
 
 VIZZUSTORY_BACKEND_URL = ""
+
 VIZZUSTORY_VERSION = ""
 VIZZU_VERSION = ""
 

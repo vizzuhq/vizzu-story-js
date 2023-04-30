@@ -1,11 +1,10 @@
-name: Init
+name: Build documentation
 
 on:
   workflow_call:
 
 jobs:
-
-  init_dev:
+  build_doc:
 
     runs-on: ubuntu-latest
 
@@ -22,8 +21,11 @@ jobs:
           path: ./node_modules
           key: nodemodules-vizzu-story-${{ github.run_id }}
 
-      - name: Init dev environment
-        run: make dev
+      - name: Touch dev environment
+        run: make touch-dev
 
-      - name: Init dev-js environment
-        run: make dev-js
+      - name: Touch dev-js environment
+        run: make touch-dev-js
+
+      - name: Build documentation
+        run: make doc

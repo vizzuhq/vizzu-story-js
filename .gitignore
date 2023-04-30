@@ -10,6 +10,6 @@ __pycache__
 build
 dist
 
-.coverage
+coverage
 
 .venv_vizzu_story
