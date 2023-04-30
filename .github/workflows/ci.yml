@@ -9,7 +9,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:    
+    steps:
+    - uses: actions/checkout@v3
+    
     - uses: actions/cache@v3
       with:
         path: ./.venv_vizzu_story
