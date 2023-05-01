@@ -4,8 +4,8 @@ US Federal R&D budget In this more involved example, we explore the history of
 the US Federal R&D budget between 1955-2020. On top of the base functionality,
 this story showcases:
 
-- Styling the overall Story
-- Setting the size of the Story
+- Styling the overall story
+- Setting the size of the story
 - Slides with multiple steps
 
 <vizzu-player controller></vizzu-player>

@@ -1,6 +1,6 @@
 # Building blocks
 
-In `vizzu-Story`, you can build and show a `story` object that contains all of
+In `Vizzu-Story`, you can build and show a `story` object that contains all of
 the data being shown throughout the story and the charts created based on that
 data, arranged into `slides` and `steps`.
 

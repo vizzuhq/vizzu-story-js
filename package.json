@@ -1,7 +1,7 @@
 {
   "name": "vizzu-story",
   "version": "0.3.0",
-  "description": "A presentation extension for the Vizzu charting library to create presentations with animated data visualisations with ease.",
+  "description": "Build and present animated data stories",
   "main": "dist/vizzu-story.min.js",
   "types": "dist/vizzu-story.d.ts",
   "type": "module",

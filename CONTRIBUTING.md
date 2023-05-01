@@ -17,7 +17,7 @@ detailed description of how to do this in
 
 ### Development environment
 
-You can initialize the development environment of `vizzu-story` with npm.
+You can initialize the development environment of `Vizzu-Story` with `npm`.
 
 Run `npm install` or `npm update --dev` command to set up your environment.
 
@@ -36,7 +36,7 @@ npm run prepare
 ### CI
 
 The CI steps check code formatting, run code analyses and run unit tests over
-the `vizzu-story` project.
+the `Vizzu-Story` project.
 
 The `check` script runs the above tasks.
 
@@ -46,7 +46,7 @@ npm run check
 
 #### Formatting
 
-The `vizzu-story` project is formatted with `prettier`.
+The `Vizzu-Story` project is formatted with `prettier`.
 
 Run the `prettier` script to format your code.
 
@@ -62,7 +62,7 @@ npm run check-prettier
 
 #### Code analyses
 
-The `vizzu-story` project is analysed with `eslint`.
+The `Vizzu-Story` project is analysed with `eslint`.
 
 Run the `check-eslint` script to run code analyses.
 
@@ -78,7 +78,7 @@ npm run eslint
 
 #### Testing
 
-The `vizzu-story` project is tested with `jest` testing framework.
+The `Vizzu-Story` project is tested with `jest` testing framework.
 
 Run the `test` script to run the tests.
 
@@ -88,7 +88,7 @@ npm test
 
 ### Documentation
 
-Run the doc make target to build the documentation.
+Run the `doc` make target to build the documentation.
 
 ```sh
 make dev
@@ -103,11 +103,11 @@ Online version can be read at
 
 ### Release
 
-`vizzu-story` is distributed on
+`Vizzu-Story` is distributed on
 [npm](https://www.npmjs.com/package/vizzu-story). **Note:** You need to be an
 administrator to release the project.
 
-If you want to release `vizzu-story` follow the steps below.
+If you want to release `Vizzu-Story` follow the steps below.
 
 - You should increase the version number in `package.json`. The version bump
   should be in a separated commit.
@@ -116,7 +116,7 @@ If you want to release `vizzu-story` follow the steps below.
   [Releases](https://github.com/vizzuhq/vizzu-ext-js-story/releases).
 
 **Note:** Publishing a new release will automatically trigger the `release`
-workflow which builds and uploads the `vizzu-story` package to
+workflow which builds and uploads the `Vizzu-Story` package to
 [npm](https://www.npmjs.com/package/vizzu-story).
 
 You can build the package before a release with the `build` script.

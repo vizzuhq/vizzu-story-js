@@ -1,6 +1,6 @@
 # Basic example
 
-The below story shows a basic use case for `vizzu-story`.
+The below story shows a basic use case for `Vizzu-Story`.
 
 <vizzu-player controller></vizzu-player>
 

@@ -163,4 +163,4 @@ further info.
 Copyright © 2022-2023 [Vizzu Inc.](https://vizzuhq.com)
 
 Released under the
-[Apache 2.0 License](https://github.com/vizzuhq/vizzu-lib/blob/main/LICENSE).
+[Apache 2.0 License](https://vizzu-story.vizzuhq.com/latest/LICENSE).
