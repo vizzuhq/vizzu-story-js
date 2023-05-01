@@ -871,7 +871,7 @@ detailed description of how to do this in
 <a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects">Github's guide to contributing to projects</a>.</p>
 <h2 id="ci-cd">CI-CD</h2>
 <h3 id="development-environment">Development environment</h3>
-<p>You can initialize the development environment of <code>vizzu-story</code> with npm.</p>
+<p>You can initialize the development environment of <code>Vizzu-Story</code> with <code>npm</code>.</p>
 <p>Run <code>npm install</code> or <code>npm update --dev</code> command to set up your environment.</p>
 <pre class="highlight"><code class="language-sh">npm install  # npm update --dev</code></pre>
 <p><strong>Note:</strong> You can set up git hooks into your local git repository with the
@@ -880,27 +880,27 @@ and pre-push hook is going to run the CI steps.</p>
 <pre class="highlight"><code class="language-sh">npm run prepare</code></pre>
 <h3 id="ci">CI</h3>
 <p>The CI steps check code formatting, run code analyses and run unit tests over
-the <code>vizzu-story</code> project.</p>
+the <code>Vizzu-Story</code> project.</p>
 <p>The <code>check</code> script runs the above tasks.</p>
 <pre class="highlight"><code class="language-sh">npm run check</code></pre>
 <h4 id="formatting">Formatting</h4>
-<p>The <code>vizzu-story</code> project is formatted with <code>prettier</code>.</p>
+<p>The <code>Vizzu-Story</code> project is formatted with <code>prettier</code>.</p>
 <p>Run the <code>prettier</code> script to format your code.</p>
 <pre class="highlight"><code class="language-sh">npm run prettier</code></pre>
 <p>Run the <code>check-prettier</code> script to check code formatting.</p>
 <pre class="highlight"><code class="language-sh">npm run check-prettier</code></pre>
 <h4 id="code-analyses">Code analyses</h4>
-<p>The <code>vizzu-story</code> project is analysed with <code>eslint</code>.</p>
+<p>The <code>Vizzu-Story</code> project is analysed with <code>eslint</code>.</p>
 <p>Run the <code>check-eslint</code> script to run code analyses.</p>
 <pre class="highlight"><code class="language-sh">npm run check-eslint</code></pre>
 <p>Run the <code>eslint</code> script to solve the fixable problems.</p>
 <pre class="highlight"><code class="language-sh">npm run eslint</code></pre>
 <h4 id="testing">Testing</h4>
-<p>The <code>vizzu-story</code> project is tested with <code>jest</code> testing framework.</p>
+<p>The <code>Vizzu-Story</code> project is tested with <code>jest</code> testing framework.</p>
 <p>Run the <code>test</code> script to run the tests.</p>
 <pre class="highlight"><code class="language-sh">npm test</code></pre>
 <h3 id="documentation">Documentation</h3>
-<p>Run the doc make target to build the documentation.</p>
+<p>Run the <code>doc</code> make target to build the documentation.</p>
 <pre class="highlight"><code class="language-sh">make dev
 
 make check
@@ -909,10 +909,10 @@ make doc</code></pre>
 <p>Online version can be read at
 <a href="../">vizzu-story.vizzuhq.com</a>.</p>
 <h3 id="release">Release</h3>
-<p><code>vizzu-story</code> is distributed on
+<p><code>Vizzu-Story</code> is distributed on
 <a href="https://www.npmjs.com/package/vizzu-story">npm</a>. <strong>Note:</strong> You need to be an
 administrator to release the project.</p>
-<p>If you want to release <code>vizzu-story</code> follow the steps below.</p>
+<p>If you want to release <code>Vizzu-Story</code> follow the steps below.</p>
 <ul>
 <li>You should increase the version number in <code>package.json</code>. The version bump
   should be in a separated commit.</li>
@@ -922,7 +922,7 @@ administrator to release the project.</p>
   <a href="https://github.com/vizzuhq/vizzu-ext-js-story/releases">Releases</a>.</li>
 </ul>
 <p><strong>Note:</strong> Publishing a new release will automatically trigger the <code>release</code>
-workflow which builds and uploads the <code>vizzu-story</code> package to
+workflow which builds and uploads the <code>Vizzu-Story</code> package to
 <a href="https://www.npmjs.com/package/vizzu-story">npm</a>.</p>
 <p>You can build the package before a release with the <code>build</code> script.</p>
 <pre class="highlight"><code class="language-sh">npm run build</code></pre>
