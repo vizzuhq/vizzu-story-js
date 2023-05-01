@@ -1,31 +1,32 @@
 # Tutorial
 
-This is an excellent starting point to get acquainted with `vizzu-story`, as it
+This is an excellent starting point to get acquainted with `Vizzu-Story`, as it
 walks you through the installation and initialization of the extension,
 introduces the logic it employs and the different settings to control how your
 animated data stories look and behave.
 
 The tutorial is organized into chapters that introduce the concept and the
-details of `vizzu-story` step-by-step. You can find the list of chapters at the
+details of `Vizzu-Story` step-by-step. You can find the list of chapters at the
 end of this page and in the menu.
 
-Since `vizzu-story` is built on top of
-[vizzu](https://github.com/vizzuhq/vizzu), it's recommended that you learn and
-understand `vizzu` first. The tutorial for `vizzu` can be found
+Since `Vizzu-Story` is built on top of
+[Vizzu](https://github.com/vizzuhq/vizzu), it's recommended that you learn and
+understand `Vizzu` first. The tutorial for `Vizzu` can be found
 [here](https://lib.vizzuhq.com/latest/tutorial/).
 
-## Basic logic of vizzu-story
+## Basic logic of Vizzu-Story
 
-With `vizzu-story`, you can build and show a `story` object that contains all of
+With `Vizzu-Story`, you can build and show a `story` object that contains all of
 the data being shown throughout the story and the charts created based on that
-data, arranged into `slides` and `steps`. When played,`vizzu-story`
+data, arranged into `slides` and `steps`. When played,`Vizzu-Story`
 automatically adds a set of buttons underneath the chart, via which the users
 can navigate between the `slides` within the story.
 
 `slides` can contain one or more `steps`.
 
-A `step` (and a single-step `slide`) is basically the same as the `Chart` object
-in `vizzu`, with some minor, but important differences (for now):
+A `step` (and a single-step `slide`) is basically the same as a single chart
+corresponding to an [animate](https://lib.vizzuhq.com/latest/tutorial/) call
+from `Vizzu`, with some minor, but important differences (for now):
 
 - all of the data has to be added to the story at initialization, and it can be
   filtered at every `step` throughout the `story`.

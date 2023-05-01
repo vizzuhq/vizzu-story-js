@@ -1,33 +1,83 @@
 # Initialization
 
-Create a `vizzu-player` element that will contain the rendered story:
+## Import
+
+In a script module element import the extension from `CDN` or local install:
+
+```
+<script type="module">
+  import VizzuPlayer from 
+  'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js';
+</script>
+```
+
+## Constructor
+
+In order to initialize a `VizzuPlayer` with a `VizzuController` that will
+contain the rendered `story`, create a `vizzu-player` `HTML` element:
 
 ```
 <vizzu-player controller></vizzu-player>
 ```
 
-!!! note
-    You can use different version of `vizzu` with the `vizzu-url` `HTML`
-    attribute.
+## Size
 
-    ```
-    <vizzu-player controller vizzu-url="<url>/vizzu.min.js"></vizzu-player>
-    ```
+`Vizzu-Story` tries to apply the ideal size for the story, but you can also set
+them manually via the `width` and `height` style properties of the
+`vizzu-player` `HTML` element:
 
-In a script module element
-
-```html
-<html>
- <head>
-  <script type="module">
-  </script>
- </head>
-</html>
+Set size in `HTML`
 
 ```
+<head>
+  <style>
+    vizzu-player {
+      width: 100%;
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <vizzu-player controller></vizzu-player>
+</body>
+```
 
-Import the extension from CDN or local install:
+or in `JavaScript`:
 
 ```javascript
-import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js';
+const vp = document.querySelector('vizzu-player');
+vp.style.cssText = 'width: 100%;height: 400px;';
+```
+
+## HTML attributes
+
+### vizzu-url
+
+`vizzu-story` requires and downloads the
+[Vizzu](https://github.com/vizzuhq/vizzu-lib) `JavaScript`/`C++`
+[library](https://www.jsdelivr.com/package/npm/vizzu) from `jsDelivr CDN`, but
+you can also use a different or self-hosted version of it.
+
+Set `Vizzu` via the `vizzu-url` `HTML` attribute
+
+```
+<vizzu-player controller vizzu-url="<url>/vizzu.min.js"></vizzu-player>
+```
+
+or add it to `window`:
+
+```javascript
+import Vizzu from '<url>/vizzu.min.js';
+
+
+window.Vizzu = Vizzu;
+```
+
+### custom-spinner
+
+You can use a custom loading animation. Set spinner via the `custom-spinner`
+`HTML` attribute:
+
+```
+<vizzu-player controller custom-spinner="loadinganim.svg"></vizzu-player>
 ```

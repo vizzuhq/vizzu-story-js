@@ -30,14 +30,14 @@ controls for navigating between slides - predefined stages within the story.
 
 Install via [npm](https://www.npmjs.com/package/vizzu-story):
 
-```
+```sh
 npm install vizzu-story
 ```
 
-Or use it from CDN:
+Or use it from [CDN](https://www.jsdelivr.com/package/npm/vizzu-story):
 
-```
-https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js
+```javascript
+import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js';
 ```
 
 ## Usage
@@ -50,28 +50,19 @@ Create a `vizzu-player` element that will contain the rendered story:
 <vizzu-player controller></vizzu-player>
 ```
 
-In a script module element
-
-```html
-<html>
- <head>
-  <script type="module">
-  </script>
- </head>
-</html>
+In a script module element import the extension from `CDN` or local install:
 
 ```
-
-Import the extension from CDN or local install:
-
-```javascript
-import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js';
+<script type="module">
+  import VizzuPlayer from 
+  'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js';
+</script>
 ```
 
 Add the underlying data for the data story. You can use the same data definition
 formats as in the `Vizzu` library, but you must add the entire data set for the
 whole story in the initial step; you can not change this later. See
-[Vizzu tutorial - Data](https://lib.vizzuhq.com/latest/tutorial/data/) for more
+[Data chapter](https://vizzu-story.vizzuhq.com/latest/tutorial/data/) for more
 details on data formats.
 
 ```javascript
@@ -90,14 +81,10 @@ const data = {
 ```
 
 Create the data story by defining a sequence of slides. A slide can be a single
-chart corresponding to a single
-[animate](https://lib.vizzuhq.com/latest/tutorial/) call from `Vizzu`. Or a
-slide can be a sequence of animation calls, in which case all of these
-animations will be played until the last one in the sequence, allowing for more
-complex transitions between slides. Navigation controls beneath the chart will
-navigate between the slides. You can use the `PgUp` and `PgDn` buttons, left and
-right arrows to navigate between slides, and the `Home` and `End` buttons to
-jump to the first or last slide.
+chart corresponding to an [animate](https://lib.vizzuhq.com/latest/tutorial/)
+call from `Vizzu`. Or a slide can be a sequence of animation calls, in which
+case all of these animations will be played until the last one in the sequence,
+allowing for more complex transitions between slides.
 
 ```javascript
 const slides = [{
@@ -111,8 +98,12 @@ const slides = [{
         x: 'Baz',
         geometry: 'circle'
     }
-}]
+}];
 ```
+
+Navigation controls beneath the chart will navigate between the slides. You can
+use the `PgUp` and `PgDn` buttons, left and right arrows to navigate between
+slides, and the `Home` and `End` buttons to jump to the first or last slide.
 
 On each chart, you can define the chart configuration and style with the same
 objects as in `Vizzu`. However, you can not modify the underlying data between
@@ -127,21 +118,21 @@ interface Chart
 }
 ```
 
-Put the data object and the slide list into the story descriptor object. Here
-you can also set the `story` objects `style` property to set the chart style
-used for the whole story.
+Put the data and the slide list into the `story` descriptor object. Here you can
+also set the `story` `style` property to set the chart style used for the whole
+`story`.
 
 ```javascript
 const story = {
     data: data,
     slides: slides
-}
+};
 ```
 
 Then set up the created element with the configuration object:
 
 ```javascript
-const vp = document.querySelector("vizzu-player");
+const vp = document.querySelector('vizzu-player');
 vp.slides = story;
 ```
 

@@ -96,8 +96,8 @@ nav:
   - installation.md
   - Tutorial:
       - tutorial/index.md
-      - tutorial/initialization.md
       - tutorial/data.md
+      - tutorial/initialization.md
       - Building blocks: tutorial/building_blocks.md
   - Examples: examples/
   - Code reference: reference/README.md

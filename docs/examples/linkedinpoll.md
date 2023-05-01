@@ -16,7 +16,7 @@ Create a `vizzu-player` element that will contain the rendered story.
 
 In a script module element:
 
-```js
+```javascript
 // {% include "./linkedinpoll/main.js" %}
 ```
 
