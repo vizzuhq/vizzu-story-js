@@ -11,11 +11,18 @@ visiting our [Tutorial](../tutorial/index.md) first.
 ## Library Overview
 
 The main entry point of the library is the
-[Vizzu-Story](./classes/VizzuPlayer.md) class.
+[VizzuPlayer](./classes/VizzuPlayer.md) class, and its most important component
+is the [slides](./classes/VizzuPlayer.md#slides) accessor.
+
+- [VizzuPlayer](./classes/VizzuPlayer.md) class
+  - [constructor()](./classes/VizzuPlayer.md#constructor)
+  - [slides](./classes/VizzuPlayer#slides) ([Story](./interfaces/Story.md)) :
+    `void`
 
 ## Details
 
 You can find all interface declarations and types under these namespaces.
 
-- [Story](./interfaces/Story.md)
-- [Phase](./interfaces/Phase.md)
+- [Story](./interfaces/Story.md) - Contains slides, underlying data and chart's
+  style settings
+- [Phase](./interfaces/Phase.md) - A single step of a slide
