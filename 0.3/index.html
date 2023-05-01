@@ -411,8 +411,8 @@
   
   
     <li class="md-nav__item">
-      <a href="tutorial/initialization/" class="md-nav__link">
-        Initialization
+      <a href="tutorial/data/" class="md-nav__link">
+        Data
       </a>
     </li>
   
@@ -425,8 +425,8 @@
   
   
     <li class="md-nav__item">
-      <a href="tutorial/data/" class="md-nav__link">
-        Data
+      <a href="tutorial/initialization/" class="md-nav__link">
+        Initialization
       </a>
     </li>
   
@@ -814,27 +814,22 @@ built with <code>Vizzu</code>.</p>
 controls for navigating between slides - predefined stages within the story.</p>
 <h2 id="installation">Installation</h2>
 <p>Install via <a href="https://www.npmjs.com/package/vizzu-story">npm</a>:</p>
-<pre class="highlight"><code>npm install vizzu-story</code></pre>
-<p>Or use it from CDN:</p>
-<pre class="highlight"><code>https://cdn.jsdelivr.net/npm/vizzu-story@0.3/dist/vizzu-story.min.js</code></pre>
+<pre class="highlight"><code class="language-sh">npm install vizzu-story</code></pre>
+<p>Or use it from <a href="https://www.jsdelivr.com/package/npm/vizzu-story">CDN</a>:</p>
+<pre class="highlight"><code class="language-javascript">import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@0.3/dist/vizzu-story.min.js';</code></pre>
 <h2 id="usage">Usage</h2>
 <p><img alt="Example story" src="assets/readme-example.gif" /></p>
 <p>Create a <code>vizzu-player</code> element that will contain the rendered story:</p>
 <pre class="highlight"><code>&lt;vizzu-player controller&gt;&lt;/vizzu-player&gt;</code></pre>
-<p>In a script module element</p>
-<pre class="highlight"><code class="language-html">&lt;html&gt;
- &lt;head&gt;
-  &lt;script type="module"&gt;
-  &lt;/script&gt;
- &lt;/head&gt;
-&lt;/html&gt;
-</code></pre>
-<p>Import the extension from CDN or local install:</p>
-<pre class="highlight"><code class="language-javascript">import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@0.3/dist/vizzu-story.min.js';</code></pre>
+<p>In a script module element import the extension from <code>CDN</code> or local install:</p>
+<pre class="highlight"><code>&lt;script type="module"&gt;
+  import VizzuPlayer from 
+  'https://cdn.jsdelivr.net/npm/vizzu-story@0.3/dist/vizzu-story.min.js';
+&lt;/script&gt;</code></pre>
 <p>Add the underlying data for the data story. You can use the same data definition
 formats as in the <code>Vizzu</code> library, but you must add the entire data set for the
 whole story in the initial step; you can not change this later. See
-<a href="https://lib.vizzuhq.com/0.7/tutorial/data/">Vizzu tutorial - Data</a> for more
+<a href="./tutorial/data/">Data chapter</a> for more
 details on data formats.</p>
 <pre class="highlight"><code class="language-javascript">const data = {
     series: [{
@@ -849,14 +844,10 @@ details on data formats.</p>
     }]
 };</code></pre>
 <p>Create the data story by defining a sequence of slides. A slide can be a single
-chart corresponding to a single
-<a href="https://lib.vizzuhq.com/0.7/tutorial/">animate</a> call from <code>Vizzu</code>. Or a
-slide can be a sequence of animation calls, in which case all of these
-animations will be played until the last one in the sequence, allowing for more
-complex transitions between slides. Navigation controls beneath the chart will
-navigate between the slides. You can use the <code>PgUp</code> and <code>PgDn</code> buttons, left and
-right arrows to navigate between slides, and the <code>Home</code> and <code>End</code> buttons to
-jump to the first or last slide.</p>
+chart corresponding to an <a href="https://lib.vizzuhq.com/0.7/tutorial/">animate</a>
+call from <code>Vizzu</code>. Or a slide can be a sequence of animation calls, in which
+case all of these animations will be played until the last one in the sequence,
+allowing for more complex transitions between slides.</p>
 <pre class="highlight"><code class="language-javascript">const slides = [{
     config: {
         x: 'Foo',
@@ -868,7 +859,10 @@ jump to the first or last slide.</p>
         x: 'Baz',
         geometry: 'circle'
     }
-}]</code></pre>
+}];</code></pre>
+<p>Navigation controls beneath the chart will navigate between the slides. You can
+use the <code>PgUp</code> and <code>PgDn</code> buttons, left and right arrows to navigate between
+slides, and the <code>Home</code> and <code>End</code> buttons to jump to the first or last slide.</p>
 <p>On each chart, you can define the chart configuration and style with the same
 objects as in <code>Vizzu</code>. However, you can not modify the underlying data between
 the slides, only the data filter used.</p>
@@ -878,15 +872,15 @@ the slides, only the data filter used.</p>
   filter?: Vizzu.Data.FilterCallback | null;
   style?: Vizzu.Styles.Chart;
 }</code></pre>
-<p>Put the data object and the slide list into the story descriptor object. Here
-you can also set the <code>story</code> objects <code>style</code> property to set the chart style
-used for the whole story.</p>
+<p>Put the data and the slide list into the <code>story</code> descriptor object. Here you can
+also set the <code>story</code> <code>style</code> property to set the chart style used for the whole
+<code>story</code>.</p>
 <pre class="highlight"><code class="language-javascript">const story = {
     data: data,
     slides: slides
-}</code></pre>
+};</code></pre>
 <p>Then set up the created element with the configuration object:</p>
-<pre class="highlight"><code class="language-javascript">const vp = document.querySelector("vizzu-player");
+<pre class="highlight"><code class="language-javascript">const vp = document.querySelector('vizzu-player');
 vp.slides = story;</code></pre>
 <blockquote>
 <p><a href="https://jsfiddle.net/VizzuHQ/topcmuyf/3/">Check out a live example in JSFiddle!</a></p>

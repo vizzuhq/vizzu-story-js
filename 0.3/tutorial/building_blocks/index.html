@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://vizzu-story.vizzuhq.com/latest/tutorial/building_blocks/">
       
       
-        <link rel="prev" href="../data/">
+        <link rel="prev" href="../initialization/">
       
       
         <link rel="next" href="../../examples/">
@@ -332,8 +332,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../initialization/" class="md-nav__link">
-        Initialization
+      <a href="../data/" class="md-nav__link">
+        Data
       </a>
     </li>
   
@@ -346,8 +346,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../data/" class="md-nav__link">
-        Data
+      <a href="../initialization/" class="md-nav__link">
+        Initialization
       </a>
     </li>
   
@@ -369,9 +369,61 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Building blocks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Building blocks
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#slides-and-steps" class="md-nav__link">
+    Slides and steps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#story" class="md-nav__link">
+    Story
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chart-features" class="md-nav__link">
+    Chart features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chart-events" class="md-nav__link">
+    Chart events
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -642,6 +694,42 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#slides-and-steps" class="md-nav__link">
+    Slides and steps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#story" class="md-nav__link">
+    Story
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chart-features" class="md-nav__link">
+    Chart features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chart-events" class="md-nav__link">
+    Chart events
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -664,27 +752,41 @@
 
 
 <h1 id="building-blocks">Building blocks</h1>
+<p>In <code>vizzu-Story</code>, you can build and show a <code>story</code> object that contains all of
+the data being shown throughout the story and the charts created based on that
+data, arranged into <code>slides</code> and <code>steps</code>.</p>
+<h2 id="slides-and-steps">Slides and steps</h2>
 <p>Create the data story by defining a sequence of slides. A slide can be a single
-chart corresponding to a single
-<a href="https://lib.vizzuhq.com/0.7/tutorial/">animate</a> call from <code>Vizzu</code>. Or a
-slide can be a sequence of animation calls, in which case all of these
-animations will be played until the last one in the sequence, allowing for more
-complex transitions between slides. Navigation controls beneath the chart will
-navigate between the slides. You can use the <code>PgUp</code> and <code>PgDn</code> buttons, left and
-right arrows to navigate between slides, and the <code>Home</code> and <code>End</code> buttons to
-jump to the first or last slide.</p>
-<pre class="highlight"><code class="language-javascript">const slides = [{
-    config: {
-        x: 'Foo',
-        y: 'Bar'
-    }
-}, {
-    config: {
-        color: 'Foo',
-        x: 'Baz',
-        geometry: 'circle'
-    }
-}]</code></pre>
+chart corresponding to an <a href="https://lib.vizzuhq.com/0.7/tutorial/">animate</a> call
+from <code>Vizzu</code>. Or a slide can be a sequence of animation calls, in which case all
+of these animations will be played until the last one in the sequence, allowing
+for more complex transitions between slides.</p>
+<pre class="highlight"><code class="language-javascript">const slides = [
+    // This slide contains a single animation step
+    {
+        config: {
+            x: 'Foo',
+            y: 'Bar'
+        }
+    },
+    // This slide contains multiple steps
+    [{
+        config: {
+            color: 'Foo',
+            x: 'Baz',
+            geometry: 'circle'
+        }
+    }, {
+        config: {
+            color: 'Foo',
+            x: 'Baz',
+            geometry: 'rectangle'
+        }
+    }],
+];</code></pre>
+<p>Navigation controls beneath the chart will navigate between the slides. You can
+use the <code>PgUp</code> and <code>PgDn</code> buttons, left and right arrows to navigate between
+slides, and the <code>Home</code> and <code>End</code> buttons to jump to the first or last slide.</p>
 <p>On each chart, you can define the chart configuration and style with the same
 objects as in <code>Vizzu</code>. However, you can not modify the underlying data between
 the slides, only the data filter used.</p>
@@ -694,16 +796,77 @@ the slides, only the data filter used.</p>
   filter?: Vizzu.Data.FilterCallback | null;
   style?: Vizzu.Styles.Chart;
 }</code></pre>
-<p>Put the data object and the slide list into the story descriptor object. Here
-you can also set the <code>story</code> objects <code>style</code> property to set the chart style
-used for the whole story.</p>
+<pre class="highlight"><code class="language-javascript">const slides = [
+    // This slide sets filter and style
+    {
+        config: {
+            x: 'Foo',
+            y: 'Bar'
+        },
+        filter: record =&gt; record['Foo'] === 'Bob',
+        style: {
+            plot: {
+                marker: {
+                    colorPalette: '#FF0000'
+                }
+            }
+        }
+    }
+];</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Check
+<a href="https://lib.vizzuhq.com/0.7/tutorial/filter_add_new_records/">Vizzu - Filtering &amp; adding new records chapter</a>
+and <a href="https://lib.vizzuhq.com/0.7/tutorial/style/">Vizzu - Style chapter</a> for
+more details on data filtering and style options.</p>
+</div>
+<h2 id="story">Story</h2>
+<p>Put the data and the slide list into the <code>story</code> descriptor object.</p>
 <pre class="highlight"><code class="language-javascript">const story = {
     data: data,
     slides: slides
-}</code></pre>
+};</code></pre>
+<p>Here you can also set the <code>story</code> <code>style</code> property to set the chart style used
+for the whole <code>story</code>.</p>
+<pre class="highlight"><code class="language-javascript">const style = {
+    title: {
+        fontSize: 50
+    }
+};
+
+const story = {
+    data: data,
+    style: style,
+    slides: slides
+};</code></pre>
 <p>Then set up the created element with the configuration object:</p>
-<pre class="highlight"><code class="language-javascript">const vp = document.querySelector("vizzu-player");
+<pre class="highlight"><code class="language-javascript">const vp = document.querySelector('vizzu-player');
 vp.slides = story;</code></pre>
+<h2 id="chart-features">Chart features</h2>
+<p>You can enable or disable chart features, such as the <code>Tooltip</code> that appears if
+the viewer hovers their mouse over a specific element of the chart.</p>
+<pre class="highlight"><code class="language-javascript">vp.initializing.then((chart) =&gt; {
+    chart.feature("tooltip", true);
+});</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>See
+<a href="https://lib.vizzuhq.com/0.7/tutorial/axes_title_tooltip/">Vizzu - Axes, title, tooltip chapter</a>
+for more details on chart features.</p>
+</div>
+<h2 id="chart-events">Chart events</h2>
+<p>You have many more options to change the look and feel of the <code>story</code> by using
+events.</p>
+<pre class="highlight"><code class="language-javascript">vp.initializing.then((chart) =&gt; {
+    chart.on("click", (event) =&gt; {
+        alert(JSON.stringify(event.data))
+    });
+});</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>See <a href="https://lib.vizzuhq.com/0.7/tutorial/events/">Vizzu - Events chapter</a>
+for more details on events.</p>
+</div>
 
 
 
@@ -730,7 +893,7 @@ vp.slides = story;</code></pre>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../data/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Data" rel="prev">
+          <a href="../initialization/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Initialization" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -739,7 +902,7 @@ vp.slides = story;</code></pre>
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                Data
+                Initialization
               </div>
             </div>
           </a>
