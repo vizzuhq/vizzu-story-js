@@ -83,7 +83,8 @@ const slides = [
 
 ## Story
 
-Put the data and the slide list into the `story` descriptor object.
+Put the `data` object (described in the [Data chapter](./data.md)) and the slide
+list into the `story` descriptor object.
 
 ```javascript
 const story = {
