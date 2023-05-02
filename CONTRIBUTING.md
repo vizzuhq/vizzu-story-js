@@ -3,7 +3,7 @@
 ## Issues
 
 You can find our open issues in the project's
-[issue tracker](https://github.com/vizzuhq/vizzu-ext-js-story/issues). Please
+[issue tracker](https://github.com/vizzuhq/vizzu-story-js/issues). Please
 let us know if you find any issues or have any feature requests there.
 
 ## Contributing
@@ -113,7 +113,7 @@ If you want to release `Vizzu-Story` follow the steps below.
   should be in a separated commit.
 
 - Generate the release notes and publish the new release on
-  [Releases](https://github.com/vizzuhq/vizzu-ext-js-story/releases).
+  [Releases](https://github.com/vizzuhq/vizzu-story-js/releases).
 
 **Note:** Publishing a new release will automatically trigger the `release`
 workflow which builds and uploads the `Vizzu-Story` package to

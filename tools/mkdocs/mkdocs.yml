@@ -7,8 +7,8 @@ copyright: Copyright &copy; 2022-2023 Vizzu Inc.
 docs_dir: ../../docs
 site_dir: ../../site
 
-repo_url: https://github.com/vizzuhq/vizzu-ext-js-story
-edit_uri: https://github.com/vizzuhq/vizzu-ext-js-story/edit/main/docs
+repo_url: https://github.com/vizzuhq/vizzu-story-js
+edit_uri: https://github.com/vizzuhq/vizzu-story-js/edit/main/docs
 use_directory_urls: true
 
 theme:
