@@ -1,6 +1,6 @@
 {
   "name": "vizzu-story",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Build and present animated data stories",
   "main": "dist/vizzu-story.min.js",
   "types": "dist/vizzu-story.d.ts",
