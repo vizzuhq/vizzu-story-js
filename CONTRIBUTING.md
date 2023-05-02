@@ -3,8 +3,8 @@
 ## Issues
 
 You can find our open issues in the project's
-[issue tracker](https://github.com/vizzuhq/vizzu-story-js/issues). Please
-let us know if you find any issues or have any feature requests there.
+[issue tracker](https://github.com/vizzuhq/vizzu-story-js/issues). Please let us
+know if you find any issues or have any feature requests there.
 
 ## Contributing
 
