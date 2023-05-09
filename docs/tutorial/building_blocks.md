@@ -47,17 +47,17 @@ objects as in `Vizzu`. However, you can not modify the underlying data between
 the slides, only the data filter used.
 
 ```typescript
-interface Chart
-{
+interface Chart {
   config?: Vizzu.Config.Chart;
   filter?: Vizzu.Data.FilterCallback | null;
   style?: Vizzu.Styles.Chart;
+  animOptions?: Vizzu.Anim.Options;
 }
 ```
 
 ```javascript
 const slides = [
-    // This slide sets filter and style
+    // This slide sets config, filter, style and animOptions
     {
         config: {
             x: 'Foo',
@@ -70,6 +70,9 @@ const slides = [
                     colorPalette: '#FF0000'
                 }
             }
+        },
+        animOptions: {
+            duration: 1
         }
     }
 ];

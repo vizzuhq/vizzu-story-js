@@ -28,11 +28,10 @@ can navigate between the `slides` within the story.
 
 A `step` (and a single-step `slide`) is basically the same as a single chart
 corresponding to an [animate](https://lib.vizzuhq.com/latest/tutorial/) call
-from `Vizzu`, with some minor, but important differences (for now):
+from `Vizzu`, with a minor, but important difference:
 
 - all of the data has to be added to the story at initialization, and it can be
   filtered at every `step` throughout the `story`.
-- animation options are not available
 
 In case of a `slide` with multiple `steps`, all, but the last `steps` are
 interim charts that connect a `slide` with a previous `slide` but the animation

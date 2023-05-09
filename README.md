@@ -110,11 +110,11 @@ objects as in `Vizzu`. However, you can not modify the underlying data between
 the slides, only the data filter used.
 
 ```typescript
-interface Chart
-{
+interface Chart {
   config?: Vizzu.Config.Chart;
   filter?: Vizzu.Data.FilterCallback | null;
   style?: Vizzu.Styles.Chart;
+  animOptions?: Vizzu.Anim.Options;
 }
 ```
 
