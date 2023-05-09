@@ -17,6 +17,11 @@ class VizzuPlayer extends HTMLElement {
     this.initializing = new Promise((resolve) => {
       this._resolveVizzu = resolve;
     }).then(() => this.vizzu.initializing);
+
+    this._resolvePlayer = null;
+    this.ready = new Promise((resolve) => {
+      this._resolvePlayer = resolve;
+    });
   }
 
   async connectedCallback() {
@@ -25,6 +30,15 @@ class VizzuPlayer extends HTMLElement {
       this.setAttribute("tabindex", 0);
       this.tabIndex = 0;
     }
+
+    window.addEventListener("hashchange", () => {
+      if (this.hashNavigation) {
+        const hashSlide = this._slideFromHash(this._slides.length);
+        if (this._currentSlide !== hashSlide) {
+          this.setSlide(hashSlide);
+        }
+      }
+    });
   }
 
   get debug() {
@@ -42,6 +56,10 @@ class VizzuPlayer extends HTMLElement {
     if (this.debug) {
       console.log(...LOG_PREFIX, ...msg);
     }
+  }
+
+  get hashNavigation() {
+    return this.hasAttribute("hash-navigation");
   }
 
   get vizzuUrl() {
@@ -126,11 +144,35 @@ class VizzuPlayer extends HTMLElement {
       convertedSlides.push(chartSteps);
     }
     if (convertedSlides.length) {
-      await this.vizzu.animate(...convertedSlides[0]);
+      await this.vizzu.animate(...convertedSlides[this._currentSlide || 0]);
     }
     this.vizzu.off("animation-begin", seekToEnd);
 
     return convertedSlides;
+  }
+
+  _slideFromHash(length) {
+    const hashSlide = +document.location.hash.substring(1);
+
+    return this._normalizeSlideNumber(hashSlide, length);
+  }
+
+  _getStartSlide(length) {
+    const startSlide = +this.getAttribute("start-slide") || 0;
+
+    return this._normalizeSlideNumber(startSlide, length);
+  }
+
+  _normalizeSlideNumber(nr, length) {
+    if (nr) {
+      if (nr < 0) {
+        nr = (length + (nr % length)) % length;
+      } else {
+        nr = (nr - 1) % length;
+      }
+    }
+
+    return nr || 0;
   }
 
   get slides() {
@@ -138,7 +180,14 @@ class VizzuPlayer extends HTMLElement {
   }
 
   set slides(slides) {
-    this._currentSlide = 0;
+    let startSlide = this._getStartSlide(slides.slides.length);
+    if (this.hashNavigation) {
+      const hashSlide = this._slideFromHash(slides.slides.length);
+      if (hashSlide) {
+        startSlide = hashSlide;
+      }
+    }
+    this._currentSlide = startSlide;
     this._setSlides(slides);
   }
 
@@ -186,6 +235,7 @@ class VizzuPlayer extends HTMLElement {
     this.releaseLock();
     this.setSlide(this._currentSlide);
     this.removeAttribute("initializing");
+    this._resolvePlayer();
   }
 
   get vizzuCanvas() {
@@ -294,6 +344,11 @@ class VizzuPlayer extends HTMLElement {
     this._seekPosition = 100;
     this.releaseLock();
     this._update(this._state);
+
+    // update url hash
+    if (this.hashNavigation) {
+      document.location.hash = `#${slide + 1}`;
+    }
   }
 
   next() {
