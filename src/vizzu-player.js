@@ -61,35 +61,32 @@ class VizzuPlayer extends HTMLElement {
   }
 
   _slideToAnimparams(slide) {
-    const animParams = [];
-
     if (slide._id) {
       // already got an ID
-      animParams.push(slide._id);
-    } else {
-      const animTarget = {};
-      if (slide.config) {
-        animTarget.config = slide.config;
-      }
-      if (slide.style) {
-        animTarget.style = slide.style;
-      }
-      if (slide.data) {
-        animTarget.data = slide.data;
-      }
-      if (typeof slide.filter !== "undefined") {
-        // null is valid
-        if (!animTarget.data) {
-          animTarget.data = {};
-        }
-        animTarget.data.filter = slide.filter;
-      }
-
-      animParams.push(animTarget);
+      return slide._id;
     }
 
+    const animTarget = {};
+    if (slide.config) {
+      animTarget.config = slide.config;
+    }
+    if (slide.style) {
+      animTarget.style = slide.style;
+    }
+    if (slide.data) {
+      animTarget.data = slide.data;
+    }
+    if (typeof slide.filter !== "undefined") {
+      // null is valid
+      if (!animTarget.data) {
+        animTarget.data = {};
+      }
+      animTarget.data.filter = slide.filter;
+    }
+
+    const animParams = { target: animTarget };
     if (slide.animOptions) {
-      animParams.push(slide.animOptions);
+      animParams.options = slide.animOptions;
     }
 
     return animParams;
@@ -119,16 +116,17 @@ class VizzuPlayer extends HTMLElement {
       }
 
       const chartSteps = [];
-      for (const step of steps) {
-        const animParams = this._slideToAnimparams(step);
-        await this.vizzu.animate(...animParams);
-        animParams[0] = this.vizzu.store();
-        chartSteps.push(animParams);
-      }
+      const animParams = steps.map((step) => this._slideToAnimparams(step));
+      this.log("animating", animParams);
+      const anim = this.vizzu.animate(animParams);
+      const animCtrl = await anim.activated;
+      chartSteps.push(animCtrl.store());
+      await anim;
+
       convertedSlides.push(chartSteps);
     }
     if (convertedSlides.length) {
-      await this.vizzu.animate(...convertedSlides[0][0]);
+      await this.vizzu.animate(...convertedSlides[0]);
     }
     this.vizzu.off("animation-begin", seekToEnd);
 
@@ -139,7 +137,6 @@ class VizzuPlayer extends HTMLElement {
     return this._slides;
   }
 
-  // TODO
   set slides(slides) {
     this._currentSlide = 0;
     this._setSlides(slides);
@@ -215,28 +212,22 @@ class VizzuPlayer extends HTMLElement {
     return this.hasAttribute("controller");
   }
 
-  // TODO
-  async _step(step) {
-    return await this.vizzu.animate(...step);
+  async _step(step, options = {}) {
+    return await this.vizzu.animate(step, options);
   }
 
   // TODO proper exception handling to re-enable rendering and such
-  async _jump(cs, ss, percent) {
+  // TODO remove subslide concept
+  async _jump(cs, percent) {
     return new Promise((resolve) =>
       setTimeout(async () => {
-        this.log("jump to", cs, ss, percent);
-        const subSlide = this._slides[cs][ss];
+        this.log("jump to", cs, percent);
+        const subSlide = this._slides[cs];
         const seek = () => this._seekTo(percent);
 
         this.vizzu.feature("rendering", false);
         // animate to previous slide
-        if (ss > 0) {
-          const prevSubSlide = this._slides[cs][ss - 1];
-          const seekToEnd = () => this._seekToEnd();
-          this.vizzu.on("animation-begin", seekToEnd);
-          await this.vizzu.animate(...prevSubSlide);
-          this.vizzu.off("animation-begin", seekToEnd);
-        } else if (cs > 0) {
+        if (cs > 0) {
           const prevSlide = this._slides[cs - 1];
           const prevSubSlide = prevSlide[prevSlide.length - 1];
           const seekToEnd = () => this._seekToEnd();
@@ -273,7 +264,7 @@ class VizzuPlayer extends HTMLElement {
     return this._seekTo(100);
   }
 
-  async setSlide(slide, subSlide) {
+  async setSlide(slide) {
     if (this.length === 0 || !this.acquireLock()) {
       return;
     }
@@ -285,35 +276,22 @@ class VizzuPlayer extends HTMLElement {
       slide = this.length - 1;
     }
 
-    if (typeof subSlide !== "undefined") {
-      this._subSlide = subSlide;
-      await this._step(this._slides[slide][subSlide]);
-    } else if (this._currentSlide - slide === 1) {
+    if (this._currentSlide - slide === 1) {
       // previous
       const cs = this._slides[this._currentSlide];
-      for (let i = cs.length - 1; i >= 0; i--) {
-        this._subSlide = i;
-        await this._step(cs[i]);
-      }
-      const ns = this._slides[slide];
-      await this._step(ns[ns.length - 1]);
+      await this._step(cs[0], { position: 1, direction: "reverse" });
     } else if (this._currentSlide - slide === -1) {
       // next
       const ns = this._slides[slide];
-      for (let i = 0; i < ns.length; i++) {
-        this._subSlide = i;
-        await this._step(ns[i]);
-      }
+      await this._step(ns[0]);
     } else {
       // jump
       const cs = this._slides[slide];
-      this._subSlide = cs.length - 1;
-      await this._step(cs[cs.length - 1]);
+      await this._step(cs[0]);
     }
 
     this._currentSlide = slide;
     this._seekPosition = 100;
-    this._subSeekPosition = 100;
     this.releaseLock();
     this._update(this._state);
   }
@@ -335,10 +313,11 @@ class VizzuPlayer extends HTMLElement {
   }
 
   async seek(percent) {
+    // TODO remove subslide concept
     if (this.acquireLock()) {
       this._update(this._state);
       this.log(
-        `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}/${this._subSlide}]`
+        `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`
       );
       const sspercent = 100 / this.slide.length;
       let ss = Math.floor(percent / sspercent); // new subslide
@@ -366,9 +345,7 @@ class VizzuPlayer extends HTMLElement {
     return {
       currentSlide: this.currentSlide,
       slide: this.slide,
-      subSlide: this._subSlide,
       seekPosition: this._seekPosition,
-      subSeekPosition: this._subSeekPosition,
       length: this.length,
       locked: this._locked,
     };

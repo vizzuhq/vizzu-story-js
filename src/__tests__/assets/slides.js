@@ -30,12 +30,14 @@ const story = [
         config: configAssets.config4,
         style: styleAssets.style4,
         filter: dataFilterAssets.filter4,
+        animOptions: { duration: 1 },
       },
       [
         {
           config: configAssets.config1,
           style: styleAssets.style1,
           filter: dataFilterAssets.filter1,
+          animOptions: { duration: 1 },
         },
         {
           config: configAssets.config2,
@@ -49,50 +51,64 @@ const story = [
     [
       [
         {
-          data: { filter: dataFilterAssets.filter1 },
-          config: configAssets.config1,
-          style: styleAssets.style1,
+          target: {
+            data: { filter: dataFilterAssets.filter1 },
+            config: configAssets.config1,
+            style: styleAssets.style1,
+          },
         },
-      ],
-      [
         {
-          data: { filter: dataFilterAssets.filter2 },
-          config: configAssets.config2,
-          style: styleAssets.style2,
-        },
-      ],
-    ],
-    [
-      [
-        {
-          data: { filter: dataFilterAssets.filter3 },
-          config: configAssets.config3,
-          style: styleAssets.style3,
+          target: {
+            data: { filter: dataFilterAssets.filter2 },
+            config: configAssets.config2,
+            style: styleAssets.style2,
+          },
         },
       ],
     ],
     [
       [
         {
-          data: { filter: dataFilterAssets.filter4 },
-          config: configAssets.config4,
-          style: styleAssets.style4,
+          target: {
+            data: { filter: dataFilterAssets.filter3 },
+            config: configAssets.config3,
+            style: styleAssets.style3,
+          },
         },
       ],
     ],
     [
       [
         {
-          data: { filter: dataFilterAssets.filter1 },
-          config: configAssets.config1,
-          style: styleAssets.style1,
+          target: {
+            data: { filter: dataFilterAssets.filter4 },
+            config: configAssets.config4,
+            style: styleAssets.style4,
+          },
+          options: {
+            duration: 1,
+          },
         },
       ],
+    ],
+    [
       [
         {
-          data: { filter: dataFilterAssets.filter2 },
-          config: configAssets.config2,
-          style: styleAssets.style2,
+          target: {
+            data: { filter: dataFilterAssets.filter1 },
+            config: configAssets.config1,
+            style: styleAssets.style1,
+          },
+          options: {
+            duration: 1,
+          },
+        },
+        {
+          target: {
+            data: { filter: dataFilterAssets.filter2 },
+            config: configAssets.config2,
+            style: styleAssets.style2,
+          },
         },
       ],
     ],
@@ -119,14 +135,48 @@ slides.push(
     {
       slides: [{ config: configAssets.config1 }],
     },
-    [[[{ data: {}, config: configAssets.config1 }]]],
+    [[[{ target: { data: {}, config: configAssets.config1 } }]]],
+  ],
+  [
+    "slides contain one slide with one step (object) with config and animOptions",
+    {
+      slides: [{ config: configAssets.config1, animOptions: { duration: 1 } }],
+    },
+    [
+      [
+        [
+          {
+            target: { data: {}, config: configAssets.config1 },
+            options: { duration: 1 },
+          },
+        ],
+      ],
+    ],
   ],
   [
     "slides contain one slide with one step (list) with config",
     {
       slides: [[{ config: configAssets.config1 }]],
     },
-    [[[{ data: {}, config: configAssets.config1 }]]],
+    [[[{ target: { data: {}, config: configAssets.config1 } }]]],
+  ],
+  [
+    "slides contain one slide with one step (list) with config and animOptions",
+    {
+      slides: [
+        [{ config: configAssets.config1, animOptions: { duration: 1 } }],
+      ],
+    },
+    [
+      [
+        [
+          {
+            target: { data: {}, config: configAssets.config1 },
+            options: { duration: 1 },
+          },
+        ],
+      ],
+    ],
   ],
   [
     "object contains style and slides contain one slide with one step (object) with style",
@@ -134,14 +184,14 @@ slides.push(
       style: styleAssets.style2,
       slides: [{ style: styleAssets.style1 }],
     },
-    [[[{ data: {}, style: styleAssets.style1 }]]],
+    [[[{ target: { data: {}, style: styleAssets.style1 } }]]],
   ],
   [
     "slides contain one slide with one step (object) with style",
     {
       slides: [{ style: styleAssets.style1 }],
     },
-    [[[{ data: {}, style: styleAssets.style1 }]]],
+    [[[{ target: { data: {}, style: styleAssets.style1 } }]]],
   ],
   [
     "object contains style and slides contain one slide with one step (list) with style",
@@ -149,14 +199,14 @@ slides.push(
       style: styleAssets.style2,
       slides: [[{ style: styleAssets.style1 }]],
     },
-    [[[{ data: {}, style: styleAssets.style1 }]]],
+    [[[{ target: { data: {}, style: styleAssets.style1 } }]]],
   ],
   [
     "slides contain one slide with one step (list) with style",
     {
       slides: [[{ style: styleAssets.style1 }]],
     },
-    [[[{ data: {}, style: styleAssets.style1 }]]],
+    [[[{ target: { data: {}, style: styleAssets.style1 } }]]],
   ],
   [
     "object contains data and slides contain one slide with one step (object) with filter",
@@ -168,9 +218,11 @@ slides.push(
       [
         [
           {
-            data: Object.assign({}, dataAssets.data1, {
-              filter: dataFilterAssets.filter1,
-            }),
+            target: {
+              data: Object.assign({}, dataAssets.data1, {
+                filter: dataFilterAssets.filter1,
+              }),
+            },
           },
         ],
       ],
@@ -181,7 +233,7 @@ slides.push(
     {
       slides: [{ filter: dataFilterAssets.filter1 }],
     },
-    [[[{ data: { filter: dataFilterAssets.filter1 } }]]],
+    [[[{ target: { data: { filter: dataFilterAssets.filter1 } } }]]],
   ],
   [
     "object contains style and slides contain one slide with one step (list) with filter",
@@ -193,9 +245,11 @@ slides.push(
       [
         [
           {
-            data: Object.assign({}, dataAssets.data1, {
-              filter: dataFilterAssets.filter1,
-            }),
+            target: {
+              data: Object.assign({}, dataAssets.data1, {
+                filter: dataFilterAssets.filter1,
+              }),
+            },
           },
         ],
       ],
@@ -206,7 +260,7 @@ slides.push(
     {
       slides: [[{ filter: dataFilterAssets.filter1 }]],
     },
-    [[[{ data: { filter: dataFilterAssets.filter1 } }]]],
+    [[[{ target: { data: { filter: dataFilterAssets.filter1 } } }]]],
   ]
 );
 
@@ -221,8 +275,8 @@ slides.push(
       ],
     },
     [
-      [[{ data: {}, config: configAssets.config1 }]],
-      [[{ config: configAssets.config2 }]],
+      [[{ target: { data: {}, config: configAssets.config1 } }]],
+      [[{ target: { config: configAssets.config2 } }]],
     ],
   ],
   [
@@ -234,8 +288,8 @@ slides.push(
       ],
     },
     [
-      [[{ data: {}, config: configAssets.config1 }]],
-      [[{ config: configAssets.config2 }]],
+      [[{ target: { data: {}, config: configAssets.config1 } }]],
+      [[{ target: { config: configAssets.config2 } }]],
     ],
   ]
 );

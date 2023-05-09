@@ -1,3 +1,13 @@
+class Control {
+  constructor(animation) {
+    this._animation = animation;
+  }
+
+  store() {
+    return this._animation;
+  }
+}
+
 class Vizzu {
   constructor() {
     this._snapshot = {};
@@ -7,9 +17,11 @@ class Vizzu {
 
   off() {}
 
-  async animate() {
+  animate() {
     this._snapshot = [...arguments][0];
-    return Promise.resolve();
+    const anim = Promise.resolve("test1");
+    anim.activated = Promise.resolve(new Control([...arguments][0]));
+    return anim;
   }
 
   store() {
