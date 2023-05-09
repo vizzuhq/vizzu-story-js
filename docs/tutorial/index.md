@@ -16,7 +16,7 @@ understand `Vizzu` first. The tutorial for `Vizzu` can be found
 
 ## Basic logic of Vizzu-Story
 
-![Vizzu](../assets/code_structure.svg){ class='image-center' }
+![Vizzu](../assets/api-overview.svg){ class='image-center' }
 
 With `Vizzu-Story`, you can build and show a `story` object that contains all of
 the data being shown throughout the story and the charts created based on that
