@@ -73,6 +73,22 @@ import Vizzu from '<url>/vizzu.min.js';
 window.Vizzu = Vizzu;
 ```
 
+### hash-navigation and start-slide
+
+If you add `hash-navigation` attribute, slides can be selected using the `URL`
+hash (`#` part), for example `presentation.html#3` selects slide `3`.
+
+```
+<vizzu-player controller hash-navigation></vizzu-player>
+```
+
+You can also start the story on a specific slide via the `start-slide` `HTML`
+attribute:
+
+```
+<vizzu-player controller hash-navigation start-slide="3"></vizzu-player>
+```
+
 ### custom-spinner
 
 You can use a custom loading animation. Set spinner via the `custom-spinner`
