@@ -21,6 +21,9 @@ VIZZU_CDN_URL = "https://cdn.jsdelivr.net/npm/vizzu"
 class Vizzu:
     """A class for working with Vizzu."""
 
+    _vizzustory_version = ""
+    _vizzu_version = ""
+
     @staticmethod
     def get_vizzustory_backend_url() -> str:
         """
@@ -92,8 +95,10 @@ class Vizzu:
 
         if VIZZUSTORY_VERSION:
             return VIZZUSTORY_VERSION
-        version_parts = Vizzu.get_vizzustory_full_version()
-        return f"{version_parts[0]}.{version_parts[1]}"
+        if not Vizzu._vizzustory_version:
+            version_parts = Vizzu.get_vizzustory_full_version()
+            Vizzu._vizzustory_version = f"{version_parts[0]}.{version_parts[1]}"
+        return Vizzu._vizzustory_version
 
     @staticmethod
     def get_vizzu_version() -> str:
@@ -106,14 +111,16 @@ class Vizzu:
 
         if VIZZU_VERSION:
             return VIZZU_VERSION
-        with open(
-            REPO_PATH / "package.json",
-            "r",
-            encoding="utf8",
-        ) as f_version:
-            content = f_version.read()
-            version = re.search(r"\"vizzu\":\s\"~(\d+).(\d+).(\d+)\"", content)
-            return f"{version.group(1)}.{version.group(2)}"  # type: ignore
+        if not Vizzu._vizzu_version:
+            with open(
+                REPO_PATH / "package.json",
+                "r",
+                encoding="utf8",
+            ) as f_version:
+                content = f_version.read()
+                version = re.search(r"\"vizzu\":\s\"~(\d+).(\d+).(\d+)\"", content)
+                Vizzu._vizzu_version = f"{version.group(1)}.{version.group(2)}"  # type: ignore
+        return Vizzu._vizzu_version
 
     @staticmethod
     def set_version(content: str, restore: bool = False) -> str:
