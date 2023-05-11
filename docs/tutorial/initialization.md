@@ -73,20 +73,23 @@ import Vizzu from '<url>/vizzu.min.js';
 window.Vizzu = Vizzu;
 ```
 
-### hash-navigation and start-slide
+### hash-navigation
 
 If you add `hash-navigation` attribute, slides can be selected using the `URL`
-hash (`#` part), for example `presentation.html#3` selects slide `3`.
+hash (`#` part), for example `presentation.html#3` selects slide `3`. You can
+also use negative numbers, where `-1` means the last slide.
 
 ```
 <vizzu-player controller hash-navigation></vizzu-player>
 ```
 
-You can also start the story on a specific slide via the `start-slide` `HTML`
-attribute:
+### start-slide
+
+You can start the story on a specific slide via the `start-slide` `HTML`
+attribute. You can also use negative numbers, where `-1` means the last slide.
 
 ```
-<vizzu-player controller hash-navigation start-slide="3"></vizzu-player>
+<vizzu-player controller start-slide="3"></vizzu-player>
 ```
 
 ### custom-spinner
