@@ -418,8 +418,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#hash-navigation-and-start-slide" class="md-nav__link">
-    hash-navigation and start-slide
+  <a href="#hash-navigation" class="md-nav__link">
+    hash-navigation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-slide" class="md-nav__link">
+    start-slide
   </a>
   
 </li>
@@ -766,8 +773,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#hash-navigation-and-start-slide" class="md-nav__link">
-    hash-navigation and start-slide
+  <a href="#hash-navigation" class="md-nav__link">
+    hash-navigation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-slide" class="md-nav__link">
+    start-slide
   </a>
   
 </li>
@@ -850,13 +864,15 @@ you can also use a different or self-hosted version of it.</p>
 
 
 window.Vizzu = Vizzu;</code></pre>
-<h3 id="hash-navigation-and-start-slide">hash-navigation and start-slide</h3>
+<h3 id="hash-navigation">hash-navigation</h3>
 <p>If you add <code>hash-navigation</code> attribute, slides can be selected using the <code>URL</code>
-hash (<code>#</code> part), for example <code>presentation.html#3</code> selects slide <code>3</code>.</p>
+hash (<code>#</code> part), for example <code>presentation.html#3</code> selects slide <code>3</code>. You can
+also use negative numbers, where <code>-1</code> means the last slide.</p>
 <pre class="highlight"><code>&lt;vizzu-player controller hash-navigation&gt;&lt;/vizzu-player&gt;</code></pre>
-<p>You can also start the story on a specific slide via the <code>start-slide</code> <code>HTML</code>
-attribute:</p>
-<pre class="highlight"><code>&lt;vizzu-player controller hash-navigation start-slide="3"&gt;&lt;/vizzu-player&gt;</code></pre>
+<h3 id="start-slide">start-slide</h3>
+<p>You can start the story on a specific slide via the <code>start-slide</code> <code>HTML</code>
+attribute. You can also use negative numbers, where <code>-1</code> means the last slide.</p>
+<pre class="highlight"><code>&lt;vizzu-player controller start-slide="3"&gt;&lt;/vizzu-player&gt;</code></pre>
 <h3 id="custom-spinner">custom-spinner</h3>
 <p>You can use a custom loading animation. Set spinner via the <code>custom-spinner</code>
 <code>HTML</code> attribute:</p>
