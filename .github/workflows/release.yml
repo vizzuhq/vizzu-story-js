@@ -40,11 +40,18 @@ jobs:
 
     - uses: actions/cache@v3
       with:
-        path: |
-          README.md
-          build
-          dist
-        key: release-vizzu-story-${{ github.run_id }}
+        path: README.md
+        key: readme-vizzu-story-${{ github.run_id }}
+    
+    - uses: actions/cache@v3
+      with:
+        path: build
+        key: build-vizzu-story-${{ github.run_id }}
+
+    - uses: actions/cache@v3
+      with:
+        path: dist
+        key: dist-vizzu-story-${{ github.run_id }}
 
   publish_release:
 
@@ -82,11 +89,18 @@ jobs:
 
     - uses: actions/cache@v3
       with:
-        path: |
-          README.md
-          build
-          dist
-        key: release-vizzu-story-${{ steps.run_id.outputs.run_id }}
+        path: README.md
+        key: readme-vizzu-story-${{ steps.run_id.outputs.run_id }}
+    
+    - uses: actions/cache@v3
+      with:
+        path: build
+        key: build-vizzu-story-${{ steps.run_id.outputs.run_id }}
+
+    - uses: actions/cache@v3
+      with:
+        path: dist
+        key: dist-vizzu-story-${{ steps.run_id.outputs.run_id }}
 
     - name: Release package
       run: |
