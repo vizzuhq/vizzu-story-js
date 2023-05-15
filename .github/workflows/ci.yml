@@ -9,18 +9,19 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v3
-    
-    - uses: actions/cache@v3
+    steps:    
+    - name: Checkout repo
+      uses: actions/checkout@v3
       with:
-        path: ./.venv_vizzu_story
-        key: venv-vizzu-story-${{ github.run_id }}
+        fetch-depth: 1
 
-    - uses: actions/cache@v3
+    - name: Cache repo
+      uses: actions/cache@v3
       with:
-        path: ./node_modules
-        key: nodemodules-vizzu-story-${{ github.run_id }}
+        path: |
+          ./*
+          !.git
+        key: vizzu-story-${{ github.run_id }}
 
     - name: Touch dev environment
       run: make touch-dev

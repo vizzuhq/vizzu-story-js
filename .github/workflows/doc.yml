@@ -14,17 +14,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/cache@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
         with:
-          path: ./.venv_vizzu_story
-          key: venv-vizzu-story-${{ github.run_id }}
+          fetch-depth: 1
 
-      - uses: actions/cache@v3
+      - name: Cache repo
+        uses: actions/cache@v3
         with:
-          path: ./node_modules
-          key: nodemodules-vizzu-story-${{ github.run_id }}
+          path: |
+            ./*
+            !.git
+          key: vizzu-story-${{ github.run_id }}
 
       - name: Touch dev environment
         run: make touch-dev
@@ -42,7 +43,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
       - name: Get workflow ID
         id: workflow_id
@@ -64,15 +68,13 @@ jobs:
           run_id=$(echo $run_data | jq -r '.workflow_runs[0].id')
           echo "run_id=${run_id}" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
+      - name: Cache repo
+        uses: actions/cache@v3
         with:
-          path: ./.venv_vizzu_story
-          key: venv-vizzu-story-${{ steps.run_id.outputs.run_id }}
-
-      - uses: actions/cache@v3
-        with:
-          path: ./node_modules
-          key: nodemodules-vizzu-story-${{ steps.run_id.outputs.run_id }}
+          path: |
+            ./*
+            !.git
+          key: vizzu-story-${{ steps.run_id.outputs.run_id }}
 
       - name: Touch dev environment
         run: make touch-dev
@@ -84,6 +86,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: jimporter/mike
+          fetch-depth: 1
           path: mike
 
       - name: Install mike
