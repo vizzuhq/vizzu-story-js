@@ -91,7 +91,8 @@ npm test
 Run the `doc` make target to build the documentation.
 
 ```sh
-make dev
+make dev-py
+make dev-js
 
 make check
 
