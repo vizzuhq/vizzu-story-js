@@ -4,48 +4,54 @@ on:
   workflow_call:
 
 jobs:
-
   check_ci:
-
     runs-on: ubuntu-latest
 
-    steps:    
-    - name: Checkout repo
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 1
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
-    - name: Cache repo
-      uses: actions/cache@v3
-      with:
-        path: |
-          ./*
-          !.git
-        key: vizzu-story-${{ github.run_id }}
+      - name: Cache dev-py environment
+        uses: actions/cache@v3
+        with:
+          path: .venv_vizzu_story
+          key: dev-py-${{ hashFiles('dev-requirements.txt') }}
 
-    - name: Touch dev environment
-      run: make touch-dev
+      - name: Init dev-py environment
+        run: |
+          make check-dev-py
+          make dev-py
 
-    - name: Touch dev-js environment
-      run: make touch-dev-js
+      - name: Cache dev-js environment
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: dev-js-${{ hashFiles('package-lock.json') }}
 
-    - name: Check dts
-      run: npm run check-dts
+      - name: Init dev-js environment
+        run: |
+          make check-dev-js
+          make dev-js
 
-    - name: Check format
-      run: npm run check-prettier
-          
-    - name: Check doc format
-      run: make check-format
+      - name: Check dts
+        run: npm run check-dts
 
-    - name: Check lint
-      run: npm run check-eslint
+      - name: Check format
+        run: npm run check-prettier
 
-    - name: Check doc lint
-      run: make check-lint
-      
-    - name: Check doc typing
-      run: make check-typing
+      - name: Check lint
+        run: npm run check-eslint
 
-    - name: Run test
-      run: npm test
+      - name: Run test
+        run: npm test
+
+      - name: Check doc format
+        run: make check-format
+
+      - name: Check doc lint
+        run: make check-lint
+
+      - name: Check doc typing
+        run: make check-typing

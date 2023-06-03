@@ -11,56 +11,56 @@ endif
 
 
 .PHONY: clean \
-	clean-dev update-dev-req install-dev-req touch-dev \
-	clean-dev-js touch-dev-js \
+	clean-dev-py update-dev-py-req install-dev-py-req check-dev-py \
+	clean-dev-js check-dev-js \
 	check format check-format lint check-lint check-typing \
 	clean-doc doc \
 	set-version restore-version
 
 VIRTUAL_ENV = .venv_vizzu_story
 
-DEV_BUILD_FLAG = $(VIRTUAL_ENV)/DEV_BUILD_FLAG
-DEV_JS_BUILD_FLAG = $(VIRTUAL_ENV)/DEV_JS_BUILD_FLAG
+DEV_PY_BUILD_FLAG = $(VIRTUAL_ENV)/DEV_PY_BUILD_FLAG
+DEV_JS_BUILD_FLAG = node_modules/DEV_JS_BUILD_FLAG
 
 
 
-clean: clean-dev clean-dev-js clean-doc
+clean: clean-dev-py clean-dev-js clean-doc
 
 
 
 # init
 
-clean-dev:
+clean-dev-py:
 	$(PYTHON_BIN) -c "import os, shutil;shutil.rmtree('$(VIRTUAL_ENV)') if os.path.exists('$(VIRTUAL_ENV)') else print('Nothing to be done for \'clean-dev\'')"
 
 clean-dev-js:
 	$(PYTHON_BIN) -c "import os, shutil;shutil.rmtree('node_modules') if os.path.exists('node_modules') else print('Nothing to be done for \'clean-dev-js\'')"
 
-update-dev-req: $(DEV_BUILD_FLAG)
+update-dev-py-req: $(DEV_PY_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/pip-compile --upgrade dev-requirements.in
 
-install-dev-req:
+install-dev-py-req: $(DEV_PY_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/pip install --use-pep517 -r dev-requirements.txt
 
-touch-dev:
-	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) tools/make/touch.py -f $(DEV_BUILD_FLAG)
+check-dev-py:
+	$(PYTHON_BIN) tools/make/touch.py -f $(DEV_PY_BUILD_FLAG) --check
 
-touch-dev-js:
-	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) tools/make/touch.py -f $(DEV_JS_BUILD_FLAG)
+check-dev-js:
+	$(PYTHON_BIN) tools/make/touch.py -f $(DEV_JS_BUILD_FLAG) --check
 
-dev: $(DEV_BUILD_FLAG)
+dev-py: $(DEV_PY_BUILD_FLAG)
 
-dev-js: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
+dev-js: $(DEV_JS_BUILD_FLAG)
 
-$(DEV_BUILD_FLAG):
+$(DEV_PY_BUILD_FLAG):
 	$(PYTHON_BIN) -m venv $(VIRTUAL_ENV)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) -m pip install --upgrade pip
-	$(MAKE) -f Makefile install-dev-req
-	$(MAKE) -f Makefile touch-dev
+	$(VIRTUAL_ENV)/$(BIN_PATH)/pip install --use-pep517 -r dev-requirements.txt
+	$(PYTHON_BIN) tools/make/touch.py -f $(DEV_PY_BUILD_FLAG)
 
 $(DEV_JS_BUILD_FLAG):
 	npm install .
-	$(MAKE) -f Makefile touch-dev-js
+	$(PYTHON_BIN) tools/make/touch.py -f $(DEV_JS_BUILD_FLAG)
 
 
 
@@ -68,7 +68,7 @@ $(DEV_JS_BUILD_FLAG):
 
 check: check-format check-lint check-typing
 
-format: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
+format: $(DEV_PY_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/black tools
 	$(VIRTUAL_ENV)/$(BIN_PATH)/black -l 70 docs
 	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) tools/mdformat/mdformat.py $(VIRTUAL_ENV)/$(BIN_PATH)/mdformat \
@@ -78,7 +78,7 @@ format: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
 		docs README.md CONTRIBUTING.md CODE_OF_CONDUCT.md
 	npx prettier -w docs/ tools/
 
-check-format: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
+check-format: $(DEV_PY_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/black --check tools
 	$(VIRTUAL_ENV)/$(BIN_PATH)/black --check -l 70 docs
 	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) tools/mdformat/mdformat.py $(VIRTUAL_ENV)/$(BIN_PATH)/mdformat \
@@ -89,15 +89,15 @@ check-format: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
 		docs README.md CONTRIBUTING.md CODE_OF_CONDUCT.md
 	npx prettier -c docs/ tools/
 
-lint: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
+lint: $(DEV_PY_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/pylint tools
 	npx eslint --ext .js,.cjs,.mjs -c .eslintrc.cjs --fix docs/
 
-check-lint: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
+check-lint: $(DEV_PY_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/pylint tools
 	npx eslint --ext .js,.cjs,.mjs -c .eslintrc.cjs docs/
 
-check-typing: $(DEV_BUILD_FLAG)
+check-typing: $(DEV_PY_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/mypy tools
 
 
@@ -113,18 +113,18 @@ else
 	rm -rf `find docs -name '.ipynb_checkpoints'`
 endif
 
-doc: $(DEV_BUILD_FLAG)
+doc: $(DEV_PY_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/mkdocs build -f ./tools/mkdocs/mkdocs.yml
 
-deploy: $(DEV_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
+deploy: $(DEV_PY_BUILD_FLAG) $(DEV_JS_BUILD_FLAG)
 	. $(VIRTUAL_ENV)/$(BIN_PATH)/activate; $(PYTHON_BIN) tools/release/deploy.py
 
 
 
 # release
 
-set-version: $(DEV_BUILD_FLAG)
+set-version: $(DEV_PY_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) tools/release/set_version.py False
 
-restore-version: $(DEV_BUILD_FLAG)
+restore-version: $(DEV_PY_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) tools/release/set_version.py True
