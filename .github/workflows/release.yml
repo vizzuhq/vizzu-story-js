@@ -65,17 +65,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Cache dev-py environment
-        uses: actions/cache@v3
-        with:
-          path: .venv_vizzu_story
-          key: dev-py-${{ hashFiles('dev-requirements.txt') }}
-
-      - name: Init dev-py environment
-        run: |
-          make check-dev-py
-          make dev-py
-
       - name: Cache dev-js environment
         uses: actions/cache@v3
         with:

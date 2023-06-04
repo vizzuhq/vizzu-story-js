@@ -41,17 +41,17 @@ jobs:
       - name: Check format
         run: npm run check-prettier
 
-      - name: Check lint
-        run: npm run check-eslint
-
-      - name: Run test
-        run: npm test
-
       - name: Check doc format
         run: make check-format
+
+      - name: Check lint
+        run: npm run check-eslint
 
       - name: Check doc lint
         run: make check-lint
 
       - name: Check doc typing
         run: make check-typing
+
+      - name: Run test
+        run: npm test
