@@ -37,10 +37,11 @@ clean-dev-js:
 	$(PYTHON_BIN) -c "import os, shutil;shutil.rmtree('node_modules') if os.path.exists('node_modules') else print('Nothing to be done for \'clean-dev-js\'')"
 
 update-dev-py-req: $(DEV_PY_BUILD_FLAG)
-	$(VIRTUAL_ENV)/$(BIN_PATH)/pip-compile --upgrade dev-requirements.in
+	$(VIRTUAL_ENV)/$(BIN_PATH)/pip-compile --upgrade dev-requirements.in --resolver=backtracking
 
 install-dev-py-req: $(DEV_PY_BUILD_FLAG)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/pip install --use-pep517 -r dev-requirements.txt
+	$(VIRTUAL_ENV)/$(BIN_PATH)/pip install --use-pep517 git+https://github.com/jimporter/mike.git
 
 check-dev-py:
 	$(PYTHON_BIN) tools/make/touch.py -f $(DEV_PY_BUILD_FLAG) --check
@@ -56,6 +57,7 @@ $(DEV_PY_BUILD_FLAG):
 	$(PYTHON_BIN) -m venv $(VIRTUAL_ENV)
 	$(VIRTUAL_ENV)/$(BIN_PATH)/$(PYTHON_BIN) -m pip install --upgrade pip
 	$(VIRTUAL_ENV)/$(BIN_PATH)/pip install --use-pep517 -r dev-requirements.txt
+	$(VIRTUAL_ENV)/$(BIN_PATH)/pip install --use-pep517 git+https://github.com/jimporter/mike.git
 	$(PYTHON_BIN) tools/make/touch.py -f $(DEV_PY_BUILD_FLAG)
 
 $(DEV_JS_BUILD_FLAG):
