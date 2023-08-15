@@ -245,6 +245,7 @@ class VizzuController extends HTMLElement {
         }
         #status {
           margin-left: 10px;
+          line-height: normal
         }
         #fullscreen {
           margin-right: 10px;
