@@ -83,6 +83,7 @@ class VizzuController extends HTMLElement {
       kbmode === "focus" ||
       (kbmode === "fullscreen" && document.fullscreenElement)
     ) {
+      e.preventDefault();
       if (e.key === "PageDown" || e.key === "ArrowRight") {
         this.next();
       } else if (e.key === "PageUp" || e.key === "ArrowLeft") {
