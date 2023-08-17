@@ -23,7 +23,6 @@ jobs:
       - name: Init dev-js environment
         if: steps.cache_dev_js_ubuntu22.outputs.cache-hit != 'true'
         run: |
-          source .venv/bin/activate
           npm run init-js
 
       - name: Cache dev-py environment
