@@ -79,24 +79,55 @@ class VizzuController extends HTMLElement {
   _handleKey(e) {
     const kbmode = this._player?.getAttribute("keyboard") || "focus";
     this.log(`key[${kbmode}]: ${e.key}`);
+
+    const usedControllKeys = [
+      "PageUp",
+      "PageDown",
+      "ArrowRight",
+      "ArrowLeft",
+      "Home",
+      "End",
+      "f",
+      "F",
+      "Escape",
+    ];
+
     if (
-      kbmode === "focus" ||
-      (kbmode === "fullscreen" && document.fullscreenElement)
+      usedControllKeys.includes(e.key) &&
+      (kbmode === "focus" ||
+        (kbmode === "fullscreen" && document.fullscreenElement))
     ) {
-      if (e.key === "PageDown" || e.key === "ArrowRight") {
-        this.next();
-      } else if (e.key === "PageUp" || e.key === "ArrowLeft") {
-        this.previous();
-      } else if (e.key === "Home") {
-        this.toStart();
-      } else if (e.key === "End") {
-        this.toEnd();
-      } else if (e.key === "f" || e.key === "F") {
-        this.fullscreen();
-      } else if (e.key === "Escape") {
-        if (document.fullscreenElement) {
-          document.exitFullscreen();
-        }
+      e.preventDefault();
+
+      switch (e.key) {
+        case "ArrowRight":
+        case "PageDown":
+          this.next();
+          break;
+
+        case "ArrowLeft":
+        case "PageUp":
+          this.previous();
+          break;
+
+        case "Home":
+          this.toStart();
+          break;
+
+        case "End":
+          this.toEnd();
+          break;
+
+        case "f":
+        case "F":
+          this.fullscreen();
+          break;
+
+        case "Escape":
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          }
+          break;
       }
     }
   }
