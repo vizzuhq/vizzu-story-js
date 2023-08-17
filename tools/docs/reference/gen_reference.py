@@ -1,4 +1,4 @@
-"""A module for generating the code reference."""
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring
 
 import os
 from pathlib import Path
@@ -9,41 +9,34 @@ import mkdocs_gen_files
 
 
 REPO_PATH = Path(__file__).parent / ".." / ".." / ".."
-MKDOCS_PATH = REPO_PATH / "tools" / "mkdocs"
+TOOLS_PATH = REPO_PATH / "tools"
+MKDOCS_PATH = TOOLS_PATH / "docs"
 GEN_PATH = MKDOCS_PATH / "reference"
 SRC_PATH = REPO_PATH / "src"
 
+sys.path.insert(0, str(TOOLS_PATH / "modules"))
+sys.path.insert(0, str(TOOLS_PATH / "ci"))
 
-sys.path.insert(0, str(MKDOCS_PATH))
 
-from context import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
+from chdir import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     chdir,
 )
 from node import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     Node,
 )
-from md import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
-    Md,
-)
 from vizzu import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     Vizzu,
+)
+from markdown_format import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
+    Markdown,
 )
 
 
 class Reference:
-    """A class for generating the code reference."""
-
     # pylint: disable=too-few-public-methods
 
     @staticmethod
     def generate(folder: str) -> None:
-        """
-        A method for generating the code reference.
-
-        Args:
-            folder: The destination folder of the code reference.
-        """
-
         Reference._gen_reference(folder)
 
     @staticmethod
@@ -59,7 +52,7 @@ class Reference:
                 content = f_src.read()
                 content = content.replace("##### ", "").replace("#### ", "")
                 content = Vizzu.set_version(content)
-                content = Md.format(content)
+                content = Markdown.format(content)
                 with mkdocs_gen_files.open(
                     f"{folder}/{path.relative_to(tmp_dir)}", "w"
                 ) as f_dst:
@@ -67,11 +60,6 @@ class Reference:
 
 
 def main() -> None:
-    """
-    The main method.
-    It generates the code reference.
-    """
-
     with chdir(REPO_PATH):
         Reference.generate("reference")
 

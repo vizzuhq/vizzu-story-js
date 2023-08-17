@@ -4,8 +4,8 @@ on:
   workflow_call:
 
 jobs:
-  init_dev:
-    runs-on: ubuntu-latest
+  init_dev_ubuntu22:
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repo
@@ -13,24 +13,43 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Cache dev-py environment
-        uses: actions/cache@v3
-        with:
-          path: .venv_vizzu_story
-          key: dev-py-${{ hashFiles('dev-requirements.txt') }}
-
-      - name: Init dev-py environment
-        run: |
-          make check-dev-py
-          make dev-py
-
       - name: Cache dev-js environment
+        id: cache_dev_js_ubuntu22
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: dev-js-${{ hashFiles('package-lock.json') }}
+          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
       - name: Init dev-js environment
+        if: steps.cache_dev_js_ubuntu22.outputs.cache-hit != 'true'
         run: |
-          make check-dev-js
-          make dev-js
+          source .venv/bin/activate
+          npm run init-js
+
+      - name: Cache dev-py environment
+        id: cache_dev_py_ubuntu22
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
+
+      - name: Init dev-py environment
+        if: steps.cache_dev_py_ubuntu22.outputs.cache-hit != 'true'
+        run: |
+          python3.10 -m venv ".venv"
+          source .venv/bin/activate
+          pip install pdm==2.8.0
+          npm run init-py
+
+      - name: Init package
+        run: |
+          source .venv/bin/activate
+          npm run pkg-init
+
+      - name: Cache package
+        uses: actions/cache@v3
+        with:
+          path: |
+            README.md
+            build/
+          key: cache_package_${{ github.run_id }}

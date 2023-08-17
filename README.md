@@ -147,7 +147,7 @@ details and a step-by-step tutorial into `Vizzu-Story` or check out our
 ## Contributing
 
 We welcome contributions to the project; visit our
-[Contributing guide](https://vizzu-story.vizzuhq.com/latest/CONTRIBUTING) for
+[Contributing guide](https://vizzu-story.vizzuhq.com/latest/CONTRIBUTING/) for
 further info.
 
 ## Contact
@@ -163,4 +163,4 @@ further info.
 Copyright © 2022-2023 [Vizzu Inc.](https://vizzuhq.com)
 
 Released under the
-[Apache 2.0 License](https://vizzu-story.vizzuhq.com/latest/LICENSE).
+[Apache 2.0 License](https://vizzu-story.vizzuhq.com/latest/LICENSE/).

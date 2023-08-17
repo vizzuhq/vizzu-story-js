@@ -4,8 +4,8 @@ on:
   workflow_call:
 
 jobs:
-  check_ci:
-    runs-on: ubuntu-latest
+  check_src:
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repo
@@ -13,45 +13,91 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Cache dev-py environment
+      - name: Cache dev-js environment
         uses: actions/cache@v3
         with:
-          path: .venv_vizzu_story
-          key: dev-py-${{ hashFiles('dev-requirements.txt') }}
+          path: node_modules
+          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Init dev-py environment
+      - name: Format
         run: |
-          make check-dev-py
-          make dev-py
+          npm run format-src
+
+      - name: Lint
+        run: |
+          npm run lint-src
+
+      - name: Type
+        run: |
+          npm run type-src
+
+      - name: Type
+        run: |
+          npm test
+
+  check_docs:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
       - name: Cache dev-js environment
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: dev-js-${{ hashFiles('package-lock.json') }}
+          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Init dev-js environment
+      - name: Cache dev-py environment
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
+
+      - name: Format
         run: |
-          make check-dev-js
-          make dev-js
+          source .venv/bin/activate
+          npm run format-docs
 
-      - name: Check dts
-        run: npm run check-dts
+      - name: Lint
+        run: |
+          source .venv/bin/activate
+          npm run lint-docs
 
-      - name: Check format
-        run: npm run check-prettier
+  check_tools:
+    runs-on: ubuntu-22.04
 
-      - name: Check doc format
-        run: make check-format
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
-      - name: Check lint
-        run: npm run check-eslint
+      - name: Cache dev-js environment
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Check doc lint
-        run: make check-lint
+      - name: Cache dev-py environment
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
 
-      - name: Check doc typing
-        run: make check-typing
+      - name: Format
+        run: |
+          source .venv/bin/activate
+          npm run format-tools
 
-      - name: Run test
-        run: npm test
+      - name: Lint
+        run: |
+          source .venv/bin/activate
+          npm run lint-tools
+
+      - name: Type
+        run: |
+          source .venv/bin/activate
+          npm run type-tools
