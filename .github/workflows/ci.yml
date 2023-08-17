@@ -31,7 +31,7 @@ jobs:
         run: |
           npm run type-src
 
-      - name: Type
+      - name: Test
         run: |
           npm test
 
