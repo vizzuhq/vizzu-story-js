@@ -17,70 +17,119 @@ detailed description of how to do this in
 
 ### Development environment
 
-You can initialize the development environment of `Vizzu-Story` with `npm`.
+For contributing to the project, it is recommended to use `Node.js` `18`.
+However, for the documentation we are also using `Python`. If you plan to
+contribute to this part of the project, you will need `Python`, preferably
+version `3.10`.
 
-Run `npm install` or `npm update --dev` command to set up your environment.
+The following steps demonstrate how to set up the development environment on an
+`Ubuntu` `22.04` operating system. However, the process can be adapted for other
+operating systems as well.
+
+To start using the `Vizzu-Story` development environment, you need to install
+the development dependencies.
 
 ```sh
-npm install  # npm update --dev
+npm run init-js
 ```
 
-**Note:** You can set up git hooks into your local git repository with the
-`prepare` script. Pre-commit hook is going to format the code with `prettier`
-and pre-push hook is going to run the CI steps.
+If you want to work with the documantation too, you need to set up the `Python`
+development environment.
 
 ```sh
-npm run prepare
+python3.10 -m venv ".venv"
+source .venv/bin/activate
+pip install pdm==2.8.0
+
+npm run init-py
 ```
+
+Once set up, you can utilize the pre-defined `npm` scripts. For example, you can
+initialize the entire development environment using the command `npm run init`,
+or specific parts like `init-src`, `init-docs`, or `init-tools`.
+
+```sh
+npm run init
+```
+
+**Note:** For all available `npm` scripts, run `npm run --list`.
+
+The development requirements are installed based on the `package-lock.json` and
+`pdm.lock` files. To update the development requirements, you can use the
+command `npm run lock`.
+
+For better development practices, you can set up `pre-commit` and `pre-push`
+hooks in your local `Git` repository. The `pre-commit` hook will format the code
+automatically, and the `pre-push` hook will run the CI steps before pushing your
+changes.
+
+```sh
+npx husky install
+```
+
+**Note:** The provided `pre-commit` and `pre-push` hook configuration file is
+tailored for `Ubuntu` `22.04`. If you intend to use another operating system,
+you may need to create a custom configuration file suitable for that
+environment.
 
 ### CI
 
-The CI steps check code formatting, run code analyses and run unit tests over
-the `Vizzu-Story` project.
+The CI pipeline includes code formatting checks, code analysis, typing
+validation, and unit tests for the `Vizzu-Story` project.
 
-The `check` script runs the above tasks.
+To run the entire CI pipeline, execute the following `npm` script:
 
 ```sh
-npm run check
+npm run ci
 ```
+
+However, if you want to run the CI steps on specific parts of the project, you
+can use the following scripts: `ci-src`, `ci-docs`, or `ci-tools`.
 
 #### Formatting
 
-The `Vizzu-Story` project is formatted with `prettier`.
-
-Run the `prettier` script to format your code.
+You can check the code's formatting using the `format` script:
 
 ```sh
-npm run prettier
+npm run format
 ```
 
-Run the `check-prettier` script to check code formatting.
+If you need to fix any formatting issues, you can use the `fix-format` script:
 
 ```sh
-npm run check-prettier
+npm run fix-format
 ```
+
+If you wish to format specific parts of the project, you can use the following
+scripts: `format-src`, `format-docs`, `format-tools`, or `fix-format-src`,
+`fix-format-docs`, `fix-format-tools`.
 
 #### Code analyses
 
-The `Vizzu-Story` project is analysed with `eslint`.
-
-Run the `check-eslint` script to run code analyses.
+To perform code analyses, you can use the `lint` script:
 
 ```sh
-npm run check-eslint
+npm run lint
 ```
 
-Run the `eslint` script to solve the fixable problems.
+If you need to run code analyses for specific parts of the project, you can
+utilize the following scripts: `lint-src`, `lint-docs`, or `lint-tools`.
+
+#### Typing
+
+For type checking, you can use the `type` script:
 
 ```sh
-npm run eslint
+npm run type
 ```
+
+If you want to check specific parts of the project, you can use the following
+scripts: `type-src` or `type-tools`.
 
 #### Testing
 
-The `Vizzu-Story` project is tested with `jest` testing framework.
-
-Run the `test` script to run the tests.
+The project is tested using the `jest` testing framework. To run the tests, you
+can use the `test` script:
 
 ```sh
 npm test
@@ -88,18 +137,13 @@ npm test
 
 ### Documentation
 
-Run the `doc` make target to build the documentation.
+To build the documentation, you can use the `docs-build` script:
 
 ```sh
-make dev-py
-make dev-js
-
-make check
-
-make doc
+npm run docs-build
 ```
 
-Online version can be read at
+You can read the online version at
 [vizzu-story.vizzuhq.com](https://vizzu-story.vizzuhq.com/latest/).
 
 ### Release
@@ -108,7 +152,7 @@ Online version can be read at
 [npm](https://www.npmjs.com/package/vizzu-story). **Note:** You need to be an
 administrator to release the project.
 
-If you want to release `Vizzu-Story` follow the steps below.
+To release `Vizzu-Story`, follow the steps below:
 
 - You should increase the version number in `package.json`. The version bump
   should be in a separated commit.
@@ -120,8 +164,9 @@ If you want to release `Vizzu-Story` follow the steps below.
 workflow which builds and uploads the `Vizzu-Story` package to
 [npm](https://www.npmjs.com/package/vizzu-story).
 
-You can build the package before a release with the `build` script.
+Before making a release, you can build and check the package using the
+`pkg-build` script:
 
 ```sh
-npm run build
+npm run pkg-build
 ```
