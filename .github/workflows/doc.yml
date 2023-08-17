@@ -7,10 +7,10 @@ on:
   workflow_call:
 
 jobs:
-  create_doc:
+  build_docs:
     if: ${{ !((github.event_name == 'release' && github.event.action == 'published') || github.event_name == 'workflow_dispatch') }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repo
@@ -18,35 +18,27 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Cache dev-py environment
-        uses: actions/cache@v3
-        with:
-          path: .venv_vizzu_story
-          key: dev-py-${{ hashFiles('dev-requirements.txt') }}
-
-      - name: Init dev-py environment
-        run: |
-          make check-dev-py
-          make dev-py
-
       - name: Cache dev-js environment
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: dev-js-${{ hashFiles('package-lock.json') }}
+          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Init dev-js environment
-        run: |
-          make check-dev-js
-          make dev-js
+      - name: Cache dev-py environment
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
 
       - name: Build documentation
-        run: make doc
+        run: |
+          source .venv/bin/activate
+          npm run docs-build
 
-  publish_doc:
+  publish_docs:
     if: ${{ ((github.event_name == 'release' && github.event.action == 'published') || github.event_name == 'workflow_dispatch') }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repo
@@ -54,27 +46,17 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Cache dev-py environment
-        uses: actions/cache@v3
-        with:
-          path: .venv_vizzu_story
-          key: dev-py-${{ hashFiles('dev-requirements.txt') }}
-
-      - name: Init dev-py environment
-        run: |
-          make check-dev-py
-          make dev-py
-
       - name: Cache dev-js environment
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: dev-js-${{ hashFiles('package-lock.json') }}
+          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Init dev-js environment
-        run: |
-          make check-dev-js
-          make dev-js
+      - name: Cache dev-py environment
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
 
       - name: Configure Git
         run: |
@@ -86,6 +68,7 @@ jobs:
 
       - name: Deploy documentation
         run: |
+          source .venv/bin/activate
           git fetch origin gh-pages || echo "gh-pages does not exist"
-          make deploy
+          npm run docs-deploy
           git push origin gh-pages

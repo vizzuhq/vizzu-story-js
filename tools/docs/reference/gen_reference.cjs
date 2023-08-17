@@ -2,7 +2,7 @@ const TypeDoc = require("typedoc");
 const path = require("node:path");
 
 const repoPath = path.join(__dirname, "..", "..", "..");
-const mkdocsPath = path.join(repoPath, "tools", "mkdocs");
+const mkdocsPath = path.join(repoPath, "tools", "docs");
 const genPath = path.join(mkdocsPath, "reference");
 const srcPath = path.join(repoPath, "src");
 

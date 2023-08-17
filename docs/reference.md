@@ -16,7 +16,7 @@ is the [slides](./classes/VizzuPlayer.md#slides) accessor.
 
 - [VizzuPlayer](./classes/VizzuPlayer.md) class
   - [constructor()](./classes/VizzuPlayer.md#constructor)
-  - [slides](./classes/VizzuPlayer#slides) ([Story](./interfaces/Story.md)) :
+  - [slides](./classes/VizzuPlayer.md#slides) ([Story](./interfaces/Story.md)) :
     `void`
 
 ## Details
