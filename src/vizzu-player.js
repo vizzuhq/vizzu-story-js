@@ -320,17 +320,31 @@ class VizzuPlayer extends HTMLElement {
     }
     this._update(this._state);
 
+    if (
+      (slide <= 0 && this._currentSlide === 0) ||
+      (this._slides.length <= slide &&
+        this._currentSlide === this._slides.length - 1) ||
+      slide === this._currentSlide
+    ) {
+      // if the next slide is smallest zero and the current slide is first or the nex slide is largest the slides length and the current slide is last then not jump
+      return;
+    }
+
+    const actualSlideKey = this._currentSlide || 0;
+
     if (!slide || slide < 0) {
       slide = 0;
     } else if (slide >= this.length) {
       slide = this.length - 1;
     }
 
-    if (this._currentSlide - slide === 1) {
+    this._currentSlide = slide;
+
+    if (actualSlideKey - slide === 1) {
       // previous
-      const cs = this._slides[this._currentSlide];
+      const cs = this._slides[actualSlideKey];
       await this._step(cs[0], { position: 1, direction: "reverse" });
-    } else if (this._currentSlide - slide === -1) {
+    } else if (actualSlideKey - slide === -1) {
       // next
       const ns = this._slides[slide];
       await this._step(ns[0]);
@@ -340,7 +354,6 @@ class VizzuPlayer extends HTMLElement {
       await this._step(cs[0]);
     }
 
-    this._currentSlide = slide;
     this._seekPosition = 100;
     this.releaseLock();
     this._update(this._state);
