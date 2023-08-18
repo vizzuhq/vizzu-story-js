@@ -1,7 +1,7 @@
-import { dataAssets } from "./data.js";
-import { dataFilterAssets } from "./datafilter.js";
-import { configAssets } from "./config.js";
-import { styleAssets } from "./style.js";
+import { dataAssets } from "./chart-params/data.js";
+import { dataFilterAssets } from "./chart-params/filter.js";
+import { configAssets } from "./chart-params/config.js";
+import { styleAssets } from "./chart-params/style.js";
 
 const story = [
   "slides contain more slides with more steps with more anim targets",
