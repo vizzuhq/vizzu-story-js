@@ -6,17 +6,11 @@ configAssets.config1 = {
 };
 
 configAssets.config2 = {
-  color: "Foo",
-  x: "Baz",
   geometry: "circle",
 };
 
 configAssets.config3 = {
-  geometry: "area",
-};
-
-configAssets.config4 = {
-  geometry: "rectangle",
+  coordSystem: "polar",
 };
 
 export { configAssets };

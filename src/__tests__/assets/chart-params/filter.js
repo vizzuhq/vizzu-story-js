@@ -1,13 +1,11 @@
-const dataFilterAssets = {};
+const filterAssets = {};
 
-dataFilterAssets.filter1 = () => {};
+filterAssets.filter1 = () => {};
 
-dataFilterAssets.filter2 = () => true;
+filterAssets.filter2 = () => true;
 
-dataFilterAssets.filter3 = () => false;
-
-dataFilterAssets.filter4 = () => {
+filterAssets.filter3 = () => {
   return [];
 };
 
-export { dataFilterAssets };
+export { filterAssets };

@@ -1,6 +1,6 @@
 const dataAssets = {};
 
-dataAssets.data1 = {
+dataAssets.dataInit = {
   series: [
     { name: "Foo", values: ["Alice", "Bob", "Ted"] },
     { name: "Bar", values: [15, 32, 12] },
