@@ -4,7 +4,7 @@ import VizzuPlayer from "../vizzu-player.js";
 
 import { story } from "./assets/slides.js";
 
-import VizzuMock from "../__mocks__/vizzu.js";
+import VizzuMock from "./assets/mocks/vizzu.js";
 
 global.window.Vizzu = VizzuMock;
 
