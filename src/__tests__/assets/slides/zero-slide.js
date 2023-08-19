@@ -1,11 +1,8 @@
-const slidesWithZeroSlide = [];
-
-slidesWithZeroSlide.push([
-  "",
-  {
+const zeroSlide = {
+  input: {
     slides: [],
   },
-  [],
-]);
+  expected: [],
+};
 
-export { slidesWithZeroSlide };
+export { zeroSlide };

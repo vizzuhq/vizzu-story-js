@@ -3,11 +3,8 @@ import { configAssets } from "../chart-params/config.js";
 import { styleAssets } from "../chart-params/style.js";
 import { animOptionsAssets } from "../chart-params/animOptions.js";
 
-const slidesWithOneSlideAndWithMoreSteps = [];
-
-slidesWithOneSlideAndWithMoreSteps.push([
-  "filter, config, style and animOptions",
-  {
+const slideWithMoreSteps = {
+  input: {
     slides: [
       [
         {
@@ -25,7 +22,7 @@ slidesWithOneSlideAndWithMoreSteps.push([
       ],
     ],
   },
-  [
+  expected: [
     [
       [
         {
@@ -47,6 +44,6 @@ slidesWithOneSlideAndWithMoreSteps.push([
       ],
     ],
   ],
-]);
+};
 
-export { slidesWithOneSlideAndWithMoreSteps };
+export { slideWithMoreSteps };

@@ -3,41 +3,45 @@ import { configAssets } from "../chart-params/config.js";
 import { styleAssets } from "../chart-params/style.js";
 import { animOptionsAssets } from "../chart-params/animOptions.js";
 
-const slidesWithOneSlideAndWithOneStep = [];
+const slidesWithOneSlideWithOneStep = [];
 
-slidesWithOneSlideAndWithOneStep.push([
-  "filter",
+slidesWithOneSlideWithOneStep.push(
   {
-    slides: [{ filter: filterAssets.filter1 }],
+    description: "filter",
+    input: {
+      slides: [{ filter: filterAssets.filter1 }],
+    },
+    expected: [[[{ target: { data: { filter: filterAssets.filter1 } } }]]],
   },
-  [[[{ target: { data: { filter: filterAssets.filter1 } } }]]],
-]);
-slidesWithOneSlideAndWithOneStep.push([
-  "config",
   {
-    slides: [{ config: configAssets.config1 }],
+    description: "config",
+    input: {
+      slides: [{ config: configAssets.config1 }],
+    },
+    expected: [[[{ target: { data: {}, config: configAssets.config1 } }]]],
   },
-  [[[{ target: { data: {}, config: configAssets.config1 } }]]],
-]);
-slidesWithOneSlideAndWithOneStep.push([
-  "style",
   {
-    slides: [{ style: styleAssets.style1 }],
+    description: "style",
+    input: {
+      slides: [{ style: styleAssets.style1 }],
+    },
+    expected: [[[{ target: { data: {}, style: styleAssets.style1 } }]]],
   },
-  [[[{ target: { data: {}, style: styleAssets.style1 } }]]],
-]);
-slidesWithOneSlideAndWithOneStep.push([
-  "animOptions",
   {
-    slides: [{ animOptions: animOptionsAssets.animOptions1 }],
-  },
-  [[[{ target: { data: {} }, options: animOptionsAssets.animOptions1 }]]],
-]);
+    description: "animOptions",
+    input: {
+      slides: [{ animOptions: animOptionsAssets.animOptions1 }],
+    },
+    expected: [
+      [[{ target: { data: {} }, options: animOptionsAssets.animOptions1 }]],
+    ],
+  }
+);
 
-slidesWithOneSlideAndWithOneStep.push(
-  [
-    "filter and animOptions",
-    {
+slidesWithOneSlideWithOneStep.push(
+  {
+    description: "filter, animOptions",
+    input: {
       slides: [
         {
           filter: filterAssets.filter1,
@@ -45,7 +49,7 @@ slidesWithOneSlideAndWithOneStep.push(
         },
       ],
     },
-    [
+    expected: [
       [
         [
           {
@@ -55,10 +59,10 @@ slidesWithOneSlideAndWithOneStep.push(
         ],
       ],
     ],
-  ],
-  [
-    "config and animOptions",
-    {
+  },
+  {
+    description: "config, animOptions",
+    input: {
       slides: [
         {
           config: configAssets.config1,
@@ -66,7 +70,7 @@ slidesWithOneSlideAndWithOneStep.push(
         },
       ],
     },
-    [
+    expected: [
       [
         [
           {
@@ -76,10 +80,10 @@ slidesWithOneSlideAndWithOneStep.push(
         ],
       ],
     ],
-  ],
-  [
-    "style and animOptions",
-    {
+  },
+  {
+    description: "style, animOptions",
+    input: {
       slides: [
         {
           style: styleAssets.style1,
@@ -87,7 +91,7 @@ slidesWithOneSlideAndWithOneStep.push(
         },
       ],
     },
-    [
+    expected: [
       [
         [
           {
@@ -97,12 +101,12 @@ slidesWithOneSlideAndWithOneStep.push(
         ],
       ],
     ],
-  ]
+  }
 );
 
-slidesWithOneSlideAndWithOneStep.push([
-  "filter, config, style and animOptions",
-  {
+slidesWithOneSlideWithOneStep.push({
+  description: "filter, config, style, animOptions",
+  input: {
     slides: [
       {
         filter: filterAssets.filter1,
@@ -112,7 +116,7 @@ slidesWithOneSlideAndWithOneStep.push([
       },
     ],
   },
-  [
+  expected: [
     [
       [
         {
@@ -126,6 +130,6 @@ slidesWithOneSlideAndWithOneStep.push([
       ],
     ],
   ],
-]);
+});
 
-export { slidesWithOneSlideAndWithOneStep };
+export { slidesWithOneSlideWithOneStep };
