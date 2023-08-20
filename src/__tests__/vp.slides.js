@@ -16,7 +16,7 @@ import lodashClonedeep from "lodash.clonedeep";
 import VizzuMock from "./assets/mocks/vizzu.js";
 global.window.Vizzu = VizzuMock;
 
-describe("if using vp.slides setter", () => {
+describe("if vp.slides setter is called", () => {
   const shouldBeEmpty = "getter should return an empty list";
   const shouldBeExpected = "getter should return the expected slides";
 
