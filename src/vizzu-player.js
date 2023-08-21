@@ -318,17 +318,19 @@ class VizzuPlayer extends HTMLElement {
     if (this.length === 0 || !this.acquireLock()) {
       return;
     }
-    this._update(this._state);
-
+    
     if (
-      (slide <= 0 && this._currentSlide === 0) ||
-      (this._slides.length <= slide &&
-        this._currentSlide === this._slides.length - 1) ||
-      slide === this._currentSlide
+      this._state.seekPosition &&
+      ((slide <= 0 && this._currentSlide === 0) ||
+        (this._slides.length <= slide &&
+          this._currentSlide === this._slides.length - 1) ||
+        slide === this._currentSlide)
     ) {
       // if the next slide is smallest zero and the current slide is first or the nex slide is largest the slides length and the current slide is last then not jump
       return;
     }
+
+    this._update(this._state);
 
     const actualSlideKey = this._currentSlide || 0;
 
