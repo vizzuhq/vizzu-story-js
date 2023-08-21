@@ -227,13 +227,12 @@ class VizzuController extends HTMLElement {
       <style>
         :host {
           display: flex;
-          align-items: center;
+          align-items: stretch;
           justify-content: space-between;
           width: 100%;
           max-width: 100%;
           overflow-x: hidden;
           padding: 20px 0 10px;
-          min-height: 22px;
           font-family: sans-serif;
           --_c: var(--vizzu-button-color, #c6c6c6);
           --_bg: var(--vizzu-button-background-color, #fff);
