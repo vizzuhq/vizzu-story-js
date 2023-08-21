@@ -4,8 +4,7 @@ import { slideWithMoreSteps } from "./assets/slides/one-slide-more-steps.js";
 
 import VizzuPlayer from "../vizzu-player.js";
 
-import VizzuMock from "./assets/mocks/vizzu-window.js";
-global.window.Vizzu = VizzuMock;
+import VizzuWindowMock from "./assets/mocks/vizzu-window.js";
 
 describe("if attribute", () => {
   let slides;
@@ -256,12 +255,8 @@ describe("if attribute", () => {
   describe("vizzu-url is", () => {
     const shouldBe = "vizzu should be";
 
-    beforeEach(() => {
-      global.window.Vizzu = undefined;
-    });
-
     afterEach(() => {
-      global.window.Vizzu = VizzuMock;
+      global.window.Vizzu = undefined;
     });
 
     test(`set, window.Vizzu is not set, ${shouldBe} imported from vizzu-url`, () => {
@@ -281,7 +276,7 @@ describe("if attribute", () => {
     });
 
     test(`is unset, window.Vizzu is set, ${shouldBe} window.Vizzu`, () => {
-      global.window.Vizzu = VizzuMock;
+      global.window.Vizzu = VizzuWindowMock;
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
@@ -289,6 +284,18 @@ describe("if attribute", () => {
           expect(vp.vizzuUrl).toStrictEqual(
             "https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js"
           ); // undefined should be better
+        });
+      });
+    });
+
+    test(`is unset, window.Vizzu is unset, ${shouldBe} imported from cdn`, () => {
+      vp.slides = slides;
+      return vp.connectedCallback().then(() => {
+        return waitForSlidesToBeSet(vp, 5000).then(() => {
+          expect(vp.vizzu.mockType).toStrictEqual("cdn");
+          expect(vp.vizzuUrl).toStrictEqual(
+            "https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js"
+          );
         });
       });
     });
