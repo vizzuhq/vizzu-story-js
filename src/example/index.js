@@ -16,7 +16,7 @@ const vizzuPlayerData = {
   data, // data, copied into the initializer slide (if not present)
   style, // style, copied into the initializer slide (if not present)
   slides: [
-    // silde
+    // slide
     {
       config: {}, // Config.Chart
       filter: () => true, // data.filter TODO: not declarative, cannot be
