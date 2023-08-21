@@ -4,12 +4,10 @@ import { slideWithMoreSteps } from "./assets/slides/one-slide-more-steps.js";
 
 import VizzuPlayer from "../vizzu-player.js";
 
-import VizzuMock from "./assets/mocks/vizzu.js";
+import VizzuMock from "./assets/mocks/vizzu-window.js";
 global.window.Vizzu = VizzuMock;
 
 describe("if attribute", () => {
-  const shouldBe = "currentSlide getter should return";
-
   let slides;
   let vp;
 
@@ -29,6 +27,8 @@ describe("if attribute", () => {
   });
 
   describe("hash-navigation is", () => {
+    const shouldBe = "currentSlide getter should return";
+
     test(`set without value, ${shouldBe} 0`, () => {
       vp.setAttribute("hash-navigation", true);
       vp.slides = slides;
@@ -120,6 +120,8 @@ describe("if attribute", () => {
   });
 
   describe("start-slide is", () => {
+    const shouldBe = "currentSlide getter should return";
+
     test(`zero, ${shouldBe} 0`, () => {
       const startSlide = 0;
       vp.setAttribute("start-slide", `${startSlide}`);
@@ -179,6 +181,8 @@ describe("if attribute", () => {
   });
 
   describe("hash-navigation and start-slide are", () => {
+    const shouldBe = "currentSlide getter should return";
+
     test(`unset, ${shouldBe} 0`, () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
@@ -244,6 +248,47 @@ describe("if attribute", () => {
           return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
             expect(vp.currentSlide).toBe(newHash - 1);
           });
+        });
+      });
+    });
+  });
+
+  describe("vizzu-url is", () => {
+    const shouldBe = "vizzu should be";
+
+    beforeEach(() => {
+      global.window.Vizzu = undefined;
+    });
+
+    afterEach(() => {
+      global.window.Vizzu = VizzuMock;
+    });
+
+    test(`set, window.Vizzu is not set, ${shouldBe} imported from vizzu-url`, () => {
+      vp.setAttribute(
+        "vizzu-url",
+        "./__tests__/assets/mocks/vizzu-attribute.js"
+      );
+      vp.slides = slides;
+      return vp.connectedCallback().then(() => {
+        return waitForSlidesToBeSet(vp, 5000).then(() => {
+          expect(vp.vizzu.mockType).toStrictEqual("attribute");
+          expect(vp.vizzuUrl).toStrictEqual(
+            "./__tests__/assets/mocks/vizzu-attribute.js"
+          );
+        });
+      });
+    });
+
+    test(`is unset, window.Vizzu is set, ${shouldBe} window.Vizzu`, () => {
+      global.window.Vizzu = VizzuMock;
+      vp.slides = slides;
+      return vp.connectedCallback().then(() => {
+        return waitForSlidesToBeSet(vp, 5000).then(() => {
+          expect(vp.vizzu.mockType).toStrictEqual("window");
+          expect(vp.vizzuUrl).toStrictEqual(
+            "https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js"
+          ); // undefined should be better
         });
       });
     });

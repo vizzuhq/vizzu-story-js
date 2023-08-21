@@ -13,7 +13,7 @@ import VizzuPlayer from "../vizzu-player.js";
 
 import lodashClonedeep from "lodash.clonedeep";
 
-import VizzuMock from "./assets/mocks/vizzu.js";
+import VizzuMock from "./assets/mocks/vizzu-window.js";
 global.window.Vizzu = VizzuMock;
 
 describe("if vp.slides setter is called", () => {
