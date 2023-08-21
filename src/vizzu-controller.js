@@ -239,6 +239,7 @@ class VizzuController extends HTMLElement {
           --_bg: var(--vizzu-button-background-color, #fff);
           --_hc: var(--vizzu-button-hover-color, #494949);
           color: var(--_c);
+          transition: opacity 10ms;
         }
         :host([first]) #start,
         :host([first]) #previous,
