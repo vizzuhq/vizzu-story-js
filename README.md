@@ -8,6 +8,7 @@
     · <a href="https://vizzu-story.vizzuhq.com/latest/examples/">Examples</a>
     · <a href="https://vizzu-story.vizzuhq.com/latest/reference/">Code reference</a>
     · <a href="https://github.com/vizzuhq/vizzu-story-js/">Repository</a>
+    · <a href="https://blog.vizzuhq.com">Blog</a>
   </p>
 </p>
 
