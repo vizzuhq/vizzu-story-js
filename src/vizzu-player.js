@@ -223,7 +223,7 @@ class VizzuPlayer extends HTMLElement {
 
   recursiveCopy(obj) {
     if (obj === null) return null;
-    let clone = Object.assign({}, obj);
+    const clone = Object.assign({}, obj);
     Object.keys(clone).forEach(
       (key) =>
         (clone[key] =
