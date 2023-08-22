@@ -318,7 +318,7 @@ class VizzuPlayer extends HTMLElement {
     if (this.length === 0 || !this.acquireLock()) {
       return;
     }
-    
+
     if (
       this._state.seekPosition &&
       ((slide <= 0 && this._currentSlide === 0) ||
