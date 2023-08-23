@@ -179,7 +179,8 @@ class VizzuPlayer extends HTMLElement {
     return this._slides;
   }
 
-  set slides(slides) {
+  set slides(slidesSourceData) {
+    const slides = this.recursiveCopy(slidesSourceData);
     let startSlide = this._getStartSlide(slides.slides.length);
     if (this.hashNavigation) {
       const hashSlide = this._slideFromHash(slides.slides.length);
@@ -218,6 +219,23 @@ class VizzuPlayer extends HTMLElement {
       this._locked = false;
     }, timeout);
     return this._locked;
+  }
+
+  recursiveCopy(obj) {
+    if (obj === null) return null;
+    const clone = Object.assign({}, obj);
+    Object.keys(clone).forEach(
+      (key) =>
+        (clone[key] =
+          typeof obj[key] === "object"
+            ? this.recursiveCopy(obj[key])
+            : obj[key])
+    );
+    if (Array.isArray(obj)) {
+      clone.length = obj.length;
+      return Array.from(clone);
+    }
+    return clone;
   }
 
   releaseLock() {
