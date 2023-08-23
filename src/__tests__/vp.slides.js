@@ -25,7 +25,7 @@ describe("if vp.slides setter is called", () => {
 
   describe("with zero slide", () => {
     test(`${shouldBeEmpty}`, () => {
-      vp.slides = lodashClonedeep(zeroSlide.input);
+      vp.slides = zeroSlide.input;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
           expect(vp.slides).toStrictEqual(zeroSlide.expected);
@@ -73,7 +73,7 @@ describe("if vp.slides setter is called", () => {
       test.each(slidesWithOneSlideWithOneEmptyStep)(
         `($description), ${shouldBeExpected}`,
         ({ description, input, expected }) => {
-          vp.slides = lodashClonedeep(input);
+          vp.slides = input;
           return vp.connectedCallback().then(() => {
             return waitForSlidesToBeSet(vp, 5000).then(() => {
               expect(vp.slides).toStrictEqual(expected);
@@ -137,7 +137,7 @@ describe("if vp.slides setter is called", () => {
       test.each(slidesWithOneSlideWithOneStep)(
         `step contains $description (object step), ${shouldBeExpected}`,
         ({ description, input, expected }) => {
-          vp.slides = lodashClonedeep(input);
+          vp.slides = input;
           return vp.connectedCallback().then(() => {
             return waitForSlidesToBeSet(vp, 5000).then(() => {
               expect(vp.slides).toStrictEqual(expected);
@@ -286,7 +286,7 @@ describe("if vp.slides setter is called", () => {
 
     describe("with more steps", () => {
       test(`${shouldBeExpected}`, () => {
-        vp.slides = lodashClonedeep(slideWithMoreSteps.input);
+        vp.slides = slideWithMoreSteps.input;
         return vp.connectedCallback().then(() => {
           return waitForSlidesToBeSet(vp, 5000).then(() => {
             expect(vp.slides).toStrictEqual(slideWithMoreSteps.expected);
@@ -352,7 +352,7 @@ describe("if vp.slides setter is called", () => {
       `$description, ${shouldBeExpected}`,
       ({ description, input, expected }) => {
         const vp = new VizzuPlayer();
-        vp.slides = lodashClonedeep(input);
+        vp.slides = input;
         return vp.connectedCallback().then(() => {
           return waitForSlidesToBeSet(vp, 5000).then(() => {
             expect(vp.slides).toStrictEqual(expected);
