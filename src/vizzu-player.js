@@ -63,6 +63,7 @@ class VizzuPlayer extends HTMLElement {
   }
 
   get vizzuUrl() {
+    if (window.Vizzu) return undefined;
     return (
       this.getAttribute("vizzu-url") ||
       "https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js"
