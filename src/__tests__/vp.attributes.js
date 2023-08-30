@@ -69,7 +69,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(slides.slides - 1); // slides.length should be better
+          expect(vp.currentSlide).toStrictEqual(slides.slides.length - 1); // slides.length should be better
         });
       });
     });
