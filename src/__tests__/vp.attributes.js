@@ -275,9 +275,7 @@ describe("if attribute", () => {
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
           expect(vp.vizzu.mockType).toStrictEqual("window");
-          expect(vp.vizzuUrl).toStrictEqual(
-            "https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js"
-          ); // undefined should be better
+          expect(vp.vizzuUrl).toBe(undefined);
         });
       });
     });

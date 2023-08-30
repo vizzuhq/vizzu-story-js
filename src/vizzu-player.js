@@ -6,6 +6,8 @@ const LOG_PREFIX = [
   "background: #3a60bf; color: #e2ae30;",
 ];
 
+let Vizzu;
+
 class VizzuPlayer extends HTMLElement {
   constructor() {
     super();
@@ -58,11 +60,16 @@ class VizzuPlayer extends HTMLElement {
     }
   }
 
+  get Vizzu() {
+    return Vizzu;
+  }
+
   get hashNavigation() {
     return this.hasAttribute("hash-navigation");
   }
 
   get vizzuUrl() {
+    if (window.Vizzu) return undefined;
     return (
       this.getAttribute("vizzu-url") ||
       "https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js"
@@ -72,7 +79,7 @@ class VizzuPlayer extends HTMLElement {
   async _initVizzu() {
     if (!this.vizzu) {
       // load and init vizzu
-      const Vizzu = window.Vizzu || (await import(this.vizzuUrl)).default;
+      Vizzu = window.Vizzu || (await import(this.vizzuUrl)).default;
       this._resolveVizzu(Vizzu);
       this.vizzu = new Vizzu(this.vizzuCanvas);
     }
