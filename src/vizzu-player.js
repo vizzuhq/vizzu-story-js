@@ -124,11 +124,14 @@ class VizzuPlayer extends HTMLElement {
       }
       const firstSlide = slides.slides[0][0];
       firstSlide.data = firstSlide.data || Object.assign({}, slides.data);
-      firstSlide.style = firstSlide.style || slides.style;
     }
 
     // TODO lock
     await this.initializing;
+
+    if (slides?.style) {
+      this.vizzu._setStyle(slides.style);
+    }
     const seekToEnd = () => this._seekToEnd();
     this.vizzu.on("animation-begin", seekToEnd);
     this._nullSlide = this.vizzu.store();
