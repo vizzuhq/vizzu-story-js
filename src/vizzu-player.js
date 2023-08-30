@@ -59,6 +59,7 @@ class VizzuPlayer extends HTMLElement {
       console.log(...LOG_PREFIX, ...msg);
     }
   }
+
   get Vizzu() {
     return Vizzu;
   }
