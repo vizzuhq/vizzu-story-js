@@ -172,11 +172,9 @@ class VizzuPlayer extends HTMLElement {
 
   _normalizeSlideNumber(nr, length) {
     if (isNaN(nr)) return null;
-    if (!nr || nr < 1) return 0;
+    if (!nr) return 0;
+    return nr < 0 ? Math.max((length + nr), 0) : Math.min(nr-1, length-1);
 
-    if (nr > length) return length - 1;
-
-    return nr - 1;
   }
 
   get slides() {

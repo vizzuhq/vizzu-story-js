@@ -74,14 +74,14 @@ describe("if attribute", () => {
       });
     });
 
-    test(`set with a negative number, ${shouldBe} 0`, () => {
+    test(`set with a negative number, ${shouldBe} (slides.length + hash)`, () => {
       const hash = -4;
       global.document.location.hash = `#${hash}`;
       vp.setAttribute("hash-navigation", true);
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(0);
+          expect(vp.currentSlide).toStrictEqual(slides.slides.length + hash);
         });
       });
     });
@@ -105,7 +105,9 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(0);
+          expect(vp.currentSlide).toStrictEqual(
+            slides.slides.length + initialHash
+          );
           const newHash = 4;
           global.document.location.hash = `#${newHash}`;
           return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
@@ -158,7 +160,9 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(0);
+          expect(vp.currentSlide).toStrictEqual(
+            slides.slides.length + startSlide
+          );
         });
       });
     });
@@ -221,7 +225,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(0);
+          expect(vp.currentSlide).toStrictEqual(slides.slides.length + hash);
         });
       });
     });
@@ -235,7 +239,9 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(0);
+          expect(vp.currentSlide).toStrictEqual(
+            slides.slides.length + initialHash
+            );
           const newHash = 5;
           global.document.location.hash = `#${newHash}`;
           return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
