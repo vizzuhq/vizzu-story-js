@@ -69,7 +69,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(1); // slides.length should be better
+          expect(vp.currentSlide).toStrictEqual(slides.slides - 1); // slides.length should be better
         });
       });
     });
@@ -81,7 +81,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(slides.slides.length + hash);
+          expect(vp.currentSlide).toStrictEqual(0);
         });
       });
     });
@@ -93,7 +93,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(4); // 0 should be better
+          expect(vp.currentSlide).toStrictEqual(0); // 0 should be better
         });
       });
     });
@@ -105,9 +105,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(
-            slides.slides.length + initialHash
-          );
+          expect(vp.currentSlide).toStrictEqual(0);
           const newHash = 4;
           global.document.location.hash = `#${newHash}`;
           return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
@@ -149,7 +147,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(1); // slides.length should be better
+          expect(vp.currentSlide).toStrictEqual(slides.slides.length - 1); // slides.length should be better
         });
       });
     });
@@ -160,9 +158,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(
-            slides.slides.length + startSlide
-          );
+          expect(vp.currentSlide).toStrictEqual(0);
         });
       });
     });
@@ -173,7 +169,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(4); // 0 should be better
+          expect(vp.currentSlide).toStrictEqual(0); // 0 should be better
         });
       });
     });
@@ -225,7 +221,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(slides.slides.length + hash);
+          expect(vp.currentSlide).toStrictEqual(0);
         });
       });
     });
@@ -239,9 +235,7 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(
-            slides.slides.length + initialHash
-          );
+          expect(vp.currentSlide).toStrictEqual(0);
           const newHash = 5;
           global.document.location.hash = `#${newHash}`;
           return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
