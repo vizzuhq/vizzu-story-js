@@ -154,7 +154,7 @@ describe("if attribute", () => {
       });
     });
 
-    test(`a negative number, ${shouldBe} 0`, () => {
+    test(`a negative number, ${shouldBe} (slides.length + start-slide)`, () => {
       const startSlide = -4;
       vp.setAttribute("start-slide", `${startSlide}`);
       vp.slides = slides;
