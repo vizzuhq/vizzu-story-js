@@ -241,7 +241,7 @@ describe("if attribute", () => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
           expect(vp.currentSlide).toStrictEqual(
             slides.slides.length + initialHash
-            );
+          );
           const newHash = 5;
           global.document.location.hash = `#${newHash}`;
           return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
