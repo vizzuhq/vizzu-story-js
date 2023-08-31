@@ -62,14 +62,14 @@ describe("if attribute", () => {
       });
     });
 
-    test(`set with a positive number (larger than slides.length), ${shouldBe} an overflow value`, () => {
+    test(`set with a positive number (larger than slides.length), ${shouldBe} (slides.lenght -1)`, () => {
       const hash = 8;
       global.document.location.hash = `#${hash}`;
       vp.setAttribute("hash-navigation", true);
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(1); // slides.length should be better
+          expect(vp.currentSlide).toStrictEqual(slides.slides.length - 1);
         });
       });
     });
@@ -86,14 +86,14 @@ describe("if attribute", () => {
       });
     });
 
-    test(`set with a negative number (larger than slides.length), ${shouldBe} an overflow value`, () => {
+    test(`set with a negative number (larger than slides.length), ${shouldBe} 0`, () => {
       const hash = -8;
       global.document.location.hash = `#${hash}`;
       vp.setAttribute("hash-navigation", true);
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(4); // 0 should be better
+          expect(vp.currentSlide).toStrictEqual(0);
         });
       });
     });
@@ -143,13 +143,13 @@ describe("if attribute", () => {
       });
     });
 
-    test(`a positive number (larger than slides.length), ${shouldBe} an overflow value`, () => {
+    test(`a positive number (larger than slides.length), ${shouldBe} (slides.length - 1)`, () => {
       const startSlide = 8;
       vp.setAttribute("start-slide", `${startSlide}`);
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(1); // slides.length should be better
+          expect(vp.currentSlide).toStrictEqual(slides.slides.length - 1);
         });
       });
     });
@@ -167,13 +167,13 @@ describe("if attribute", () => {
       });
     });
 
-    test(`a negative number (larger than slides.length), ${shouldBe} an overflow value`, () => {
+    test(`a negative number (larger than slides.length), ${shouldBe} 0`, () => {
       const startSlide = -8;
       vp.setAttribute("start-slide", `${startSlide}`);
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(4); // 0 should be better
+          expect(vp.currentSlide).toStrictEqual(0);
         });
       });
     });
