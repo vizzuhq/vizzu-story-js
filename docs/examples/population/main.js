@@ -5,21 +5,31 @@ import Csv2Js from "../../assets/javascripts/csv2js.js";
 
 // Get the created element
 const vp = document.querySelector("vizzu-player");
-const vizzuLoaded = import(vp.vizzuUrl);
+// Set the size of the HTML element
+vp.style.cssText = "width: 100%; height: 400px;";
+// Initializing Vizzu Player
+const vpInitialized = vp.initializing;
 
 // Create data object
 const dataLoaded = Csv2Js.csv("./population.csv", ["Year"]);
 
-Promise.all([dataLoaded, vizzuLoaded]).then((results) => {
+// Because using presets here, you need to
+// create the configuration object after initialization
+// (then presets are accessible via vp.Vizzu.presets)
+Promise.all([dataLoaded, vpInitialized]).then((results) => {
   const data = results[0];
-  const Vizzu = results[1].default;
+  const chart = results[1];
+
+  // Switch on the tooltip that appears
+  // when the user hovers the mouse over a chart element
+  chart.feature("tooltip", true);
 
   // Each slide here is a page in the final interactive story
   const slides = [
     {
       filter: (record) => record.Continent === "Africa",
       style: { plot: { xAxis: { label: { angle: 2.0 } } } },
-      config: Vizzu.presets.stackedArea({
+      config: vp.Vizzu.presets.stackedArea({
         x: "Year",
         y: "Medium",
         stackedBy: "Subregion",
@@ -27,21 +37,21 @@ Promise.all([dataLoaded, vizzuLoaded]).then((results) => {
       }),
     },
     {
-      config: Vizzu.presets.percentageArea({
+      config: vp.Vizzu.presets.percentageArea({
         x: "Year",
         y: "Medium",
         stackedBy: "Subregion",
       }),
     },
     {
-      config: Vizzu.presets.stream({
+      config: vp.Vizzu.presets.stream({
         x: "Year",
         y: "Medium",
         stackedBy: "Subregion",
       }),
     },
     {
-      config: Vizzu.presets.violin({
+      config: vp.Vizzu.presets.violin({
         x: "Year",
         y: "Medium",
         splittedBy: "Subregion",
@@ -55,14 +65,6 @@ Promise.all([dataLoaded, vizzuLoaded]).then((results) => {
     slides,
   };
 
-  // Set the size of the HTML element
-  vp.style.cssText = "width: 100%; height: 400px;";
-
   // Set up the created element with the configuration object
   vp.slides = story;
-  vp.initializing.then((chart) => {
-    // Switch on the tooltip that appears
-    // when the user hovers the mouse over a chart element
-    chart.feature("tooltip", true);
-  });
 });
