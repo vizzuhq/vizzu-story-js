@@ -5,14 +5,24 @@ import Csv2Js from "../../assets/javascripts/csv2js.js";
 
 // Get the created element
 const vp = document.querySelector("vizzu-player");
-const vizzuLoaded = import(vp.vizzuUrl);
+// Set the size of the HTML element
+vp.style.cssText = "width: 100%; height: 400px;";
+// Initializing Vizzu Player
+const vpInitialized = vp.initializing;
 
 // Create data object
 const dataLoaded = Csv2Js.csv("./titanic.csv", ["Pclass"]);
 
-Promise.all([dataLoaded, vizzuLoaded]).then((results) => {
+// Because using presets here, you need to
+// create the configuration object after initialization
+// (then presets are accessible via vp.Vizzu.presets)
+Promise.all([dataLoaded, vpInitialized]).then((results) => {
   const data = results[0];
-  const Vizzu = results[1].default;
+  const chart = results[1];
+
+  // Switch on the tooltip that appears
+  // when the user hovers the mouse over a chart element
+  chart.feature("tooltip", true);
 
   // Set the style of the charts in the story
   const style = {
@@ -38,16 +48,16 @@ Promise.all([dataLoaded, vizzuLoaded]).then((results) => {
   const slides = [
     [
       {
-        config: Vizzu.presets.bar({
+        config: vp.Vizzu.presets.bar({
           x: "Count",
           title: "Passengers of the Titanic",
         }),
       },
     ],
     [
-      { config: Vizzu.presets.stackedBar({ x: "Count", stackedBy: "Sex" }) },
+      { config: vp.Vizzu.presets.stackedBar({ x: "Count", stackedBy: "Sex" }) },
       {
-        config: Vizzu.presets.groupedBar({
+        config: vp.Vizzu.presets.groupedBar({
           x: "Count",
           y: "Sex",
           groupedBy: "Sex",
@@ -133,14 +143,6 @@ Promise.all([dataLoaded, vizzuLoaded]).then((results) => {
     slides,
   };
 
-  // Set the size of the HTML element
-  vp.style.cssText = "width: 100%; height: 400px;";
-
   // Set up the created element with the configuration object
   vp.slides = story;
-  vp.initializing.then((chart) => {
-    // Switch on the tooltip that appears
-    // when the user hovers the mouse over a chart element
-    chart.feature("tooltip", true);
-  });
 });

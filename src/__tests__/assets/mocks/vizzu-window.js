@@ -1,8 +1,12 @@
 import VizzuMock from "./vizzu.js";
 
 class Vizzu extends VizzuMock {
-  get mockType() {
-    return "window";
+  get instanceMockType() {
+    return "windowInstance";
+  }
+
+  static get classMockType() {
+    return "windowClass";
   }
 }
 

@@ -267,7 +267,8 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.vizzu.mockType).toStrictEqual("attribute");
+          expect(vp.vizzu.instanceMockType).toStrictEqual("attributeInstance");
+          expect(vp.Vizzu.classMockType).toStrictEqual("attributeClass");
           expect(vp.vizzuUrl).toStrictEqual(
             "./__tests__/assets/mocks/vizzu-attribute.js"
           );
@@ -280,7 +281,8 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.vizzu.mockType).toStrictEqual("window");
+          expect(vp.vizzu.instanceMockType).toStrictEqual("windowInstance");
+          expect(vp.Vizzu.classMockType).toStrictEqual("windowClass");
           expect(vp.vizzuUrl).toBe(undefined);
         });
       });
@@ -290,7 +292,8 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.vizzu.mockType).toStrictEqual("cdn");
+          expect(vp.vizzu.instanceMockType).toStrictEqual("cdnInstance");
+          expect(vp.Vizzu.classMockType).toStrictEqual("cdnClass");
           expect(vp.vizzuUrl).toStrictEqual(
             "https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js"
           );
