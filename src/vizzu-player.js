@@ -131,6 +131,15 @@ class VizzuPlayer extends HTMLElement {
     await this.initializing;
     const seekToEnd = () => this._seekToEnd();
     this.vizzu.on("animation-begin", seekToEnd);
+    
+    const updateSlider = (event) => {
+      if (this._locked)
+        this.controller?.updateSlider(event.data.progress * 1000) 
+    }
+    this.vizzu.on("update", updateSlider)
+
+    this.vizzu.on("animation-complete", () => this.unlockControll())
+
     this._nullSlide = this.vizzu.store();
     const convertedSlides = [];
 
@@ -206,7 +215,6 @@ class VizzuPlayer extends HTMLElement {
   set _locked(lock) {
     if (!lock) {
       this.removeAttribute("locked");
-      clearTimeout(this._lock);
       this._lock = false;
     } else if (!this._lock) {
       this.setAttribute("locked", "");
@@ -216,16 +224,18 @@ class VizzuPlayer extends HTMLElement {
     }
   }
 
-  acquireLock(timeout = 1000) {
+  lockControll() {
     if (this._locked) {
       this.log("lock already acquired");
       return false;
     }
     this.log("acquire lock");
-    this._locked = setTimeout(() => {
-      this._locked = false;
-    }, timeout);
+    this._locked = true
     return this._locked;
+  }
+
+  unlockControll() {
+    this._locked = false;
   }
 
   recursiveCopy(obj) {
@@ -245,19 +255,15 @@ class VizzuPlayer extends HTMLElement {
     return clone;
   }
 
-  releaseLock() {
-    this.log("release lock");
-    this._locked = false;
-  }
 
   async _setSlides(slides) {
-    if (!this.acquireLock()) {
+    if (!this.lockControll()) {
       return;
     }
     this.setAttribute("initializing", "");
     this._originalSlides = slides;
     this._slides = await this._convertSlides(slides);
-    this.releaseLock();
+    this.unlockControll();
     this.setSlide(this._currentSlide);
     this.removeAttribute("initializing");
     this._resolvePlayer();
@@ -340,7 +346,7 @@ class VizzuPlayer extends HTMLElement {
   }
 
   async setSlide(slide) {
-    if (this.length === 0 || !this.acquireLock()) {
+    if (this.length === 0 || !this.lockControll()) {
       return;
     }
 
@@ -381,8 +387,7 @@ class VizzuPlayer extends HTMLElement {
       await this._step(cs[0]);
     }
 
-    this._seekPosition = 100;
-    this.releaseLock();
+    //this._seekPosition = 100;
     this._update(this._state);
 
     // update url hash
@@ -409,30 +414,12 @@ class VizzuPlayer extends HTMLElement {
 
   async seek(percent) {
     // TODO remove subslide concept
-    if (this.acquireLock()) {
       this._update(this._state);
       this.log(
         `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`
       );
-      const sspercent = 100 / this.slide.length;
-      let ss = Math.floor(percent / sspercent); // new subslide
-      let sp = (100 * (percent - ss * sspercent)) / sspercent; // new seek position
-      this.log(`ss ${ss}, sp ${sp}`);
-      if (ss >= this.slide.length) {
-        ss = this.slide.length - 1;
-        sp = 100;
-      }
-      if (ss !== this._subSlide) {
-        // need to change subslide
-        this._subSlide = ss;
-        await this._jump(this._currentSlide, this._subSlide, sp);
-      } else {
-        this.vizzu.animation.seek(`${sp}%`);
-      }
+      this.vizzu.animation.seek(`${percent}%`);
       this._seekPosition = percent;
-      this._subSeekPosition = sp;
-      this.releaseLock();
-    }
     this._update(this._state);
   }
 

@@ -11,6 +11,7 @@ class VizzuController extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = this._render();
 
+    this._sliderUpdate = this.getAttribute("slider-update") || "change";
     this._update = this.update.bind(this);
     this._keyHandler = this._handleKey.bind(this);
 
@@ -29,6 +30,13 @@ class VizzuController extends HTMLElement {
         } else if (btn.id === "fullscreen") {
           this.fullscreen();
         }
+      }
+    });
+
+    this.shadowRoot.addEventListener(this._sliderUpdate, (e) => {
+      const slider = e.target.closest("input[type=range]");
+      if (slider) {
+        this.seek(slider.value / 10);
       }
     });
   }
@@ -65,6 +73,11 @@ class VizzuController extends HTMLElement {
       (this._state?.currentSlide || 0) + 1
     }</span>/<span class="length">${this._state?.length || "?"}</span>`;
   }
+
+  get slider() {
+    return this.shadowRoot.getElementById("slider");
+  }
+
 
   _unsubscribe(player) {
     player?.removeEventListener("update", this._update);
@@ -136,7 +149,9 @@ class VizzuController extends HTMLElement {
     if (!this._player) {
       const p = this.getRootNode()?.host;
       if (p.nodeName === "VIZZU-PLAYER") {
-        this._player = this.getRootNode()?.host;
+        const player = this.getRootNode()?.host;
+        player.controller = this;
+        this._player = player
         this._subscribe(this._player);
       }
     }
@@ -184,6 +199,7 @@ class VizzuController extends HTMLElement {
 
   seek(percent) {
     this.log("seek", percent);
+    this._player?._update(this?._player._state);
     this.player?.seek(percent);
   }
 
@@ -219,6 +235,12 @@ class VizzuController extends HTMLElement {
       document.exitFullscreen();
     } else {
       this.fullscreenTarget?.requestFullscreen();
+    }
+  }
+
+  updateSlider(value) {
+    if (this.slider) {
+      this.slider.value = value;
     }
   }
 
@@ -280,6 +302,46 @@ class VizzuController extends HTMLElement {
         #fullscreen {
           margin-right: 10px;
         }
+        .slider {
+          display: flex;
+          width: 100%
+          padding: 30px;
+          padding-left: 40px;
+          background: #fcfcfc;
+          border-radius: 20px;
+          align-items: center;
+      }
+      
+      .slider input[type="range"] {
+          -webkit-appearance: none !important;
+          width: 420px;
+          height: 3px;
+          background: var(--vizzu-button-color, #c6c6c6);
+          border: none;
+          outline: none;
+      }
+      .slider:hover input[type="range"]
+       {
+        background: var(--_hc);
+        cursor: pointer;
+      }
+      
+      .slider input[type="range"]::-webkit-slider-thumb,
+      .slider input[type="range"]::-moz-range-thumb {
+          -webkit-appearance: none !important;
+          width: 10px;
+          height: 10px;
+          background: var(--vizzu-button-color, #c6c6c6);
+          border: 2px solid var(--vizzu-button-color, #c6c6c6);
+          border-radius: 50%;
+      }
+      
+      .slider input[type="range"]::-webkit-slider-thumb:hover,
+      .slider input[type="range"]::-moz-range-thumb:hover {
+          background: var(--_hc);
+          border: var(--_hc);
+          height: 50px
+      }
         #splaceholder {
           flex: 1;
           max-width: 350px;
@@ -310,7 +372,9 @@ class VizzuController extends HTMLElement {
             <path id="play_pass" d="M13.000,15.000 L-0.000,8.000 L-0.000,7.000 L13.000,-0.000 L13.000,15.000 z" fill="#A2A2A2" />
           </svg>
         </button>
-        <div id="splaceholder"></div>
+        <div class="slider">
+          <input aria-label="Seek animation" type="range" min="0" max="1000" id="slider"/>
+        </div>
         <button id="next" aria-label="Next">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13" height="15" viewBox="0 0 13 15">
             <path id="nextBtn" d="M-0.000,15.000 L13.000,8.000 L13.000,7.000 L-0.000,-0.000 L-0.000,15.000 z" fill="#A2A2A2" />
