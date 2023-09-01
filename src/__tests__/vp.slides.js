@@ -424,4 +424,40 @@ describe("if vp.slides setter is called", () => {
       }
     );
   });
+
+  describe("with slide contains preset", () => {
+    test(`${shouldBeExpected}`, () => {
+      const input = {
+        slides: [
+          {
+            config: vp.Vizzu.presets.stream({
+              x: "X",
+              y: "Y",
+              stackedBy: "Z",
+            }),
+          },
+        ],
+      };
+      const expected = [
+        [
+          [
+            {
+              target: {
+                config: { channels: { color: "Z", x: "X", y: ["Y", "Z"] } },
+                data: {},
+              },
+            },
+          ],
+        ],
+      ];
+      return vp.connectedCallback().then(() => {
+        return vp.initializing.then(() => {
+          vp.slides = input;
+          return waitForSlidesToBeSet(vp, 5000).then(() => {
+            expect(vp.slides).toStrictEqual(expected);
+          });
+        });
+      });
+    });
+  });
 });

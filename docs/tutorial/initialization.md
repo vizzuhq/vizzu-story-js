@@ -73,6 +73,18 @@ import Vizzu from '<url>/vizzu.min.js';
 window.Vizzu = Vizzu;
 ```
 
+!!! info
+    After initialization, you can access the imported `Vizzu` library via the
+    `Vizzu` getter.
+
+    ```javascript
+    const vp = document.querySelector('vizzu-player');
+
+    vp.initializing.then((chart) => {
+        const Vizzu = vp.Vizzu;
+    });
+    ```
+
 ### hash-navigation
 
 If you add `hash-navigation` attribute, slides can be selected using the `URL`
