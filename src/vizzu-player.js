@@ -130,8 +130,8 @@ class VizzuPlayer extends HTMLElement {
     // TODO lock
     await this.initializing;
 
-    if (slides?.style && typeof this.vizzu._setStyle === "function") {
-      this.vizzu._setStyle(slides.style);
+    if (typeof this.vizzu._setStyle === "function") {
+        this.vizzu._setStyle(slides.style ?? null);
     }
     const seekToEnd = () => this._seekToEnd();
     this.vizzu.on("animation-begin", seekToEnd);
@@ -231,10 +231,10 @@ class VizzuPlayer extends HTMLElement {
     const clone = Object.assign({}, obj);
     Object.keys(clone).forEach(
       (key) =>
-        (clone[key] =
-          typeof obj[key] === "object"
-            ? this.recursiveCopy(obj[key])
-            : obj[key])
+      (clone[key] =
+        typeof obj[key] === "object"
+          ? this.recursiveCopy(obj[key])
+          : obj[key])
     );
     if (Array.isArray(obj)) {
       clone.length = obj.length;
@@ -502,9 +502,8 @@ class VizzuPlayer extends HTMLElement {
           width: 80px;
           height: 80px;
         }
-        ${
-          this.customSpinner
-            ? `
+        ${this.customSpinner
+        ? `
         .spinner {
           background-image: url(${this.customSpinner});
           background-repeat: no-repeat;
@@ -512,7 +511,7 @@ class VizzuPlayer extends HTMLElement {
           width: auto;
           height: auto;
         }`
-            : `
+        : `
         .spinner:after {
           content: " ";
           display: block;
@@ -524,7 +523,7 @@ class VizzuPlayer extends HTMLElement {
           border-color: var(--_c) transparent var(--_c) transparent;
           animation: spin 1.2s linear infinite;
         }`
-        }
+      }
         @keyframes spin {
           0% {
             transform: rotate(0deg);
@@ -538,10 +537,9 @@ class VizzuPlayer extends HTMLElement {
         <canvas id="vizzu"></canvas>
         <div class="spinner"></div>
       </div>
-      ${
-        this._includeController
-          ? `<vizzu-controller id="controller" slider-update="input"></vizzu-controller>`
-          : ""
+      ${this._includeController
+        ? `<vizzu-controller id="controller" slider-update="input"></vizzu-controller>`
+        : ""
       }
       `;
   }
