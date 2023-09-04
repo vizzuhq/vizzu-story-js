@@ -124,12 +124,13 @@ class VizzuPlayer extends HTMLElement {
       }
       const firstSlide = slides.slides[0][0];
       firstSlide.data = firstSlide.data || Object.assign({}, slides.data);
+      firstSlide.style = firstSlide.style || slides.style;
     }
 
     // TODO lock
     await this.initializing;
 
-    if (slides?.style) {
+    if (slides?.style && typeof this.vizzu._setStyle === "function") {
       this.vizzu._setStyle(slides.style);
     }
     const seekToEnd = () => this._seekToEnd();
