@@ -138,7 +138,38 @@ class VizzuPlayer extends HTMLElement {
     }
     this.vizzu.on("update", updateSlider)
 
-    this.vizzu.on("animation-complete", () => this.unlockControll())
+    this.vizzu.on("animation-complete", () => {
+      this.unlockControll();
+    })
+
+
+
+    const setDefaultSlideAnimate = () => {
+      const position = this._seekPosition;
+      if (position > 99){
+        this.vizzu.animate(this.lastAnimation, { position: 1});            
+      }
+
+      if (position < 1 ){
+        this.vizzu.animate(this.lastAnimation, { position: 0 , direction: "reverse"});        
+      }
+    }
+
+    const canvasHoverHandler = () => {  
+      const position = this._seekPosition;
+      this.vizzu.feature("tooltip", false);
+
+      if (position > 99) {
+        this.vizzu.animate(this.lastAnimation, { position: 1}); 
+        this.vizzu.feature("tooltip", true);
+      }
+      if (position < 1) {
+        this.vizzu.animate(this.lastAnimation, { position: 0, direction: "reverse"});  
+        this.vizzu.feature("tooltip", true);
+      }
+    }
+    this.vizzuCanvas?.addEventListener("pointerout", setDefaultSlideAnimate);
+    this.vizzuCanvas?.addEventListener("pointerover", canvasHoverHandler)
 
     this._nullSlide = this.vizzu.store();
     const convertedSlides = [];
@@ -297,44 +328,8 @@ class VizzuPlayer extends HTMLElement {
     return await this.vizzu.animate(step, options);
   }
 
-  // TODO proper exception handling to re-enable rendering and such
-  // TODO remove subslide concept
-  async _jump(cs, percent) {
-    return new Promise((resolve) =>
-      setTimeout(async () => {
-        this.log("jump to", cs, percent);
-        const subSlide = this._slides[cs];
-        const seek = () => this._seekTo(percent);
-
-        this.vizzu.feature("rendering", false);
-        // animate to previous slide
-        if (cs > 0) {
-          const prevSlide = this._slides[cs - 1];
-          const prevSubSlide = prevSlide[prevSlide.length - 1];
-          const seekToEnd = () => this._seekToEnd();
-          this.vizzu.on("animation-begin", seekToEnd);
-          await this.vizzu.animate(...prevSubSlide);
-          this.vizzu.off("animation-begin", seekToEnd);
-        }
-        this.vizzu.feature("rendering", true);
-
-        // jump to subSlide
-        this.vizzu.on("animation-begin", seek);
-        await this.vizzu.animate(...subSlide);
-        this.vizzu.off("animation-begin", seek);
-
-        resolve(this.vizzu);
-      }, 0)
-    );
-  }
-
   async _seekTo(percent) {
-    return new Promise((resolve) =>
-      setTimeout(() => {
         this.vizzu.animation.seek(`${percent}%`);
-        resolve(this.vizzu);
-      }, 0)
-    );
   }
 
   async _seekToStart() {
@@ -372,22 +367,27 @@ class VizzuPlayer extends HTMLElement {
     }
 
     this._currentSlide = slide;
+    this._seekPosition = 100;
 
     if (actualSlideKey - slide === 1) {
       // previous
       const cs = this._slides[actualSlideKey];
       await this._step(cs[0], { position: 1, direction: "reverse" });
+      this.lastAnimation = cs[0];
+      
+      this._seekPosition = 0;
     } else if (actualSlideKey - slide === -1) {
       // next
       const ns = this._slides[slide];
       await this._step(ns[0]);
+      this.lastAnimation = ns[0];
     } else {
       // jump
       const cs = this._slides[slide];
       await this._step(cs[0]);
+      this.lastAnimation = cs[0];
     }
 
-    //this._seekPosition = 100;
     this._update(this._state);
 
     // update url hash
@@ -413,13 +413,12 @@ class VizzuPlayer extends HTMLElement {
   }
 
   async seek(percent) {
-    // TODO remove subslide concept
       this._update(this._state);
       this.log(
         `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`
       );
       this.vizzu.animation.seek(`${percent}%`);
-      this._seekPosition = percent;
+      this._seekPosition = percent;    
     this._update(this._state);
   }
 
