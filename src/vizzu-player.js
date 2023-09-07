@@ -118,7 +118,7 @@ class VizzuPlayer extends HTMLElement {
   }
 
   async _convertSlides(slides) {
-    //workaround
+    // workaround
     if (!slides.style) {
       slides.style = {};
     }
@@ -133,10 +133,10 @@ class VizzuPlayer extends HTMLElement {
       const firstSlide = slides.slides[0][0];
       firstSlide.data = firstSlide.data || Object.assign({}, slides.data);
       firstSlide.style = firstSlide.style || slides.style;
-      //workaround
+      // workaround
       if (!firstSlide.style.fontSize) {
         firstSlide.style.fontSize = "100%";
-      } 
+      }
     }
 
     // TODO lock
