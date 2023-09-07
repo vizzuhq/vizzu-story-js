@@ -1,3 +1,5 @@
+import Slider from "./controllers/slider.js";
+
 const LOG_PREFIX = [
   "%cVIZZU%cCONTROLLER",
   "background: #e2ae30; color: #3a60bf; font-weight: bold",
@@ -18,29 +20,29 @@ class VizzuController extends HTMLElement {
     this.shadowRoot.addEventListener("click", (e) => {
       const btn = e.target.closest("button");
 
-      if (btn) {
-        if (btn.id === "start") {
-          this.toStart();
-        } else if (btn.id === "end") {
-          this.toEnd();
-        } else if (btn.id === "previous") {
-          this.previous();
-        } else if (btn.id === "next") {
-          this.next();
-        } else if (btn.id === "fullscreen") {
-          this.fullscreen();
-        }
-      }
-    });
+      if (!btn) return;
 
-    this.shadowRoot.addEventListener(this._sliderUpdate, (e) => {
-      const slider = e.target.closest("input[type=range]");
-      if (slider) {
-        this.seek(slider.value / 10);
+      switch (btn.id) {
+        case "start":
+          this.toStart();
+          break;
+        case "end":
+          this.toEnd();
+          break;
+        case "previous":
+          this.previous();
+          break;
+        case "next":
+          this.next();
+          break;
+        case "fullscreen":
+          this.fullscreen();
+          break;
       }
     });
   }
 
+  // update the state of the component
   update(e) {
     const data = e.detail;
     this.log("update", data);
@@ -65,6 +67,7 @@ class VizzuController extends HTMLElement {
       this.removeAttribute("last");
     }
 
+    // update the status
     this.shadowRoot.getElementById("status").innerHTML = this._html_status;
   }
 
@@ -77,7 +80,6 @@ class VizzuController extends HTMLElement {
   get slider() {
     return this.shadowRoot.getElementById("slider");
   }
-
 
   _unsubscribe(player) {
     player?.removeEventListener("update", this._update);
@@ -151,7 +153,7 @@ class VizzuController extends HTMLElement {
       if (p.nodeName === "VIZZU-PLAYER") {
         const player = this.getRootNode()?.host;
         player.controller = this;
-        this._player = player
+        this._player = player;
         this._subscribe(this._player);
       }
     }
@@ -238,12 +240,6 @@ class VizzuController extends HTMLElement {
     }
   }
 
-  updateSlider(value) {
-    if (this.slider) {
-      this.slider.value = value;
-    }
-  }
-
   _render() {
     return `
       <style>
@@ -304,43 +300,12 @@ class VizzuController extends HTMLElement {
         }
         .slider {
           display: flex;
-          width: 100%
-          padding: 30px;
+          width: 100%;
+          padding: 15px;
           padding-left: 40px;
           background: #fcfcfc;
           border-radius: 20px;
           align-items: center;
-      }
-      
-      .slider input[type="range"] {
-          -webkit-appearance: none !important;
-          width: 420px;
-          height: 3px;
-          background: var(--vizzu-button-color, #c6c6c6);
-          border: none;
-          outline: none;
-      }
-      .slider:hover input[type="range"]
-       {
-        background: var(--_hc);
-        cursor: pointer;
-      }
-      
-      .slider input[type="range"]::-webkit-slider-thumb,
-      .slider input[type="range"]::-moz-range-thumb {
-          -webkit-appearance: none !important;
-          width: 10px;
-          height: 10px;
-          background: var(--vizzu-button-color, #c6c6c6);
-          border: 2px solid var(--vizzu-button-color, #c6c6c6);
-          border-radius: 50%;
-      }
-      
-      .slider input[type="range"]::-webkit-slider-thumb:hover,
-      .slider input[type="range"]::-moz-range-thumb:hover {
-          background: var(--_hc);
-          border: var(--_hc);
-          height: 50px
       }
         #splaceholder {
           flex: 1;
@@ -372,9 +337,7 @@ class VizzuController extends HTMLElement {
             <path id="play_pass" d="M13.000,15.000 L-0.000,8.000 L-0.000,7.000 L13.000,-0.000 L13.000,15.000 z" fill="#A2A2A2" />
           </svg>
         </button>
-        <div class="slider">
-          <input aria-label="Seek animation" type="range" min="0" max="1000" id="slider"/>
-        </div>
+        <vizzu-controller-slider></vizzu-controller-slider>
         <button id="next" aria-label="Next">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13" height="15" viewBox="0 0 13 15">
             <path id="nextBtn" d="M-0.000,15.000 L13.000,8.000 L13.000,7.000 L-0.000,-0.000 L-0.000,15.000 z" fill="#A2A2A2" />
@@ -406,3 +369,4 @@ try {
 }
 
 export default VizzuController;
+export { Slider };

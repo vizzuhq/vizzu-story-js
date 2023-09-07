@@ -48,7 +48,7 @@ class VizzuPlayer extends HTMLElement {
       const debugCookie = document.cookie
         .split(";")
         .some((c) => c.startsWith("vizzu-debug"));
-      return debugCookie || this.hasAttribute("debug");
+      return debugCookie || this.hasAttribute("debug") || this.player.debug;
     } catch (e) {
       return this.hasAttribute("debug");
     }
@@ -131,45 +131,17 @@ class VizzuPlayer extends HTMLElement {
     await this.initializing;
     const seekToEnd = () => this._seekToEnd();
     this.vizzu.on("animation-begin", seekToEnd);
-    
+
     const updateSlider = (event) => {
-      if (this._locked)
-        this.controller?.updateSlider(event.data.progress * 1000) 
-    }
-    this.vizzu.on("update", updateSlider)
+      if (this._locked && this.controller) {
+        this.controller?.updateSlider(event.data.progress * 1000);
+      }
+    };
+    this.vizzu.on("update", updateSlider);
 
     this.vizzu.on("animation-complete", () => {
       this.unlockControll();
-    })
-
-
-
-    const setDefaultSlideAnimate = () => {
-      const position = this._seekPosition;
-      if (position > 99){
-        this.vizzu.animate(this.lastAnimation, { position: 1});            
-      }
-
-      if (position < 1 ){
-        this.vizzu.animate(this.lastAnimation, { position: 0 , direction: "reverse"});        
-      }
-    }
-
-    const canvasHoverHandler = () => {  
-      const position = this._seekPosition;
-      this.vizzu.feature("tooltip", false);
-
-      if (position > 99) {
-        this.vizzu.animate(this.lastAnimation, { position: 1}); 
-        this.vizzu.feature("tooltip", true);
-      }
-      if (position < 1) {
-        this.vizzu.animate(this.lastAnimation, { position: 0, direction: "reverse"});  
-        this.vizzu.feature("tooltip", true);
-      }
-    }
-    this.vizzuCanvas?.addEventListener("pointerout", setDefaultSlideAnimate);
-    this.vizzuCanvas?.addEventListener("pointerover", canvasHoverHandler)
+    });
 
     this._nullSlide = this.vizzu.store();
     const convertedSlides = [];
@@ -261,7 +233,7 @@ class VizzuPlayer extends HTMLElement {
       return false;
     }
     this.log("acquire lock");
-    this._locked = true
+    this._locked = true;
     return this._locked;
   }
 
@@ -285,7 +257,6 @@ class VizzuPlayer extends HTMLElement {
     }
     return clone;
   }
-
 
   async _setSlides(slides) {
     if (!this.lockControll()) {
@@ -329,7 +300,7 @@ class VizzuPlayer extends HTMLElement {
   }
 
   async _seekTo(percent) {
-        this.vizzu.animation.seek(`${percent}%`);
+    this.vizzu.animation.seek(`${percent}%`);
   }
 
   async _seekToStart() {
@@ -338,6 +309,14 @@ class VizzuPlayer extends HTMLElement {
 
   async _seekToEnd() {
     return this._seekTo(100);
+  }
+
+  set seekPosition(percent) {
+    this._seekPosition = percent;
+  }
+
+  get seekPosition() {
+    return this._seekPosition;
   }
 
   async setSlide(slide) {
@@ -365,17 +344,19 @@ class VizzuPlayer extends HTMLElement {
     } else if (slide >= this.length) {
       slide = this.length - 1;
     }
-
     this._currentSlide = slide;
-    this._seekPosition = 100;
-
+    this.direction = "normal";
     if (actualSlideKey - slide === 1) {
       // previous
       const cs = this._slides[actualSlideKey];
-      await this._step(cs[0], { position: 1, direction: "reverse" });
       this.lastAnimation = cs[0];
-      
-      this._seekPosition = 0;
+      this.direction = "reverse";
+      await this._step(cs[0], { position: 1, direction: "reverse" });
+
+      if (actualSlideKey > 0) {
+        const ps = this._slides[actualSlideKey - 1];
+        await this._step(ps[0], { position: 1 });
+      }
     } else if (actualSlideKey - slide === -1) {
       // next
       const ns = this._slides[slide];
@@ -384,7 +365,7 @@ class VizzuPlayer extends HTMLElement {
     } else {
       // jump
       const cs = this._slides[slide];
-      await this._step(cs[0]);
+      await this._step(cs[0], { position: 0.99 });
       this.lastAnimation = cs[0];
     }
 
@@ -413,12 +394,11 @@ class VizzuPlayer extends HTMLElement {
   }
 
   async seek(percent) {
-      this._update(this._state);
-      this.log(
-        `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`
-      );
-      this.vizzu.animation.seek(`${percent}%`);
-      this._seekPosition = percent;    
+    this._update(this._state);
+    this.log(
+      `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`
+    );
+    this.vizzu.animation.seek(`${percent}%`);
     this._update(this._state);
   }
 
