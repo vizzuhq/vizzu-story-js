@@ -129,6 +129,10 @@ class VizzuPlayer extends HTMLElement {
 
     // TODO lock
     await this.initializing;
+
+    if (typeof this.vizzu._setStyle === "function") {
+      this.vizzu._setStyle(slides.style ?? null);
+    }
     const seekToEnd = () => this._seekToEnd();
     this.vizzu.on("animation-begin", seekToEnd);
     this._nullSlide = this.vizzu.store();
