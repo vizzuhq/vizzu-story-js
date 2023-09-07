@@ -1,3 +1,15 @@
+class Presets {
+  stream(config) {
+    return {
+      channels: {
+        x: config.x,
+        y: [config.y, config.stackedBy],
+        color: config.stackedBy,
+      },
+    };
+  }
+}
+
 class Control {
   constructor(animation) {
     this._animation = animation;
@@ -13,10 +25,6 @@ class Vizzu {
     this._snapshot = {};
   }
 
-  on() {}
-
-  off() {}
-
   animate() {
     this._snapshot = [...arguments][0];
     const anim = Promise.resolve("test1");
@@ -26,6 +34,14 @@ class Vizzu {
 
   store() {
     return this._snapshot;
+  }
+
+  on() {}
+
+  off() {}
+
+  static get presets() {
+    return new Presets();
   }
 
   async initializing() {

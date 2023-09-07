@@ -1,10 +1,10 @@
-import { waitForSlidesToBeSet } from "./assets/slides/asset-functions.js";
+import { waitForSlidesToBeSet } from "../../assets/slides/asset-functions.js";
 
-import { slideWithMoreSteps } from "./assets/slides/one-slide-more-steps.js";
+import { slideWithMoreSteps } from "../../assets/slides/one-slide-more-steps.js";
 
-import VizzuPlayer from "../vizzu-player.js";
+import VizzuPlayer from "../../../src/vizzu-player.js";
 
-import VizzuWindowMock from "./assets/mocks/vizzu-window.js";
+import VizzuWindowMock from "../../assets/mocks/vizzu-window.js";
 
 describe("if attribute", () => {
   let slides;
@@ -62,14 +62,14 @@ describe("if attribute", () => {
       });
     });
 
-    test(`set with a positive number (larger than slides.length), ${shouldBe} an overflow value`, () => {
+    test(`set with a positive number (larger than slides.length), ${shouldBe} (slides.lenght -1)`, () => {
       const hash = 8;
       global.document.location.hash = `#${hash}`;
       vp.setAttribute("hash-navigation", true);
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(1); // slides.length should be better
+          expect(vp.currentSlide).toStrictEqual(slides.slides.length - 1);
         });
       });
     });
@@ -86,14 +86,14 @@ describe("if attribute", () => {
       });
     });
 
-    test(`set with a negative number (larger than slides.length), ${shouldBe} an overflow value`, () => {
+    test(`set with a negative number (larger than slides.length), ${shouldBe} 0`, () => {
       const hash = -8;
       global.document.location.hash = `#${hash}`;
       vp.setAttribute("hash-navigation", true);
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(4); // 0 should be better
+          expect(vp.currentSlide).toStrictEqual(0);
         });
       });
     });
@@ -143,13 +143,13 @@ describe("if attribute", () => {
       });
     });
 
-    test(`a positive number (larger than slides.length), ${shouldBe} an overflow value`, () => {
+    test(`a positive number (larger than slides.length), ${shouldBe} (slides.length - 1)`, () => {
       const startSlide = 8;
       vp.setAttribute("start-slide", `${startSlide}`);
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(1); // slides.length should be better
+          expect(vp.currentSlide).toStrictEqual(slides.slides.length - 1);
         });
       });
     });
@@ -167,13 +167,13 @@ describe("if attribute", () => {
       });
     });
 
-    test(`a negative number (larger than slides.length), ${shouldBe} an overflow value`, () => {
+    test(`a negative number (larger than slides.length), ${shouldBe} 0`, () => {
       const startSlide = -8;
       vp.setAttribute("start-slide", `${startSlide}`);
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.currentSlide).toStrictEqual(4); // 0 should be better
+          expect(vp.currentSlide).toStrictEqual(0);
         });
       });
     });
@@ -260,16 +260,14 @@ describe("if attribute", () => {
     });
 
     test(`set, window.Vizzu is not set, ${shouldBe} imported from vizzu-url`, () => {
-      vp.setAttribute(
-        "vizzu-url",
-        "./__tests__/assets/mocks/vizzu-attribute.js"
-      );
+      vp.setAttribute("vizzu-url", "../tests/assets/mocks/vizzu-attribute.js");
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.vizzu.mockType).toStrictEqual("attribute");
+          expect(vp.vizzu.instanceMockType).toStrictEqual("attributeInstance");
+          expect(vp.Vizzu.classMockType).toStrictEqual("attributeClass");
           expect(vp.vizzuUrl).toStrictEqual(
-            "./__tests__/assets/mocks/vizzu-attribute.js"
+            "../tests/assets/mocks/vizzu-attribute.js"
           );
         });
       });
@@ -280,7 +278,8 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.vizzu.mockType).toStrictEqual("window");
+          expect(vp.vizzu.instanceMockType).toStrictEqual("windowInstance");
+          expect(vp.Vizzu.classMockType).toStrictEqual("windowClass");
           expect(vp.vizzuUrl).toBe(undefined);
         });
       });
@@ -290,7 +289,8 @@ describe("if attribute", () => {
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
-          expect(vp.vizzu.mockType).toStrictEqual("cdn");
+          expect(vp.vizzu.instanceMockType).toStrictEqual("cdnInstance");
+          expect(vp.Vizzu.classMockType).toStrictEqual("cdnClass");
           expect(vp.vizzuUrl).toStrictEqual(
             "https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js"
           );

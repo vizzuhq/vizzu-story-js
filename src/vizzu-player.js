@@ -129,6 +129,10 @@ class VizzuPlayer extends HTMLElement {
 
     // TODO lock
     await this.initializing;
+
+    if (typeof this.vizzu._setStyle === "function") {
+      this.vizzu._setStyle(slides.style ?? null);
+    }
     const seekToEnd = () => this._seekToEnd();
     this.vizzu.on("animation-begin", seekToEnd);
 
@@ -171,27 +175,21 @@ class VizzuPlayer extends HTMLElement {
   }
 
   _slideFromHash(length) {
-    const hashSlide = +document.location.hash.substring(1);
+    const hashSlide = parseInt(document.location.hash.substring(1));
 
     return this._normalizeSlideNumber(hashSlide, length);
   }
 
   _getStartSlide(length) {
-    const startSlide = +this.getAttribute("start-slide") || 0;
+    const startSlide = parseInt(this.getAttribute("start-slide")) || 0;
 
     return this._normalizeSlideNumber(startSlide, length);
   }
 
   _normalizeSlideNumber(nr, length) {
-    if (nr) {
-      if (nr < 0) {
-        nr = (length + (nr % length)) % length;
-      } else {
-        nr = (nr - 1) % length;
-      }
-    }
-
-    return nr || 0;
+    if (isNaN(nr)) return null;
+    if (!nr) return 0;
+    return nr < 0 ? Math.max(length + nr, 0) : Math.min(nr - 1, length - 1);
   }
 
   get slides() {
@@ -203,7 +201,7 @@ class VizzuPlayer extends HTMLElement {
     let startSlide = this._getStartSlide(slides.slides.length);
     if (this.hashNavigation) {
       const hashSlide = this._slideFromHash(slides.slides.length);
-      if (hashSlide) {
+      if (hashSlide !== null) {
         startSlide = hashSlide;
       }
     }

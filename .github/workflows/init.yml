@@ -7,6 +7,9 @@ jobs:
   init_dev_ubuntu22:
     runs-on: ubuntu-22.04
 
+    env:
+      PUPPETEER_CACHE_DIR: ${{ github.workspace }}/node_modules/.chromium
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
