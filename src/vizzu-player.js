@@ -118,6 +118,14 @@ class VizzuPlayer extends HTMLElement {
   }
 
   async _convertSlides(slides) {
+    //workaround
+    if (!slides.style) {
+      slides.style = {};
+    }
+    if (!slides.style.fontSize) {
+      slides.style.fontSize = "100%";
+    }
+
     if (slides?.slides?.length) {
       if (!Array.isArray(slides.slides[0])) {
         slides.slides[0] = [slides.slides[0]];
@@ -125,6 +133,10 @@ class VizzuPlayer extends HTMLElement {
       const firstSlide = slides.slides[0][0];
       firstSlide.data = firstSlide.data || Object.assign({}, slides.data);
       firstSlide.style = firstSlide.style || slides.style;
+      //workaround
+      if (!firstSlide.style.fontSize) {
+        firstSlide.style.fontSize = "100%";
+      } 
     }
 
     // TODO lock
