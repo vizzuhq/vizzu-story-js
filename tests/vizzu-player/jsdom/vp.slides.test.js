@@ -1,15 +1,15 @@
-import { dataAssets } from "./assets/chart-params/data.js";
-import { styleAssets } from "./assets/chart-params/style.js";
+import { dataAssets } from "../../assets/chart-params/data.js";
+import { styleAssets } from "../../assets/chart-params/style.js";
 
-import { waitForSlidesToBeSet } from "./assets/slides/asset-functions.js";
+import { waitForSlidesToBeSet } from "../../assets/slides/asset-functions.js";
 
-import { zeroSlide } from "./assets/slides/zero-slide.js";
-import { slidesWithOneSlideWithOneEmptyStep } from "./assets/slides/one-slide-one-empty-step.js";
-import { slidesWithOneSlideWithOneStep } from "./assets/slides/one-slide-one-step.js";
-import { slideWithMoreSteps } from "./assets/slides/one-slide-more-steps.js";
-import { slidesWithMoreSlides } from "./assets/slides/more-slides.js";
+import { zeroSlide } from "../../assets/slides/zero-slide.js";
+import { slidesWithOneSlideWithOneEmptyStep } from "../../assets/slides/one-slide-one-empty-step.js";
+import { slidesWithOneSlideWithOneStep } from "../../assets/slides/one-slide-one-step.js";
+import { slideWithMoreSteps } from "../../assets/slides/one-slide-more-steps.js";
+import { slidesWithMoreSlides } from "../../assets/slides/more-slides.js";
 
-import VizzuPlayer from "../vizzu-player.js";
+import VizzuPlayer from "../../../src/vizzu-player.js";
 
 import lodashClonedeep from "lodash.clonedeep";
 

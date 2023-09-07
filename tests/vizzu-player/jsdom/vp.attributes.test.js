@@ -1,10 +1,10 @@
-import { waitForSlidesToBeSet } from "./assets/slides/asset-functions.js";
+import { waitForSlidesToBeSet } from "../../assets/slides/asset-functions.js";
 
-import { slideWithMoreSteps } from "./assets/slides/one-slide-more-steps.js";
+import { slideWithMoreSteps } from "../../assets/slides/one-slide-more-steps.js";
 
-import VizzuPlayer from "../vizzu-player.js";
+import VizzuPlayer from "../../../src/vizzu-player.js";
 
-import VizzuWindowMock from "./assets/mocks/vizzu-window.js";
+import VizzuWindowMock from "../../assets/mocks/vizzu-window.js";
 
 describe("if attribute", () => {
   let slides;
@@ -260,17 +260,14 @@ describe("if attribute", () => {
     });
 
     test(`set, window.Vizzu is not set, ${shouldBe} imported from vizzu-url`, () => {
-      vp.setAttribute(
-        "vizzu-url",
-        "./__tests__/assets/mocks/vizzu-attribute.js"
-      );
+      vp.setAttribute("vizzu-url", "../tests/assets/mocks/vizzu-attribute.js");
       vp.slides = slides;
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
           expect(vp.vizzu.instanceMockType).toStrictEqual("attributeInstance");
           expect(vp.Vizzu.classMockType).toStrictEqual("attributeClass");
           expect(vp.vizzuUrl).toStrictEqual(
-            "./__tests__/assets/mocks/vizzu-attribute.js"
+            "../tests/assets/mocks/vizzu-attribute.js"
           );
         });
       });
