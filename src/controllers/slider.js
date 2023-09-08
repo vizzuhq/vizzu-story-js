@@ -37,8 +37,8 @@ class Slider extends HTMLElement {
         direction: direction,
         position: direction === "normal" ? 1 : 0,
         playState: "paused",
+        duration: "1s"
       };
-
       await this.player.vizzu
         .animate(this.player.lastAnimation || {}, options)
         .activated.then((control) => (pausedState = control));
