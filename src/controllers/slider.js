@@ -4,6 +4,7 @@ const LOG_PREFIX = [
   "background: #000000; color: #fafafa;",
 ];
 
+let pausedState = null;
 class Slider extends HTMLElement {
   constructor() {
     super();
@@ -15,42 +16,51 @@ class Slider extends HTMLElement {
 
     // Set up slider event listener
     this.slider.addEventListener("input", (event) => {
+      if (this.isDisabled()) {
+        return;
+      }
+
       this.seek(event.target.value / 10);
     });
 
-    this.slider.addEventListener("change", (e) => {
-      this.log("change", e);
-      const sliderPosition = this.player.direction === "reverse" ? 0 : 100;
-      this.slider.value = sliderPosition * 10;
-      this.player.vizzu.animate(this.player.lastAnimation, {
-        position: sliderPosition / 100,
-        direction: this.player.direction,
-      });
-    });
-
     this.slider.addEventListener("pointerdown", async (e) => {
-      this.log("pointerdown", e);
-      const direction = this.player.direction;
-      if (direction === "normal") {
+      if (this.isDisabled()) {
         return;
       }
-      /*       const options = {
-        direction: "reverse",
-        position: 0,
-      }; */
 
-      await this.player.vizzu.animate(this.player.lastAnimation || {}, 0);
+      this.log("pointerdown", e);
+      if (pausedState) {
+        await pausedState.play();
+      }
+      const direction = this.player.direction;
+      const options = {
+        direction: direction,
+        position: direction === "normal" ? 1 : 0,
+        playState: "paused",
+      };
+
+      await this.player.vizzu
+        .animate(this.player.lastAnimation || {}, options)
+        .activated.then((control) => (pausedState = control));
       this.seek(this.slider.value / 10);
     });
 
     this.slider.addEventListener("pointerup", async (e) => {
+      if (this.isDisabled()) {
+        return;
+      }
+
+      this.player.lockControll();
+      if (pausedState) {
+        await pausedState.play();
+        pausedState = null;
+      }
       const direction = this.player.direction;
       const options = {
         direction,
         position: this.slider.value / 1000,
+        playState: "running",
       };
-
-      await this.player.vizzu.animate(this.player.lastAnimation || {}, options);
 
       if (direction !== "reverse") {
         return;
@@ -75,9 +85,12 @@ class Slider extends HTMLElement {
   }
 
   seek(percent) {
-    this.log("seek", percent);
     this.player._update(this.player._state);
     this.player.seek(percent);
+  }
+
+  isDisabled() {
+    return this.slider.hasAttribute("disabled");
   }
 
   log(...msg) {

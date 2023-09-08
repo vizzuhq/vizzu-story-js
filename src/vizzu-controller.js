@@ -13,7 +13,6 @@ class VizzuController extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = this._render();
 
-    this._sliderUpdate = this.getAttribute("slider-update") || "change";
     this._update = this.update.bind(this);
     this._keyHandler = this._handleKey.bind(this);
 
@@ -75,10 +74,6 @@ class VizzuController extends HTMLElement {
     return `<span class="current">${
       (this._state?.currentSlide || 0) + 1
     }</span>/<span class="length">${this._state?.length || "?"}</span>`;
-  }
-
-  get slider() {
-    return this.shadowRoot.getElementById("slider");
   }
 
   _unsubscribe(player) {
@@ -298,15 +293,6 @@ class VizzuController extends HTMLElement {
         #fullscreen {
           margin-right: 10px;
         }
-        .slider {
-          display: flex;
-          width: 100%;
-          padding: 15px;
-          padding-left: 40px;
-          background: #fcfcfc;
-          border-radius: 20px;
-          align-items: center;
-      }
         #splaceholder {
           flex: 1;
           max-width: 350px;

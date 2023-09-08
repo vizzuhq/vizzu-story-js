@@ -146,6 +146,9 @@ class VizzuPlayer extends HTMLElement {
     const updateSlider = (event) => {
       if (this._locked && this.controller) {
         this.controller?.updateSlider(event.data.progress * 1000);
+        if (event.data.progress === 1) {
+          this.unlockControll();
+        }
       }
     };
     this.vizzu.on("update", updateSlider);
@@ -230,6 +233,7 @@ class VizzuPlayer extends HTMLElement {
     } else {
       this.log("!ALREADY LOCKED!");
     }
+    this._update(this._state);
   }
 
   lockControll() {
