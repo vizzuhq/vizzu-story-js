@@ -131,6 +131,13 @@ class VizzuPlayer extends HTMLElement {
     await this.initializing;
 
     if (typeof this.vizzu._setStyle === "function") {
+      // workaround
+      if (!slides.style) {
+        slides.style = {};
+      }
+      if (!slides.style.fontSize) {
+        slides.style.fontSize = "100%";
+      }
       this.vizzu._setStyle(slides.style ?? null);
     }
     const seekToEnd = () => this._seekToEnd();
