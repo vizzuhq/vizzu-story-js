@@ -376,6 +376,9 @@ class VizzuPlayer extends HTMLElement {
       // previous
       const cs = this._slides[actualSlideKey];
       await this._step(cs[0], { position: 1, direction: "reverse" });
+
+      const ps = this._slides[slide];
+      await this._step(ps[0], { position: 1 });
     } else if (actualSlideKey - slide === -1) {
       // next
       const ns = this._slides[slide];
