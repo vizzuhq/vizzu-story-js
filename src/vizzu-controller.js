@@ -20,7 +20,6 @@ class VizzuController extends HTMLElement {
       const btn = e.target.closest("button");
 
       if (!btn) return;
-
       switch (btn.id) {
         case "start":
           this.toStart();
@@ -47,7 +46,7 @@ class VizzuController extends HTMLElement {
     this.log("update", data);
     this._state = data;
     if (data.locked) {
-      this.setAttribute("locked", "");
+      // this.setAttribute("locked", "");
     } else {
       this.removeAttribute("locked");
     }
@@ -100,6 +99,7 @@ class VizzuController extends HTMLElement {
       "f",
       "F",
       "Escape",
+      "Enter",
     ];
 
     if (
@@ -108,7 +108,7 @@ class VizzuController extends HTMLElement {
         (kbmode === "fullscreen" && document.fullscreenElement))
     ) {
       e.preventDefault();
-
+      console.log(e.key)
       switch (e.key) {
         case "ArrowRight":
         case "PageDown":
@@ -132,7 +132,6 @@ class VizzuController extends HTMLElement {
         case "F":
           this.fullscreen();
           break;
-
         case "Escape":
           if (document.fullscreenElement) {
             document.exitFullscreen();

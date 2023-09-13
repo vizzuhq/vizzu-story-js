@@ -24,12 +24,28 @@ class Slider extends HTMLElement {
     });
 
     this.slider.addEventListener("pointerdown", async (e) => {
-      if (this.isDisabled()) {
+      /*       if (this.isDisabled()) {
         return;
-      }
+      } */
 
       this.log("pointerdown", e);
-      if (pausedState) {
+
+      const direction = this.player.direction;
+
+      const options = {
+        direction: direction,
+        position: direction === "normal" ? 1 : 0,
+        playState: "paused",
+        duration: "1s",
+      };
+
+      this.player.animationQueue.manualUpdate(
+        this.player.lastAnimation || {},
+        options
+      );
+      this.seek(this.slider.value / 10);
+
+      /*       if (pausedState) {
         await pausedState.play();
       }
       const direction = this.player.direction;
@@ -42,33 +58,60 @@ class Slider extends HTMLElement {
       await this.player.vizzu
         .animate(this.player.lastAnimation || {}, options)
         .activated.then((control) => (pausedState = control));
-      this.seek(this.slider.value / 10);
+      this.seek(this.slider.value / 10); */
     });
 
     this.slider.addEventListener("pointerup", async (e) => {
-      if (this.isDisabled()) {
+      this.player.animationQueue.continue();
+
+      const direction = this.player.direction;
+      if (direction === "reverse" && !this.player.animationQueue.hasNext()) {
+        const actualSlideKey = this.player.currentSlide || 0;
+        const ps = this.player.slides[actualSlideKey];
+        this.player._step(ps[0], { position: 1 });
+      }
+      /*       if (this.isDisabled()) {
         return;
       }
 
       this.player.lockControll();
-      if (pausedState) {
-        await pausedState.play();
-        pausedState = null;
-      }
       const direction = this.player.direction;
-      const options = {
-        direction,
-        position: this.slider.value / 1000,
-        playState: "running",
-      };
+      if (pausedState) {
+        //pausedState.play();
+        //pausedState = null;
 
-      if (direction !== "reverse") {
-        return;
-      }
+        const currentPercent = this.slider.value/10;
+        const isNormal = direction === "normal";
+        let percentage = isNormal? 0 + currentPercent : 100 - currentPercent;
+        const interval = 1000 / 30; 
 
-      const actualSlideKey = this.player.currentSlide || 0;
-      const ps = this.player.slides[actualSlideKey];
-      await this.player._step(ps[0], { position: 1 });
+        const increment = isNormal ? 1 : -1;
+
+        
+
+        let counter = 0;
+        const intervalId = setInterval(function () {
+          if (counter < interval) {
+            pausedState.seek(`${percentage}%`)
+            counter++;
+            percentage += increment * interval/100; ;
+          } else {
+            const seekPoisition = isNormal?`100%`: "0%";
+            pausedState.seek(seekPoisition);
+            pausedState.play();
+            pausedState = null;
+            if (direction === "reverse") {
+
+      
+              const actualSlideKey = this.player.currentSlide || 0;
+              const ps = this.player.slides[actualSlideKey];
+              this.player._step(ps[0], { position: 1 });
+            }
+            clearInterval(intervalId);
+          }
+        }, interval);
+
+      }  */
     });
   }
 
