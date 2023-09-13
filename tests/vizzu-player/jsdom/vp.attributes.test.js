@@ -98,7 +98,7 @@ describe("if attribute", () => {
       });
     });
 
-    test(`changed, ${shouldBe} the changed value`, () => {
+    test(`changed forward, ${shouldBe} the changed value`, () => {
       const initialHash = -4;
       global.document.location.hash = `#${initialHash}`;
       vp.setAttribute("hash-navigation", true);
@@ -112,6 +112,25 @@ describe("if attribute", () => {
           global.document.location.hash = `#${newHash}`;
           return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
             expect(vp.currentSlide).toBe(newHash - 1);
+          });
+        });
+      });
+    });
+
+    test(`changed backwards, ${shouldBe} the changed value`, () => {
+      const initialHash = 4;
+      global.document.location.hash = `#${initialHash}`;
+      vp.setAttribute("hash-navigation", true);
+      vp.slides = slides;
+      return vp.connectedCallback().then(() => {
+        return waitForSlidesToBeSet(vp, 5000).then(() => {
+          expect(vp.currentSlide).toBe(initialHash - 1);
+          const newHash = -4;
+          global.document.location.hash = `#${newHash}`;
+          return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
+            expect(vp.currentSlide).toStrictEqual(
+              slides.slides.length + newHash
+            );
           });
         });
       });
@@ -230,7 +249,7 @@ describe("if attribute", () => {
       });
     });
 
-    test(`set, hash-navigation changed, ${shouldBe} the changed value`, () => {
+    test(`set, hash-navigation changed forward, ${shouldBe} the changed value`, () => {
       const initialHash = -4;
       global.document.location.hash = `#${initialHash}`;
       const startSlide = 4;
@@ -246,6 +265,27 @@ describe("if attribute", () => {
           global.document.location.hash = `#${newHash}`;
           return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
             expect(vp.currentSlide).toBe(newHash - 1);
+          });
+        });
+      });
+    });
+
+    test(`set, hash-navigation changed backwards, ${shouldBe} the changed value`, () => {
+      const initialHash = 5;
+      global.document.location.hash = `#${initialHash}`;
+      const startSlide = 4;
+      vp.setAttribute("start-slide", `${startSlide}`);
+      vp.setAttribute("hash-navigation", true);
+      vp.slides = slides;
+      return vp.connectedCallback().then(() => {
+        return waitForSlidesToBeSet(vp, 5000).then(() => {
+          expect(vp.currentSlide).toBe(initialHash - 1);
+          const newHash = -4;
+          global.document.location.hash = `#${newHash}`;
+          return new Promise((resolve) => setTimeout(resolve, 100)).then(() => {
+            expect(vp.currentSlide).toStrictEqual(
+              slides.slides.length + newHash
+            );
           });
         });
       });
