@@ -54,4 +54,5 @@ jobs:
           path: |
             README.md
             build/
+            dist/
           key: cache_package_${{ github.run_id }}
