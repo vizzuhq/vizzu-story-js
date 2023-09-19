@@ -1,7 +1,8 @@
 class AnimationNode {
-  constructor(configObject, animOptions) {
+  constructor(configObject, animOptions, parameters) {
     this.configObject = configObject;
     this.animOptions = animOptions;
+    this.parameters = parameters;
     this.next = null;
   }
 }
@@ -14,6 +15,8 @@ class AnimationQueue {
     this.playing = false;
     this.paused = false;
     this.controller = null;
+    this.lastAnimation = null;
+    this._lastParameters = null;
 
     this.vizzu.on("animation-complete", () => {
       this.playing = false;
@@ -21,15 +24,16 @@ class AnimationQueue {
     });
   }
 
-  enqueue(newConfigObject, newAnimOptions) {
-    const configObject = this._recursiveCopy(newConfigObject);
-    console.log(configObject[0].target)
-    const  animOptions= this._recursiveCopy(newAnimOptions);
-    if (this.tail && 
-      this.tail.configObject === configObject && 
-      this.tail.animOptions === animOptions) return;
-    
-    const newNode = new AnimationNode(configObject, animOptions);
+  enqueue(configObject, animOptions, parameters = null) {
+    if (
+      this.tail &&
+      this.tail.configObject === configObject &&
+      this.tail.animOptions === animOptions &&
+      this.tail.parameters === parameters
+    )
+      return;
+
+    const newNode = new AnimationNode(configObject, animOptions, parameters);
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -57,7 +61,7 @@ class AnimationQueue {
     const newAnimation = new AnimationNode(configObject, animOptions);
 
     if (!firstAnimation.next) {
-       // There's no animation after the first one
+      // There's no animation after the first one
       firstAnimation.next = newAnimation;
       // The new animation becomes the last in the queue
       this.tail = newAnimation;
@@ -66,6 +70,11 @@ class AnimationQueue {
       newAnimation.next = firstAnimation.next;
       firstAnimation.next = newAnimation;
     }
+  }
+
+  isLast(node) {
+    if (!node || !node.next) return true;
+    return node.next === null;
   }
 
   isEmpty() {
@@ -82,27 +91,55 @@ class AnimationQueue {
   }
 
   play() {
+    this.playing = false;
     if (!this.head) return;
-    this.playing = true;
+
     const firstAnimation = this.head;
     if (firstAnimation.animOptions.playState === "paused") {
       this.paused = true;
       firstAnimation.animOptions.playState = "running";
     }
-    console.log(firstAnimation.configObject[0].target, firstAnimation.animOptions)
-    console.log("play",firstAnimation.configObject)
-    this.vizzu.animate(firstAnimation.configObject, firstAnimation.animOptions)
+
+    // change speed when the current animate is not a last
+    let configObject = firstAnimation.configObject;
+
+    if (!this.isLast(firstAnimation)) {
+      configObject = this._speedUp(firstAnimation.configObject);
+    }
+
+    let startSlideConfig = null;
+    if (configObject.length > 1) {
+      startSlideConfig = configObject[0];
+      this.vizzu.feature("rendering", false);
+      this.vizzu.animate(startSlideConfig.target, 0);
+    }
+    this.vizzu
+      .animate(configObject, firstAnimation.animOptions)
       .activated.then((control) => {
+        this.playing = true;
+        this._lastParameters = firstAnimation.parameters || null;
+        this.vizzu.feature("rendering", true);
         this.controller = control;
+
         if (this.paused) {
-          this.controller.pause();
-        } 
+          control.pause();
+        }
       });
+
+    this.lastAnimation = {
+      configObject,
+      animOptions: firstAnimation.animOptions,
+    };
+    if (
+      !this.paused &&
+      firstAnimation.animOptions.direction === "reverse" &&
+      startSlideConfig !== null
+    ) {
+      this.vizzu.animate(startSlideConfig.target, 0);
+    }
   }
 
   next() {
-    this.controller = null;
-
     this.dequeue();
 
     if (!this.head) {
@@ -120,17 +157,60 @@ class AnimationQueue {
     this.controller.pause();
   }
 
-  manualUpdate(configObject, animOptions) { 
+  reverse() {
+    if (!this.controller) return;
+    this.playing = true;
+    this.controller.reverse();
+    this.controller.play();
+  }
 
-    if(this.controller) {
+  seekStart(percent) {
+    this.playing = false;
+    this.controller.cancel();
+    this.vizzu.feature("rendering", false);
+    if (this.lastAnimation.configObject.length > 1) {
+      this.vizzu.animate(this.lastAnimation.configObject[0].target, {
+        position: 1,
+        duration: "0s",
+      });
+    }
+    this.vizzu
+      .animate(
+        this._speedUp(this.lastAnimation.configObject),
+        this.lastAnimation.animOptions
+      )
+      .activated.then((control) => {
+        this.controller = control;
+        control.pause();
+        this.pushed = true;
+        control.seek(percent + "%");
+        this.vizzu.feature("rendering", true);
+      });
+  }
+
+  seek(percent) {
+    if (!this.controller) return;
+
+    this.controller.seek(percent + "%");
+  }
+
+  getParamter(key) {
+    if (this._lastParameters && key in this._lastParameters) {
+      return this._lastParameters[key];
+    }
+    return null;
+  }
+
+  manualUpdate(configObject, animOptions, slideNumber) {
+    if (this.controller) {
       this.controller.play();
       this.controller.stop();
     }
 
     if (!this.head) {
-      this.enqueue(configObject, animOptions);
+      this.enqueue(configObject, animOptions, slideNumber);
       return;
-    };
+    }
 
     // Override the configuration and options of the first animation
     this.head.configObject = configObject;
@@ -158,39 +238,34 @@ class AnimationQueue {
 
   continue() {
     if (!this.controller) return;
-    this.controller.play();
-    if (this.head?.animOptions?.direction === "reverse") {
-      this.controller.reverse();
-    }
+
     this.paused = false;
+    this.playing = true;
+
+    if (this.head?.animOptions?.direction === "reverse") {
+      this.reverse();
+      return;
+    }
+    this.controller.play();
   }
 
-  _recursiveCopy(obj) {
-    // If the value is null or not an object, simply return it
-    if (obj === null || typeof obj !== "object") {
-      return obj;
+  _speedUp(configObject) {
+    if (configObject instanceof Array) {
+      return configObject.map((elem) => {
+        return { target: elem.target, options: { duration: "500ms" } };
+      });
     }
 
-    if (obj instanceof Function) {
-      // If a function is found, return it
-      return obj;
+    if (configObject instanceof Object && configObject.target) {
+      return {
+        target: configObject.target,
+        options: { duration: "500ms" },
+      };
     }
-
-    if (obj instanceof Array) {
-      // Copy the array and recursively copy its elements
-      const copyArray = [];
-      obj.map((arrayElement) => copyArray.push(arrayElement));
-      return copyArray;
-    }
-
-    const copyObj = {};
-    for (const key in obj) {
-      // Copy key-value pairs
-      if (key in obj) {
-        copyObj[key] = this._recursiveCopy(obj[key]);
-      }
-    }
-    return copyObj;
+    return {
+      target: configObject,
+      options: { duration: "500ms" },
+    };
   }
 }
 

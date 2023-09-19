@@ -4,7 +4,6 @@ const LOG_PREFIX = [
   "background: #000000; color: #fafafa;",
 ];
 
-let pausedState = null;
 class Slider extends HTMLElement {
   constructor() {
     super();
@@ -24,94 +23,15 @@ class Slider extends HTMLElement {
     });
 
     this.slider.addEventListener("pointerdown", async (e) => {
-      /*       if (this.isDisabled()) {
-        return;
-      } */
-
-      this.log("pointerdown", e);
-
-      const direction = this.player.direction;
-
-      const options = {
-        direction: direction,
-        position: direction === "normal" ? 1 : 0,
-        playState: "paused",
-        duration: "1s",
-      };
-
-      this.player.animationQueue.manualUpdate(
-        this.player.lastAnimation || {},
-        options
-      );
-      this.seek(this.slider.value / 10);
-
-      /*       if (pausedState) {
-        await pausedState.play();
-      }
-      const direction = this.player.direction;
-      const options = {
-        direction: direction,
-        position: direction === "normal" ? 1 : 0,
-        playState: "paused",
-        duration: "1s"
-      };
-      await this.player.vizzu
-        .animate(this.player.lastAnimation || {}, options)
-        .activated.then((control) => (pausedState = control));
-      this.seek(this.slider.value / 10); */
+      const currentSlide =
+        this.player.animationQueue.getParamter("currentSlide");
+      this.player._currentSlide = currentSlide;
+      this.player.animationQueue.clear();
+      this.player.animationQueue.seekStart(this.slider.value / 10);
     });
 
     this.slider.addEventListener("pointerup", async (e) => {
       this.player.animationQueue.continue();
-
-      const direction = this.player.direction;
-      if (direction === "reverse" && !this.player.animationQueue.hasNext()) {
-        const actualSlideKey = this.player.currentSlide || 0;
-        const ps = this.player.slides[actualSlideKey];
-        this.player._step(ps[0], { position: 1 });
-      }
-      /*       if (this.isDisabled()) {
-        return;
-      }
-
-      this.player.lockControll();
-      const direction = this.player.direction;
-      if (pausedState) {
-        //pausedState.play();
-        //pausedState = null;
-
-        const currentPercent = this.slider.value/10;
-        const isNormal = direction === "normal";
-        let percentage = isNormal? 0 + currentPercent : 100 - currentPercent;
-        const interval = 1000 / 30; 
-
-        const increment = isNormal ? 1 : -1;
-
-        
-
-        let counter = 0;
-        const intervalId = setInterval(function () {
-          if (counter < interval) {
-            pausedState.seek(`${percentage}%`)
-            counter++;
-            percentage += increment * interval/100; ;
-          } else {
-            const seekPoisition = isNormal?`100%`: "0%";
-            pausedState.seek(seekPoisition);
-            pausedState.play();
-            pausedState = null;
-            if (direction === "reverse") {
-
-      
-              const actualSlideKey = this.player.currentSlide || 0;
-              const ps = this.player.slides[actualSlideKey];
-              this.player._step(ps[0], { position: 1 });
-            }
-            clearInterval(intervalId);
-          }
-        }, interval);
-
-      }  */
     });
   }
 
@@ -121,15 +41,21 @@ class Slider extends HTMLElement {
       const parent = this.getRootNode()?.host;
       if (parent.nodeName === "VIZZU-CONTROLLER") {
         this.controller = parent;
+        await parent.initializing;
         this.player = parent.player;
-        parent.updateSlider = this._updateSlider.bind(this);
+
+        const updateSlider = (event) => {
+          if (this.player.animationQueue.playing) {
+            this._updateSlider(event.data.progress * 1000);
+          }
+        };
+        this.player.vizzu.on("update", updateSlider);
       }
     }
   }
 
   seek(percent) {
-    this.player._update(this.player._state);
-    this.player.seek(percent);
+    this.player.animationQueue.seek(percent);
   }
 
   isDisabled() {
@@ -152,7 +78,6 @@ class Slider extends HTMLElement {
     if (!this.slider) {
       return null;
     }
-
     if (this.player.direction === "normal" && this.player.currentSlide === 0) {
       this.slider.setAttribute("disabled", true);
       this.slider.value = 0;
@@ -226,7 +151,7 @@ class Slider extends HTMLElement {
       }
     </style>
     <div class="slider" id="slider-container">
-        <input aria-label="Seek animation" type="range" min="0" max="1000" id="slider"/>
+        <input aria-label="Seek animation" type="range" min="0" max="1000" value="0" id="slider"/>
       </div>`;
   }
 }

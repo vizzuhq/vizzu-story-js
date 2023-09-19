@@ -144,16 +144,6 @@ class VizzuPlayer extends HTMLElement {
     const seekToEnd = () => this._seekToEnd();
     this.vizzu.on("animation-begin", seekToEnd);
 
-    const updateSlider = (event) => {
-      if (this.controller && this.animationQueue.playing) {
-        this.controller?.updateSlider(event.data.progress * 1000);
-        if (event.data.progress === 1) {
-          this.unlockControll();
-        }
-      }
-    };
-    this.vizzu.on("update", updateSlider);
-
     this.vizzu.on("animation-complete", () => {
       this.unlockControll();
     });
@@ -168,39 +158,33 @@ class VizzuPlayer extends HTMLElement {
         steps = [steps];
       }
 
-      const chartSteps = [];
+      const chartSteps =
+        convertedSlides.length > 0 ? [convertedSlides?.at(-1)?.at(-1)] : [];
       const animParams = steps.map((step) => this._slideToAnimparams(step));
 
       for (const animParam of animParams) {
-        const anim = this.vizzu.animate(animParam.target)
+        const anim = this.vizzu.animate(animParam.target);
         await anim;
-    
+
         const targetData = {
           target: {
-            ...animParam.target,
             config: this.vizzu.config,
             style: this.vizzu.getComputedStyle(),
-            
-          }
-        }
-        if (animParam.target?.data && "filter" in animParam.target?.data && animParam.target.data.filter !== undefined) {
+          },
+        };
+        if (
+          animParam.target?.data &&
+          "filter" in animParam.target?.data &&
+          animParam.target.data.filter !== undefined
+        ) {
           targetData.target.data = { filter: animParam.target.data.filter };
           lastFilter = animParam.target.data.filter;
         } else if (lastFilter) {
           targetData.target.data = { filter: lastFilter };
         }
-           
-        chartSteps.push(targetData);
 
-        /*
-        
-        */
+        chartSteps.push(targetData);
       }
-/*       const anim = this.vizzu.animate(animParams);
-      const animCtrl = await anim.activated;
-      chartSteps.push(animCtrl.store());
-      await anim;
- */
       convertedSlides.push(chartSteps);
     }
     if (convertedSlides.length) {
@@ -208,8 +192,6 @@ class VizzuPlayer extends HTMLElement {
     }
     this.vizzu.off("animation-begin", seekToEnd);
 
-    console.log(convertedSlides)
-    console.log("--------------")
     return convertedSlides;
   }
 
@@ -303,7 +285,6 @@ class VizzuPlayer extends HTMLElement {
     this.setAttribute("initializing", "");
     this._originalSlides = slides;
     this._slides = await this._convertSlides(slides);
-    console.log(this._slides)
     this.unlockControll();
     this.setSlide(this._currentSlide);
     this.removeAttribute("initializing");
@@ -335,8 +316,10 @@ class VizzuPlayer extends HTMLElement {
   }
 
   _step(step, options = {}) {
-    this.animationQueue.enqueue(step, options);
-    //return await this.vizzu.animate(step, options);
+    this.animationQueue.enqueue(step, options, {
+      currentSlide: this._currentSlide,
+    });
+    // return await this.vizzu.animate(step, options);
   }
 
   async _seekTo(percent) {
@@ -362,13 +345,14 @@ class VizzuPlayer extends HTMLElement {
   set animationQueue(queue) {
     this._animationQueue = queue;
   }
+
   get animationQueue() {
     return this._animationQueue;
   }
 
   async setSlide(slide) {
     if (this.length === 0) {
-      //|| !this.lockControll()
+      // || !this.lockControll()
       return;
     }
 
@@ -386,7 +370,6 @@ class VizzuPlayer extends HTMLElement {
     this._update(this._state);
 
     const actualSlideKey = this._currentSlide || 0;
-
     if (!slide || slide < 0) {
       slide = 0;
     } else if (slide >= this.length) {
@@ -395,31 +378,27 @@ class VizzuPlayer extends HTMLElement {
     this._currentSlide = slide;
     this.direction = "normal";
     if (actualSlideKey - slide === 1) {
-      console.log("slide", slide)
       // previous
       if (actualSlideKey > 0) {
         this.direction = "reverse";
         const currentSlide = this._slides[actualSlideKey];
-        console.log("--------------")
-        console.log(currentSlide)
-        const previousSlide = this._slides[actualSlideKey-1];
-        console.log(previousSlide)
-      
-        const reverseState =  [previousSlide.at(-1), ...currentSlide];
-        console.log("reverseState", reverseState)
-        this._step(previousSlide, {position: 1, direction: "reverse"});
-        this.lastAnimation = reverseState;
+
+        this._step(currentSlide, { position: 1, direction: "reverse" });
+        this.lastAnimation = currentSlide;
       }
     } else if (actualSlideKey - slide === -1) {
       // next
+
       const ns = this._slides[slide];
       this._step(ns);
       this.lastAnimation = ns;
     } else {
       // jump
-      const cs = this._slides[slide];
-      this._step(cs, { position: 0.99 });
-      this.lastAnimation = cs;
+      const targetSlide = this._slides[slide];
+      const currentSlide = this._slides[actualSlideKey];
+
+      this._step([currentSlide.at(-1), ...targetSlide]);
+      this.lastAnimation = targetSlide;
     }
 
     this._update(this._state);

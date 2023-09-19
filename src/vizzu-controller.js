@@ -38,10 +38,16 @@ class VizzuController extends HTMLElement {
           break;
       }
     });
+
+    this._resolvePlayer = null;
+    this.initializing = new Promise((resolve) => {
+      this._resolvePlayer = resolve;
+    });
   }
 
   // update the state of the component
   update(e) {
+    console.log(e);
     const data = e.detail;
     this.log("update", data);
     this._state = data;
@@ -69,9 +75,14 @@ class VizzuController extends HTMLElement {
     this.shadowRoot.getElementById("status").innerHTML = this._html_status;
   }
 
+  get currentSlide() {
+    if (!this.player || !this.player.animationQueue) return null;
+    return this?.player?.animationQueue.getParamter("currentSlide");
+  }
+
   get _html_status() {
     return `<span class="current">${
-      (this._state?.currentSlide || 0) + 1
+      (this.currentSlide || 0) + 1
     }</span>/<span class="length">${this._state?.length || "?"}</span>`;
   }
 
@@ -108,7 +119,6 @@ class VizzuController extends HTMLElement {
         (kbmode === "fullscreen" && document.fullscreenElement))
     ) {
       e.preventDefault();
-      console.log(e.key)
       switch (e.key) {
         case "ArrowRight":
         case "PageDown":
@@ -141,11 +151,15 @@ class VizzuController extends HTMLElement {
     }
   }
 
-  connectedCallback() {
+  async connectedCallback() {
+    await Promise.resolve();
     if (!this._player) {
       const p = this.getRootNode()?.host;
       if (p.nodeName === "VIZZU-PLAYER") {
         const player = this.getRootNode()?.host;
+
+        await player.initializing;
+        this._resolvePlayer(player.initializing);
         player.controller = this;
         this._player = player;
         this._subscribe(this._player);
