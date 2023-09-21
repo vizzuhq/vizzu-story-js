@@ -88,7 +88,6 @@ describe("if vp.slides setter is called", () => {
           const modifiedInput = lodashClonedeep(input);
           modifiedInput.data = dataAssets.dataInit;
           const modifiedExpected = lodashClonedeep(expected);
-          modifiedExpected[0][0][0].target.data = dataAssets.dataInit;
           vp.slides = modifiedInput;
           return vp.connectedCallback().then(() => {
             return waitForSlidesToBeSet(vp, 5000).then(() => {
@@ -104,7 +103,7 @@ describe("if vp.slides setter is called", () => {
           const modifiedInput = lodashClonedeep(input);
           modifiedInput.style = styleAssets.styleInit;
           const modifiedExpected = lodashClonedeep(expected);
-          modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+          modifiedExpected[0][0].target.style = styleAssets.styleInit;
           vp.slides = modifiedInput;
           return vp.connectedCallback().then(() => {
             return waitForSlidesToBeSet(vp, 5000).then(() => {
@@ -121,8 +120,7 @@ describe("if vp.slides setter is called", () => {
           modifiedInput.data = dataAssets.dataInit;
           modifiedInput.style = styleAssets.styleInit;
           const modifiedExpected = lodashClonedeep(expected);
-          modifiedExpected[0][0][0].target.data = dataAssets.dataInit;
-          modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+          modifiedExpected[0][0].target.style = styleAssets.styleInit;
           vp.slides = modifiedInput;
           return vp.connectedCallback().then(() => {
             return waitForSlidesToBeSet(vp, 5000).then(() => {
@@ -166,10 +164,6 @@ describe("if vp.slides setter is called", () => {
           const modifiedInput = lodashClonedeep(input);
           modifiedInput.data = dataAssets.dataInit;
           const modifiedExpected = lodashClonedeep(expected);
-          modifiedExpected[0][0][0].target.data = Object.assign(
-            modifiedExpected[0][0][0].target.data,
-            dataAssets.dataInit
-          );
           vp.slides = modifiedInput;
           return vp.connectedCallback().then(() => {
             return waitForSlidesToBeSet(vp, 5000).then(() => {
@@ -186,10 +180,6 @@ describe("if vp.slides setter is called", () => {
           modifiedInput.data = dataAssets.dataInit;
           modifiedInput.slides[0] = [modifiedInput.slides[0]];
           const modifiedExpected = lodashClonedeep(expected);
-          modifiedExpected[0][0][0].target.data = Object.assign(
-            modifiedExpected[0][0][0].target.data,
-            dataAssets.dataInit
-          );
           vp.slides = modifiedInput;
           return vp.connectedCallback().then(() => {
             return waitForSlidesToBeSet(vp, 5000).then(() => {
@@ -205,8 +195,11 @@ describe("if vp.slides setter is called", () => {
           const modifiedInput = lodashClonedeep(input);
           modifiedInput.style = styleAssets.styleInit;
           const modifiedExpected = lodashClonedeep(expected);
-          if (!modifiedExpected[0][0][0].target.style) {
-            modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+          if (
+            !modifiedExpected[0][0].target.style ||
+            Object.values(modifiedExpected[0][0].target.style).length === 0
+          ) {
+            modifiedExpected[0][0].target.style = styleAssets.styleInit;
           }
           vp.slides = modifiedInput;
           return vp.connectedCallback().then(() => {
@@ -224,8 +217,11 @@ describe("if vp.slides setter is called", () => {
           modifiedInput.style = styleAssets.styleInit;
           modifiedInput.slides[0] = [modifiedInput.slides[0]];
           const modifiedExpected = lodashClonedeep(expected);
-          if (!modifiedExpected[0][0][0].target.style) {
-            modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+          if (
+            !modifiedExpected[0][0].target.style ||
+            Object.values(modifiedExpected[0][0].target.style).length === 0
+          ) {
+            modifiedExpected[0][0].target.style = styleAssets.styleInit;
           }
           vp.slides = modifiedInput;
           return vp.connectedCallback().then(() => {
@@ -243,12 +239,11 @@ describe("if vp.slides setter is called", () => {
           modifiedInput.data = dataAssets.dataInit;
           modifiedInput.style = styleAssets.styleInit;
           const modifiedExpected = lodashClonedeep(expected);
-          modifiedExpected[0][0][0].target.data = Object.assign(
-            modifiedExpected[0][0][0].target.data,
-            dataAssets.dataInit
-          );
-          if (!modifiedExpected[0][0][0].target.style) {
-            modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+          if (
+            !modifiedExpected[0][0].target.style ||
+            Object.values(modifiedExpected[0][0].target.style).length === 0
+          ) {
+            modifiedExpected[0][0].target.style = styleAssets.styleInit;
           }
           vp.slides = modifiedInput;
           return vp.connectedCallback().then(() => {
@@ -267,12 +262,11 @@ describe("if vp.slides setter is called", () => {
           modifiedInput.style = styleAssets.styleInit;
           modifiedInput.slides[0] = [modifiedInput.slides[0]];
           const modifiedExpected = lodashClonedeep(expected);
-          modifiedExpected[0][0][0].target.data = Object.assign(
-            modifiedExpected[0][0][0].target.data,
-            dataAssets.dataInit
-          );
-          if (!modifiedExpected[0][0][0].target.style) {
-            modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+          if (
+            !modifiedExpected[0][0].target.style ||
+            Object.values(modifiedExpected[0][0].target.style).length === 0
+          ) {
+            modifiedExpected[0][0].target.style = styleAssets.styleInit;
           }
           vp.slides = modifiedInput;
           return vp.connectedCallback().then(() => {
@@ -298,10 +292,6 @@ describe("if vp.slides setter is called", () => {
         const modifiedInput = lodashClonedeep(slideWithMoreSteps.input);
         modifiedInput.data = dataAssets.dataInit;
         const modifiedExpected = lodashClonedeep(slideWithMoreSteps.expected);
-        modifiedExpected[0][0][0].target.data = Object.assign(
-          modifiedExpected[0][0][0].target.data,
-          dataAssets.dataInit
-        );
         vp.slides = modifiedInput;
         return vp.connectedCallback().then(() => {
           return waitForSlidesToBeSet(vp, 5000).then(() => {
@@ -314,8 +304,11 @@ describe("if vp.slides setter is called", () => {
         const modifiedInput = lodashClonedeep(slideWithMoreSteps.input);
         modifiedInput.style = styleAssets.styleInit;
         const modifiedExpected = lodashClonedeep(slideWithMoreSteps.expected);
-        if (!modifiedExpected[0][0][0].target.style) {
-          modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+        if (
+          !modifiedExpected[0][0].target.style ||
+          Object.values(modifiedExpected[0][0].target.style).length === 0
+        ) {
+          modifiedExpected[0][0].target.style = styleAssets.styleInit;
         }
         vp.slides = modifiedInput;
         return vp.connectedCallback().then(() => {
@@ -330,12 +323,11 @@ describe("if vp.slides setter is called", () => {
         modifiedInput.data = dataAssets.dataInit;
         modifiedInput.style = styleAssets.styleInit;
         const modifiedExpected = lodashClonedeep(slideWithMoreSteps.expected);
-        modifiedExpected[0][0][0].target.data = Object.assign(
-          modifiedExpected[0][0][0].target.data,
-          dataAssets.dataInit
-        );
-        if (!modifiedExpected[0][0][0].target.style) {
-          modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+        if (
+          !modifiedExpected[0][0].target.style ||
+          Object.values(modifiedExpected[0][0].target.style).length === 0
+        ) {
+          modifiedExpected[0][0].target.style = styleAssets.styleInit;
         }
         vp.slides = modifiedInput;
         return vp.connectedCallback().then(() => {
@@ -368,10 +360,6 @@ describe("if vp.slides setter is called", () => {
         const modifiedInput = lodashClonedeep(input);
         modifiedInput.data = dataAssets.dataInit;
         const modifiedExpected = lodashClonedeep(expected);
-        modifiedExpected[0][0][0].target.data = Object.assign(
-          modifiedExpected[0][0][0].target.data,
-          dataAssets.dataInit
-        );
         vp.slides = modifiedInput;
         return vp.connectedCallback().then(() => {
           return waitForSlidesToBeSet(vp, 5000).then(() => {
@@ -388,8 +376,11 @@ describe("if vp.slides setter is called", () => {
         const modifiedInput = lodashClonedeep(input);
         modifiedInput.style = styleAssets.styleInit;
         const modifiedExpected = lodashClonedeep(expected);
-        if (!modifiedExpected[0][0][0].target.style) {
-          modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+        if (
+          !modifiedExpected[0][0].target.style ||
+          Object.keys(modifiedExpected[0][0].target.style).length === 0
+        ) {
+          modifiedExpected[0][0].target.style = styleAssets.styleInit;
         }
         vp.slides = modifiedInput;
         return vp.connectedCallback().then(() => {
@@ -408,12 +399,11 @@ describe("if vp.slides setter is called", () => {
         modifiedInput.data = dataAssets.dataInit;
         modifiedInput.style = styleAssets.styleInit;
         const modifiedExpected = lodashClonedeep(expected);
-        modifiedExpected[0][0][0].target.data = Object.assign(
-          modifiedExpected[0][0][0].target.data,
-          dataAssets.dataInit
-        );
-        if (!modifiedExpected[0][0][0].target.style) {
-          modifiedExpected[0][0][0].target.style = styleAssets.styleInit;
+        if (
+          !modifiedExpected[0][0].target.style ||
+          Object.keys(modifiedExpected[0][0].target.style).length === 0
+        ) {
+          modifiedExpected[0][0].target.style = styleAssets.styleInit;
         }
         vp.slides = modifiedInput;
         return vp.connectedCallback().then(() => {
@@ -440,20 +430,20 @@ describe("if vp.slides setter is called", () => {
       };
       const expected = [
         [
-          [
-            {
-              target: {
-                config: { channels: { color: "Z", x: "X", y: ["Y", "Z"] } },
-                data: {},
-              },
+          {
+            target: {
+              config: { channels: { color: "Z", x: "X", y: ["Y", "Z"] } },
+              style: {},
             },
-          ],
+          },
         ],
       ];
       return vp.connectedCallback().then(() => {
         return vp.initializing.then(() => {
           vp.slides = input;
           return waitForSlidesToBeSet(vp, 5000).then(() => {
+            console.log(JSON.stringify(vp.slides, null, 2));
+            console.log(JSON.stringify(expected, null, 2));
             expect(vp.slides).toStrictEqual(expected);
           });
         });

@@ -11,21 +11,31 @@ slidesWithOneSlideWithOneStep.push(
     input: {
       slides: [{ filter: filterAssets.filter1 }],
     },
-    expected: [[[{ target: { data: { filter: filterAssets.filter1 } } }]]],
+    expected: [
+      [
+        {
+          target: {
+            config: {},
+            style: {},
+            data: { filter: filterAssets.filter1 },
+          },
+        },
+      ],
+    ],
   },
   {
     description: "config",
     input: {
       slides: [{ config: configAssets.config1 }],
     },
-    expected: [[[{ target: { data: {}, config: configAssets.config1 } }]]],
+    expected: [[{ target: { config: configAssets.config1, style: {} } }]],
   },
   {
     description: "style",
     input: {
       slides: [{ style: styleAssets.style1 }],
     },
-    expected: [[[{ target: { data: {}, style: styleAssets.style1 } }]]],
+    expected: [[{ target: { config: {}, style: styleAssets.style1 } }]],
   },
   {
     description: "animOptions",
@@ -33,7 +43,12 @@ slidesWithOneSlideWithOneStep.push(
       slides: [{ animOptions: animOptionsAssets.animOptions1 }],
     },
     expected: [
-      [[{ target: { data: {} }, options: animOptionsAssets.animOptions1 }]],
+      [
+        {
+          target: { config: {}, style: {} },
+          options: animOptionsAssets.animOptions1,
+        },
+      ],
     ],
   }
 );
@@ -51,12 +66,14 @@ slidesWithOneSlideWithOneStep.push(
     },
     expected: [
       [
-        [
-          {
-            target: { data: { filter: filterAssets.filter1 } },
-            options: animOptionsAssets.animOptions1,
+        {
+          target: {
+            data: { filter: filterAssets.filter1 },
+            config: {},
+            style: {},
           },
-        ],
+          options: animOptionsAssets.animOptions1,
+        },
       ],
     ],
   },
@@ -72,12 +89,10 @@ slidesWithOneSlideWithOneStep.push(
     },
     expected: [
       [
-        [
-          {
-            target: { data: {}, config: configAssets.config1 },
-            options: animOptionsAssets.animOptions1,
-          },
-        ],
+        {
+          target: { style: {}, config: configAssets.config1 },
+          options: animOptionsAssets.animOptions1,
+        },
       ],
     ],
   },
@@ -93,12 +108,10 @@ slidesWithOneSlideWithOneStep.push(
     },
     expected: [
       [
-        [
-          {
-            target: { data: {}, style: styleAssets.style1 },
-            options: animOptionsAssets.animOptions1,
-          },
-        ],
+        {
+          target: { config: {}, style: styleAssets.style1 },
+          options: animOptionsAssets.animOptions1,
+        },
       ],
     ],
   }
@@ -118,16 +131,14 @@ slidesWithOneSlideWithOneStep.push({
   },
   expected: [
     [
-      [
-        {
-          target: {
-            data: { filter: filterAssets.filter1 },
-            config: configAssets.config1,
-            style: styleAssets.style1,
-          },
-          options: animOptionsAssets.animOptions1,
+      {
+        target: {
+          data: { filter: filterAssets.filter1 },
+          config: configAssets.config1,
+          style: styleAssets.style1,
         },
-      ],
+        options: animOptionsAssets.animOptions1,
+      },
     ],
   ],
 });

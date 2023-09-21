@@ -47,15 +47,9 @@ class VizzuController extends HTMLElement {
 
   // update the state of the component
   update(e) {
-    console.log(e);
     const data = e.detail;
     this.log("update", data);
     this._state = data;
-    if (data.locked) {
-      // this.setAttribute("locked", "");
-    } else {
-      this.removeAttribute("locked");
-    }
 
     // first slide
     if (data.currentSlide === 0) {
@@ -269,8 +263,7 @@ class VizzuController extends HTMLElement {
         :host([first]) #start,
         :host([first]) #previous,
         :host([last]) #end,
-        :host([last]) #next,
-        :host([locked]) {
+        :host([last]) #next {
           pointer-events: none;
           opacity: 0.5;
         }

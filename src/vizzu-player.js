@@ -127,7 +127,6 @@ class VizzuPlayer extends HTMLElement {
       firstSlide.style = firstSlide.style || slides.style;
     }
 
-    // TODO lock
     await this.initializing;
     this.animationQueue = new AnimationQueue(this.vizzu);
 
@@ -144,11 +143,6 @@ class VizzuPlayer extends HTMLElement {
     const seekToEnd = () => this._seekToEnd();
     this.vizzu.on("animation-begin", seekToEnd);
 
-    this.vizzu.on("animation-complete", () => {
-      this.unlockControll();
-    });
-
-    this._nullSlide = this.vizzu.store();
     const convertedSlides = [];
 
     let lastFilter;
@@ -165,21 +159,28 @@ class VizzuPlayer extends HTMLElement {
       for (const animParam of animParams) {
         const anim = this.vizzu.animate(animParam.target);
         await anim;
-
         const targetData = {
           target: {
             config: this.vizzu.config,
             style: this.vizzu.getComputedStyle(),
           },
         };
+        if (animParam.options) {
+          targetData.options = animParam.options;
+        }
         if (
           animParam.target?.data &&
           "filter" in animParam.target?.data &&
           animParam.target.data.filter !== undefined
         ) {
+          // the data filte is extists
           targetData.target.data = { filter: animParam.target.data.filter };
           lastFilter = animParam.target.data.filter;
+        } else if (targetData.target.filter) {
+          // the data filter is not exists but the target has filter
+          targetData.target.data = { filter: animParam.target.data.filter };
         } else if (lastFilter) {
+          // the data filter  and tager filter are not exists but the last filter is extists
           targetData.target.data = { filter: lastFilter };
         }
 
@@ -218,7 +219,7 @@ class VizzuPlayer extends HTMLElement {
   }
 
   set slides(slidesSourceData) {
-    const slides = this.recursiveCopy(slidesSourceData);
+    const slides = this._recursiveCopy(slidesSourceData);
     let startSlide = this._getStartSlide(slides.slides.length);
     if (this.hashNavigation) {
       const hashSlide = this._slideFromHash(slides.slides.length);
@@ -230,45 +231,14 @@ class VizzuPlayer extends HTMLElement {
     this._setSlides(slides);
   }
 
-  get _locked() {
-    return this._lock;
-  }
-
-  set _locked(lock) {
-    if (!lock) {
-      this.removeAttribute("locked");
-      this._lock = false;
-    } else if (!this._lock) {
-      this.setAttribute("locked", "");
-      this._lock = lock;
-    } else {
-      this.log("!ALREADY LOCKED!");
-    }
-    this._update(this._state);
-  }
-
-  lockControll() {
-    if (this._locked) {
-      this.log("lock already acquired");
-      return false;
-    }
-    this.log("acquire lock");
-    this._locked = true;
-    return this._locked;
-  }
-
-  unlockControll() {
-    this._locked = false;
-  }
-
-  recursiveCopy(obj) {
+  _recursiveCopy(obj) {
     if (obj === null) return null;
     const clone = Object.assign({}, obj);
     Object.keys(clone).forEach(
       (key) =>
         (clone[key] =
           typeof obj[key] === "object"
-            ? this.recursiveCopy(obj[key])
+            ? this._recursiveCopy(obj[key])
             : obj[key])
     );
     if (Array.isArray(obj)) {
@@ -279,13 +249,9 @@ class VizzuPlayer extends HTMLElement {
   }
 
   async _setSlides(slides) {
-    if (!this.lockControll()) {
-      return;
-    }
     this.setAttribute("initializing", "");
     this._originalSlides = slides;
     this._slides = await this._convertSlides(slides);
-    this.unlockControll();
     this.setSlide(this._currentSlide);
     this.removeAttribute("initializing");
     this._resolvePlayer();
@@ -352,7 +318,6 @@ class VizzuPlayer extends HTMLElement {
 
   async setSlide(slide) {
     if (this.length === 0) {
-      // || !this.lockControll()
       return;
     }
 
@@ -440,7 +405,6 @@ class VizzuPlayer extends HTMLElement {
       slide: this.slide,
       seekPosition: this._seekPosition,
       length: this.length,
-      locked: this._locked,
     };
   }
 

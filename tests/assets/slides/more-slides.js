@@ -7,23 +7,73 @@ const slidesWithMoreSlides = generateSlides();
 
 export { slidesWithMoreSlides };
 
+function addPreviousSlideLastKeyframeToExpected(expected) {
+  return expected.map((keyFrame, key) => {
+    if (key === 0) return keyFrame;
+
+    return [expected[key - 1].at(-1), ...keyFrame];
+  });
+}
+
+function addLastFilterToExpected(expected) {
+  let lastFilter;
+  return expected.map((keyFrame, key) => {
+    return keyFrame.map((keyFrameItem) => {
+      if (keyFrameItem.target.data && "filter" in keyFrameItem.target.data) {
+        lastFilter = keyFrameItem.target.data.filter;
+      } else if (lastFilter) {
+        keyFrameItem.target.data = { filter: lastFilter };
+      }
+      return keyFrameItem;
+    });
+  });
+}
+
 function generateSlides() {
   const slidesWithMoreSlides = [];
   slidesWithOneSlideWithOneStep.forEach((slide) => {
     const oneStepAsObjectSlidePlusMoreStepsSlide =
       generateOneStepAsObjectSlidePlusMoreStepsSlide(slide);
+    oneStepAsObjectSlidePlusMoreStepsSlide.expected =
+      addPreviousSlideLastKeyframeToExpected(
+        oneStepAsObjectSlidePlusMoreStepsSlide.expected
+      );
     slidesWithMoreSlides.push(oneStepAsObjectSlidePlusMoreStepsSlide);
 
     const oneStepAsListSlidePlusMoreStepsSlide =
       generateOneStepAsListSlidePlusMoreStepsSlide(slide);
+    oneStepAsListSlidePlusMoreStepsSlide.expected =
+      addPreviousSlideLastKeyframeToExpected(
+        oneStepAsListSlidePlusMoreStepsSlide.expected
+      );
+
     slidesWithMoreSlides.push(oneStepAsListSlidePlusMoreStepsSlide);
 
     const moreStepsSlidePlusOneStepAsObjectSlide =
       generateMoreStepsSlidePlusOneStepAsObjectSlide(slide);
+
+    moreStepsSlidePlusOneStepAsObjectSlide.expected = addLastFilterToExpected(
+      moreStepsSlidePlusOneStepAsObjectSlide.expected
+    );
+
+    moreStepsSlidePlusOneStepAsObjectSlide.expected =
+      addPreviousSlideLastKeyframeToExpected(
+        moreStepsSlidePlusOneStepAsObjectSlide.expected
+      );
+
     slidesWithMoreSlides.push(moreStepsSlidePlusOneStepAsObjectSlide);
 
     const moreStepsSlidePlusOneStepAsListSlide =
       generateMoreStepsSlidePlusOneStepAsListSlide(slide);
+
+    moreStepsSlidePlusOneStepAsListSlide.expected = addLastFilterToExpected(
+      moreStepsSlidePlusOneStepAsListSlide.expected
+    );
+
+    moreStepsSlidePlusOneStepAsListSlide.expected =
+      addPreviousSlideLastKeyframeToExpected(
+        moreStepsSlidePlusOneStepAsListSlide.expected
+      );
     slidesWithMoreSlides.push(moreStepsSlidePlusOneStepAsListSlide);
   });
   return slidesWithMoreSlides;
@@ -51,9 +101,6 @@ function generateMoreStepsSlidePlusOneStepAsObjectSlide(slide) {
   slides.description = `slide1(more steps), slide2(object step with ${slide.description})`;
   slides.input.slides.push(slide.input.slides[0]);
   const expected = lodashClonedeep(slide.expected[0]);
-  if (!expected[0][0].target.data.filter) {
-    delete expected[0][0].target.data;
-  }
   slides.expected.push(expected);
   return slides;
 }
@@ -63,9 +110,6 @@ function generateMoreStepsSlidePlusOneStepAsListSlide(slide) {
   slides.description = `slide1(more steps), slide2(list step with ${slide.description})`;
   slides.input.slides.push([slide.input.slides[0]]);
   const expected = lodashClonedeep(slide.expected[0]);
-  if (!expected[0][0].target.data.filter) {
-    delete expected[0][0].target.data;
-  }
   slides.expected.push(expected);
   return slides;
 }
