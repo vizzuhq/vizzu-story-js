@@ -24,7 +24,7 @@ class Slider extends HTMLElement {
 
     this.slider.addEventListener("pointerdown", async (e) => {
       const currentSlide =
-        this.player.animationQueue.getParamter("currentSlide");
+        this.player.animationQueue.getParameter("currentSlide");
       this.player._currentSlide = currentSlide;
       this.player.animationQueue.clear();
       this.player.animationQueue.seekStart(this.slider.value / 10);
