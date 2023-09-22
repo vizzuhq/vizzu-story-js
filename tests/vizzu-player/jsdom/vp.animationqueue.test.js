@@ -44,7 +44,7 @@ describe("if animationQueue is called", () => {
           vp.animationQueue.abort();
           vp.next();
           return waitForAnimationEnd(vp, 5000).then(async () => {
-            const currentSlide = vp.animationQueue.getParamter("currentSlide");
+            const currentSlide = vp.animationQueue.getParameter("currentSlide");
             expect(currentSlide).toStrictEqual(1);
           });
         });
@@ -58,7 +58,7 @@ describe("if animationQueue is called", () => {
           vp.animationQueue.abort();
           vp.setSlide(2);
           return waitForAnimationEnd(vp, 5000).then(async () => {
-            const currentSlide = vp.animationQueue.getParamter("currentSlide");
+            const currentSlide = vp.animationQueue.getParameter("currentSlide");
             expect(currentSlide).toStrictEqual(2);
           });
         });
