@@ -346,7 +346,6 @@ class VizzuPlayer extends HTMLElement {
         this.lastAnimation = currentSlide;
       }
     } else if (actualSlideKey - slide === -1) {
-
       const ns = this._slides[slide];
       this._step(ns);
       this.lastAnimation = ns;
