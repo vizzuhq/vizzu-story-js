@@ -130,7 +130,7 @@ class VizzuPlayer extends HTMLElement {
     await this.initializing;
     this.vizzu.on("animation-complete", () => {
       this._update(this._state);
-    })
+    });
     this.animationQueue = new AnimationQueue(this.vizzu);
 
     if (typeof this.vizzu._setStyle === "function") {
