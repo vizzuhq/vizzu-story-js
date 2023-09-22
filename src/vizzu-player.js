@@ -78,7 +78,6 @@ class VizzuPlayer extends HTMLElement {
 
   async _initVizzu() {
     if (!this.vizzu) {
-      // load and init vizzu
       Vizzu = window.Vizzu || (await import(this.vizzuUrl)).default;
       this._resolveVizzu(Vizzu);
       this.vizzu = new Vizzu(this.vizzuCanvas);
@@ -87,7 +86,6 @@ class VizzuPlayer extends HTMLElement {
 
   _slideToAnimparams(slide) {
     if (slide._id) {
-      // already got an ID
       return slide._id;
     }
 
@@ -102,7 +100,6 @@ class VizzuPlayer extends HTMLElement {
       animTarget.data = slide.data;
     }
     if (typeof slide.filter !== "undefined") {
-      // null is valid
       if (!animTarget.data) {
         animTarget.data = {};
       }
@@ -176,14 +173,11 @@ class VizzuPlayer extends HTMLElement {
           "filter" in animParam.target?.data &&
           animParam.target.data.filter !== undefined
         ) {
-          // the data filte is extists
           targetData.target.data = { filter: animParam.target.data.filter };
           lastFilter = animParam.target.data.filter;
         } else if (targetData.target.filter) {
-          // the data filter is not exists but the target has filter
           targetData.target.data = { filter: animParam.target.data.filter };
         } else if (lastFilter) {
-          // the data filter  and tager filter are not exists but the last filter is extists
           targetData.target.data = { filter: lastFilter };
         }
 
@@ -288,7 +282,6 @@ class VizzuPlayer extends HTMLElement {
     this.animationQueue.enqueue(step, options, {
       currentSlide: this._currentSlide,
     });
-    // return await this.vizzu.animate(step, options);
   }
 
   async _seekTo(percent) {
@@ -331,7 +324,6 @@ class VizzuPlayer extends HTMLElement {
           this._currentSlide === this._slides.length - 1) ||
         slide === this._currentSlide)
     ) {
-      // if the next slide is smallest zero and the current slide is first or the nex slide is largest the slides length and the current slide is last then not jump
       return;
     }
 
@@ -346,7 +338,6 @@ class VizzuPlayer extends HTMLElement {
     this._currentSlide = slide;
     this.direction = "normal";
     if (actualSlideKey - slide === 1) {
-      // previous
       if (actualSlideKey > 0) {
         this.direction = "reverse";
         const currentSlide = this._slides[actualSlideKey];
@@ -355,13 +346,11 @@ class VizzuPlayer extends HTMLElement {
         this.lastAnimation = currentSlide;
       }
     } else if (actualSlideKey - slide === -1) {
-      // next
 
       const ns = this._slides[slide];
       this._step(ns);
       this.lastAnimation = ns;
     } else {
-      // jump
       const targetSlide = this._slides[slide];
       const currentSlide = this._slides[actualSlideKey];
 
@@ -371,7 +360,6 @@ class VizzuPlayer extends HTMLElement {
 
     this._update(this._state);
 
-    // update url hash
     if (this.hashNavigation) {
       document.location.hash = `#${slide + 1}`;
     }

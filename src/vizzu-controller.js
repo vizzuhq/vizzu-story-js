@@ -45,27 +45,23 @@ class VizzuController extends HTMLElement {
     });
   }
 
-  // update the state of the component
   update(e) {
     const data = e.detail;
     this.log("update", data);
     this._state = data;
 
-    // first slide
     if (data.currentSlide === 0) {
       this.setAttribute("first", "");
     } else {
       this.removeAttribute("first");
     }
 
-    // last slide
     if (data.currentSlide === data.length - 1) {
       this.setAttribute("last", "");
     } else {
       this.removeAttribute("last");
     }
 
-    // update the status
     this.shadowRoot.getElementById("status").innerHTML = this._html_status;
   }
 
