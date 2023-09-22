@@ -153,6 +153,7 @@ class AnimationQueue {
   pause() {
     if (!this.controller) return;
 
+    this.playing = false;
     this.paused = true;
     this.controller.pause();
   }
@@ -221,6 +222,7 @@ class AnimationQueue {
   abort() {
     if (!this.controller) return;
 
+    this.playing = false;
     this.paused = false;
     this.controller.stop();
     this.controller = null;
@@ -230,6 +232,10 @@ class AnimationQueue {
 
   isPaused() {
     return this.paused;
+  }
+
+  isPlaying() {
+    return this.playing;
   }
 
   hasNext() {

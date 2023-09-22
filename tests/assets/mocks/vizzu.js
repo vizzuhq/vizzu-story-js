@@ -14,6 +14,10 @@ class Control {
   constructor(animation) {
     this._animation = animation;
   }
+
+  stop() {}
+
+  pause() {}
 }
 
 class Vizzu {

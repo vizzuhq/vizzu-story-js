@@ -442,8 +442,6 @@ describe("if vp.slides setter is called", () => {
         return vp.initializing.then(() => {
           vp.slides = input;
           return waitForSlidesToBeSet(vp, 5000).then(() => {
-            console.log(JSON.stringify(vp.slides, null, 2));
-            console.log(JSON.stringify(expected, null, 2));
             expect(vp.slides).toStrictEqual(expected);
           });
         });

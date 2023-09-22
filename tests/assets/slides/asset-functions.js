@@ -18,4 +18,26 @@ function waitForSlidesToBeSet(vp, timeout) {
   });
 }
 
-export { waitForSlidesToBeSet };
+function waitForAnimationEnd(vp, timeout) {
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
+
+    const checkAnimation = () => {
+      if (!vp.animationQueue.isPlaying() ) {
+        resolve();
+      } else if (Date.now() - startTime >= timeout) {
+        reject(
+          new Error(
+            "Timeout: animation was not finished within the specified time."
+          )
+        );
+      } else {
+        setTimeout(checkAnimation, 100);
+      }
+    };
+
+    checkAnimation();
+  });
+}
+
+export { waitForSlidesToBeSet, waitForAnimationEnd };
