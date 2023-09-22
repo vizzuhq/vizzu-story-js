@@ -67,7 +67,7 @@ class VizzuController extends HTMLElement {
 
   get currentSlide() {
     if (!this.player || !this.player.animationQueue) return null;
-    return this?.player?.animationQueue.getParamter("currentSlide");
+    return this?.player?.animationQueue.getParameter("currentSlide");
   }
 
   get _html_status() {
@@ -142,7 +142,6 @@ class VizzuController extends HTMLElement {
   }
 
   async connectedCallback() {
-    await Promise.resolve();
     if (!this._player) {
       const p = this.getRootNode()?.host;
       if (p.nodeName === "VIZZU-PLAYER") {

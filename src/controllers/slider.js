@@ -36,7 +36,6 @@ class Slider extends HTMLElement {
   }
 
   async connectedCallback() {
-    await Promise.resolve();
     if (!this.controller) {
       const parent = this.getRootNode()?.host;
       if (parent.nodeName === "VIZZU-CONTROLLER") {

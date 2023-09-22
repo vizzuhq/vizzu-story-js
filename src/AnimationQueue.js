@@ -195,7 +195,7 @@ class AnimationQueue {
     this.controller.seek(percent + "%");
   }
 
-  getParamter(key) {
+  getParameter(key) {
     if (this._lastParameters && key in this._lastParameters) {
       return this._lastParameters[key];
     }
