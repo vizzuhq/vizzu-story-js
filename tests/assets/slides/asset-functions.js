@@ -23,7 +23,7 @@ function waitForAnimationEnd(vp, timeout) {
     const startTime = Date.now();
 
     const checkAnimation = () => {
-      if (!vp.animationQueue.isPlaying() ) {
+      if (!vp.animationQueue.isPlaying()) {
         resolve();
       } else if (Date.now() - startTime >= timeout) {
         reject(

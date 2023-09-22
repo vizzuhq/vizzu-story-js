@@ -48,7 +48,7 @@ describe("if animationQueue is called", () => {
             expect(currentSlide).toStrictEqual(1);
           });
         });
-      });     
+      });
     });
 
     test(`jump to third slide, ${shouldBe} 2`, () => {
@@ -56,17 +56,14 @@ describe("if animationQueue is called", () => {
       return vp.connectedCallback().then(() => {
         return waitForSlidesToBeSet(vp, 5000).then(() => {
           vp.animationQueue.abort();
-          vp.setSlide(2)
+          vp.setSlide(2);
           return waitForAnimationEnd(vp, 5000).then(async () => {
-            await new Promise(r => setTimeout(r, 3000));
-              const currentSlide =
-              vp.animationQueue.getParamter("currentSlide");
+            const currentSlide = vp.animationQueue.getParamter("currentSlide");
             expect(currentSlide).toStrictEqual(2);
-
           });
         });
       });
-    })
+    });
   });
   describe("queue abort", () => {
     test(`after is empty`, () => {
