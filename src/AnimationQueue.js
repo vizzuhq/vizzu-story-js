@@ -184,14 +184,14 @@ class AnimationQueue {
         this.controller = control;
         control.pause();
         this.pushed = true;
-        control.seek(percent + "%");
+        control.seek((this._currentSeek || seek) + "%");
         this.vizzu.feature("rendering", true);
       });
   }
 
   seek(percent) {
     if (!this.controller) return;
-
+    this._currentSeek = percent;
     this.controller.seek(percent + "%");
   }
 

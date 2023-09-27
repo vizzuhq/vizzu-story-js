@@ -151,7 +151,7 @@ class Slider extends HTMLElement {
       }
     </style>
     <div class="slider" id="slider-container">
-        <input aria-label="Seek animation" type="range" min="0" max="1000" value="0" id="slider"/>
+        <input aria-label="Seek animation" type="range" min="0" max="1000" value="0" id="slider" disabled/>
       </div>`;
   }
 }
