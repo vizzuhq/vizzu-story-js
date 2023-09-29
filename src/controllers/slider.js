@@ -23,6 +23,9 @@ class Slider extends HTMLElement {
     });
 
     this.slider.addEventListener("pointerdown", async (e) => {
+      if (this.isDisabled()) {
+        return;
+      }
       const currentSlide =
         this.player.animationQueue.getParameter("currentSlide");
       this.player._currentSlide = currentSlide;
