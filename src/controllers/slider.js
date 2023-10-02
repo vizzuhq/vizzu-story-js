@@ -34,6 +34,9 @@ class Slider extends HTMLElement {
     });
 
     this.slider.addEventListener("pointerup", async (e) => {
+      if (this.isDisabled()) {
+        return;
+      }
       this.player.animationQueue.continue();
     });
   }
@@ -97,7 +100,7 @@ class Slider extends HTMLElement {
       width: 100%;
       display: flex;
     }
-    .slider {
+  .slider {
         display: flex;
         width: 100%;
         padding: 15px;
@@ -108,7 +111,6 @@ class Slider extends HTMLElement {
     }
     
     .slider input[type="range"] {
-        -webkit-appearance: none !important;
         width: 100%;
         height: 4px;
         background: var(--vizzu-button-color, #c6c6c6);
@@ -123,23 +125,8 @@ class Slider extends HTMLElement {
       background: var(--_hc);
       cursor: pointer;
     }
+
     
-    .slider input[type="range"]::-webkit-slider-thumb,
-    .slider input[type="range"]::-moz-range-thumb {
-        -webkit-appearance: none !important;
-        width: 10px;
-        height: 10px;
-        background: var(--vizzu-button-color, #c6c6c6);
-        border: 2px solid var(--vizzu-button-color, #c6c6c6);
-        border-radius: 50%;
-    }
-    
-    .slider input[type="range"]::-webkit-slider-thumb:hover,
-    .slider input[type="range"]::-moz-range-thumb:hover {
-        background: var(--_hc);
-        border: var(--_hc);
-        height: 50px
-    }
     [aria-label] {
         position: relative;
       }
@@ -151,6 +138,39 @@ class Slider extends HTMLElement {
         left: -20em;
         right: -20em;
         text-align: center;
+      }
+
+      input[type=range] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+      
+      input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        background: var(--vizzu-button-color, #c6c6c6);
+        border: 1px solid var(--vizzu-button-color, #c6c6c6);
+        border-radius: 50%;
+      }
+      
+      input[type=range]:hover:not([disabled])::-webkit-slider-thumb {
+        background: var(--_hc);
+        border-color: var(--_hc);
+      }
+      
+      input[type=range]::-moz-range-thumb {
+        -moz-appearance: none;
+        width: 16px;
+        height: 16px;
+        background: var(--vizzu-button-color, #c6c6c6);
+        border: 1px solid var(--vizzu-button-color, #c6c6c6);
+        border-radius: 50%;
+      }
+      
+      input[type=range]:hover:not([disabled])::-moz-range-thumb {
+        background: var(--_hc);
+        border-color: var(--_hc);
       }
     </style>
     <div class="slider" id="slider-container">
