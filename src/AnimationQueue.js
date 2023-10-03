@@ -255,22 +255,22 @@ class AnimationQueue {
     this.controller.play();
   }
 
-  _speedUp(configObject) {
+  _speedUp(configObject, duration = "500ms") {
     if (configObject instanceof Array) {
       return configObject.map((elem) => {
-        return { target: elem.target, options: { duration: "500ms" } };
+        return { target: elem.target, options: { duration: duration } };
       });
     }
 
     if (configObject instanceof Object && configObject.target) {
       return {
         target: configObject.target,
-        options: { duration: "500ms" },
+        options: { duration: duration },
       };
     }
     return {
       target: configObject,
-      options: { duration: "500ms" },
+      options: { duration: duration },
     };
   }
 }
