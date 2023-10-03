@@ -5,7 +5,7 @@ slidesWithOneSlideWithOneEmptyStep.push({
   input: {
     slides: [{}],
   },
-  expected: [[[{ target: { data: {} } }]]],
+  expected: [[{ target: { config: {}, style: {} } }]],
 });
 
 slidesWithOneSlideWithOneEmptyStep.push({
@@ -13,7 +13,7 @@ slidesWithOneSlideWithOneEmptyStep.push({
   input: {
     slides: [[{}]],
   },
-  expected: [[[{ target: { data: {} } }]]],
+  expected: [[{ target: { config: {}, style: {} } }]],
 });
 
 export { slidesWithOneSlideWithOneEmptyStep };

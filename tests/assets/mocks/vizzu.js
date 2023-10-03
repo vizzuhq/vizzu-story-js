@@ -15,9 +15,9 @@ class Control {
     this._animation = animation;
   }
 
-  store() {
-    return this._animation;
-  }
+  stop() {}
+
+  pause() {}
 }
 
 class Vizzu {
@@ -32,9 +32,15 @@ class Vizzu {
     return anim;
   }
 
-  store() {
-    return this._snapshot;
+  get config() {
+    return this._snapshot.config || {};
   }
+
+  getComputedStyle() {
+    return this._snapshot?.style || {};
+  }
+
+  feature() {}
 
   on() {}
 

@@ -130,6 +130,7 @@ const vp = document.querySelector("vizzu-player");
 vp.initializing.then((chart) => {
   vp.slides = vpd; // init slides
   chart.on("plot-axis-label-draw", labelHandler);
+  chart.feature("tooltip", true);
 });
 
 /*

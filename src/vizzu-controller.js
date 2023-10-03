@@ -1,3 +1,5 @@
+import Slider from "./controllers/slider.js";
+
 const LOG_PREFIX = [
   "%cVIZZU%cCONTROLLER",
   "background: #e2ae30; color: #3a60bf; font-weight: bold",
@@ -17,19 +19,29 @@ class VizzuController extends HTMLElement {
     this.shadowRoot.addEventListener("click", (e) => {
       const btn = e.target.closest("button");
 
-      if (btn) {
-        if (btn.id === "start") {
+      if (!btn) return;
+      switch (btn.id) {
+        case "start":
           this.toStart();
-        } else if (btn.id === "end") {
+          break;
+        case "end":
           this.toEnd();
-        } else if (btn.id === "previous") {
+          break;
+        case "previous":
           this.previous();
-        } else if (btn.id === "next") {
+          break;
+        case "next":
           this.next();
-        } else if (btn.id === "fullscreen") {
+          break;
+        case "fullscreen":
           this.fullscreen();
-        }
+          break;
       }
+    });
+
+    this._resolvePlayer = null;
+    this.initializing = new Promise((resolve) => {
+      this._resolvePlayer = resolve;
     });
   }
 
@@ -37,20 +49,13 @@ class VizzuController extends HTMLElement {
     const data = e.detail;
     this.log("update", data);
     this._state = data;
-    if (data.locked) {
-      this.setAttribute("locked", "");
-    } else {
-      this.removeAttribute("locked");
-    }
 
-    // first slide
     if (data.currentSlide === 0) {
       this.setAttribute("first", "");
     } else {
       this.removeAttribute("first");
     }
 
-    // last slide
     if (data.currentSlide === data.length - 1) {
       this.setAttribute("last", "");
     } else {
@@ -60,9 +65,14 @@ class VizzuController extends HTMLElement {
     this.shadowRoot.getElementById("status").innerHTML = this._html_status;
   }
 
+  get currentSlide() {
+    if (!this.player || !this.player.animationQueue) return null;
+    return this?.player?.animationQueue.getParameter("currentSlide");
+  }
+
   get _html_status() {
     return `<span class="current">${
-      (this._state?.currentSlide || 0) + 1
+      (this.currentSlide || 0) + 1
     }</span>/<span class="length">${this._state?.length || "?"}</span>`;
   }
 
@@ -90,6 +100,7 @@ class VizzuController extends HTMLElement {
       "f",
       "F",
       "Escape",
+      "Enter",
     ];
 
     if (
@@ -98,7 +109,6 @@ class VizzuController extends HTMLElement {
         (kbmode === "fullscreen" && document.fullscreenElement))
     ) {
       e.preventDefault();
-
       switch (e.key) {
         case "ArrowRight":
         case "PageDown":
@@ -122,7 +132,6 @@ class VizzuController extends HTMLElement {
         case "F":
           this.fullscreen();
           break;
-
         case "Escape":
           if (document.fullscreenElement) {
             document.exitFullscreen();
@@ -132,11 +141,16 @@ class VizzuController extends HTMLElement {
     }
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     if (!this._player) {
       const p = this.getRootNode()?.host;
       if (p.nodeName === "VIZZU-PLAYER") {
-        this._player = this.getRootNode()?.host;
+        const player = this.getRootNode()?.host;
+
+        await player.initializing;
+        this._resolvePlayer(player.initializing);
+        player.controller = this;
+        this._player = player;
         this._subscribe(this._player);
       }
     }
@@ -184,6 +198,7 @@ class VizzuController extends HTMLElement {
 
   seek(percent) {
     this.log("seek", percent);
+    this._player?._update(this?._player._state);
     this.player?.seek(percent);
   }
 
@@ -243,8 +258,7 @@ class VizzuController extends HTMLElement {
         :host([first]) #start,
         :host([first]) #previous,
         :host([last]) #end,
-        :host([last]) #next,
-        :host([locked]) {
+        :host([last]) #next {
           pointer-events: none;
           opacity: 0.5;
         }
@@ -310,7 +324,7 @@ class VizzuController extends HTMLElement {
             <path id="play_pass" d="M13.000,15.000 L-0.000,8.000 L-0.000,7.000 L13.000,-0.000 L13.000,15.000 z" fill="#A2A2A2" />
           </svg>
         </button>
-        <div id="splaceholder"></div>
+        <vizzu-controller-slider></vizzu-controller-slider>
         <button id="next" aria-label="Next">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13" height="15" viewBox="0 0 13 15">
             <path id="nextBtn" d="M-0.000,15.000 L13.000,8.000 L13.000,7.000 L-0.000,-0.000 L-0.000,15.000 z" fill="#A2A2A2" />
@@ -342,3 +356,4 @@ try {
 }
 
 export default VizzuController;
+export { Slider };

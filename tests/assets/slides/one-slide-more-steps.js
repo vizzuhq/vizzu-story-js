@@ -24,24 +24,22 @@ const slideWithMoreSteps = {
   },
   expected: [
     [
-      [
-        {
-          target: {
-            data: { filter: filterAssets.filter2 },
-            config: configAssets.config2,
-            style: styleAssets.style2,
-          },
-          options: animOptionsAssets.animOptions2,
+      {
+        target: {
+          data: { filter: filterAssets.filter2 },
+          config: configAssets.config2,
+          style: styleAssets.style2,
         },
-        {
-          target: {
-            data: { filter: filterAssets.filter3 },
-            config: configAssets.config3,
-            style: styleAssets.style3,
-          },
-          options: animOptionsAssets.animOptions3,
+        options: animOptionsAssets.animOptions2,
+      },
+      {
+        target: {
+          data: { filter: filterAssets.filter3 },
+          config: configAssets.config3,
+          style: styleAssets.style3,
         },
-      ],
+        options: animOptionsAssets.animOptions3,
+      },
     ],
   ],
 };

@@ -1,4 +1,5 @@
 import VizzuController from "./vizzu-controller.js";
+import AnimationQueue from "./AnimationQueue.js";
 
 const LOG_PREFIX = [
   "%cVIZZU%cPLAYER",
@@ -11,7 +12,6 @@ let Vizzu;
 class VizzuPlayer extends HTMLElement {
   constructor() {
     super();
-
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = this._render();
 
@@ -48,7 +48,7 @@ class VizzuPlayer extends HTMLElement {
       const debugCookie = document.cookie
         .split(";")
         .some((c) => c.startsWith("vizzu-debug"));
-      return debugCookie || this.hasAttribute("debug");
+      return debugCookie || this.hasAttribute("debug") || this.player.debug;
     } catch (e) {
       return this.hasAttribute("debug");
     }
@@ -78,7 +78,6 @@ class VizzuPlayer extends HTMLElement {
 
   async _initVizzu() {
     if (!this.vizzu) {
-      // load and init vizzu
       Vizzu = window.Vizzu || (await import(this.vizzuUrl)).default;
       this._resolveVizzu(Vizzu);
       this.vizzu = new Vizzu(this.vizzuCanvas);
@@ -87,7 +86,6 @@ class VizzuPlayer extends HTMLElement {
 
   _slideToAnimparams(slide) {
     if (slide._id) {
-      // already got an ID
       return slide._id;
     }
 
@@ -102,7 +100,6 @@ class VizzuPlayer extends HTMLElement {
       animTarget.data = slide.data;
     }
     if (typeof slide.filter !== "undefined") {
-      // null is valid
       if (!animTarget.data) {
         animTarget.data = {};
       }
@@ -127,8 +124,11 @@ class VizzuPlayer extends HTMLElement {
       firstSlide.style = firstSlide.style || slides.style;
     }
 
-    // TODO lock
     await this.initializing;
+    this.vizzu.on("animation-complete", () => {
+      this._update(this._state);
+    });
+    this.animationQueue = new AnimationQueue(this.vizzu);
 
     if (typeof this.vizzu._setStyle === "function") {
       // workaround
@@ -142,27 +142,51 @@ class VizzuPlayer extends HTMLElement {
     }
     const seekToEnd = () => this._seekToEnd();
     this.vizzu.on("animation-begin", seekToEnd);
-    this._nullSlide = this.vizzu.store();
+
     const convertedSlides = [];
 
+    let lastFilter;
     for (const slide of slides.slides) {
       let steps = slide;
       if (!Array.isArray(steps)) {
         steps = [steps];
       }
 
-      const chartSteps = [];
+      const chartSteps =
+        convertedSlides.length > 0 ? [convertedSlides?.at(-1)?.at(-1)] : [];
       const animParams = steps.map((step) => this._slideToAnimparams(step));
-      this.log("animating", animParams);
-      const anim = this.vizzu.animate(animParams);
-      const animCtrl = await anim.activated;
-      chartSteps.push(animCtrl.store());
-      await anim;
 
+      for (const animParam of animParams) {
+        const anim = this.vizzu.animate(animParam.target);
+        await anim;
+        const targetData = {
+          target: {
+            config: this.vizzu.config,
+            style: this.vizzu.getComputedStyle(),
+          },
+        };
+        if (animParam.options) {
+          targetData.options = animParam.options;
+        }
+        if (
+          animParam.target?.data &&
+          "filter" in animParam.target?.data &&
+          animParam.target.data.filter !== undefined
+        ) {
+          targetData.target.data = { filter: animParam.target.data.filter };
+          lastFilter = animParam.target.data.filter;
+        } else if (targetData.target.filter) {
+          targetData.target.data = { filter: animParam.target.data.filter };
+        } else if (lastFilter) {
+          targetData.target.data = { filter: lastFilter };
+        }
+
+        chartSteps.push(targetData);
+      }
       convertedSlides.push(chartSteps);
     }
     if (convertedSlides.length) {
-      await this.vizzu.animate(...convertedSlides[this._currentSlide || 0]);
+      await this.vizzu.animate(convertedSlides[this._currentSlide || 0]);
     }
     this.vizzu.off("animation-begin", seekToEnd);
 
@@ -192,7 +216,7 @@ class VizzuPlayer extends HTMLElement {
   }
 
   set slides(slidesSourceData) {
-    const slides = this.recursiveCopy(slidesSourceData);
+    const slides = this._recursiveCopy(slidesSourceData);
     let startSlide = this._getStartSlide(slides.slides.length);
     if (this.hashNavigation) {
       const hashSlide = this._slideFromHash(slides.slides.length);
@@ -204,43 +228,14 @@ class VizzuPlayer extends HTMLElement {
     this._setSlides(slides);
   }
 
-  get _locked() {
-    return this._lock;
-  }
-
-  set _locked(lock) {
-    if (!lock) {
-      this.removeAttribute("locked");
-      clearTimeout(this._lock);
-      this._lock = false;
-    } else if (!this._lock) {
-      this.setAttribute("locked", "");
-      this._lock = lock;
-    } else {
-      this.log("!ALREADY LOCKED!");
-    }
-  }
-
-  acquireLock(timeout = 1000) {
-    if (this._locked) {
-      this.log("lock already acquired");
-      return false;
-    }
-    this.log("acquire lock");
-    this._locked = setTimeout(() => {
-      this._locked = false;
-    }, timeout);
-    return this._locked;
-  }
-
-  recursiveCopy(obj) {
+  _recursiveCopy(obj) {
     if (obj === null) return null;
     const clone = Object.assign({}, obj);
     Object.keys(clone).forEach(
       (key) =>
         (clone[key] =
           typeof obj[key] === "object"
-            ? this.recursiveCopy(obj[key])
+            ? this._recursiveCopy(obj[key])
             : obj[key])
     );
     if (Array.isArray(obj)) {
@@ -250,19 +245,10 @@ class VizzuPlayer extends HTMLElement {
     return clone;
   }
 
-  releaseLock() {
-    this.log("release lock");
-    this._locked = false;
-  }
-
   async _setSlides(slides) {
-    if (!this.acquireLock()) {
-      return;
-    }
     this.setAttribute("initializing", "");
     this._originalSlides = slides;
     this._slides = await this._convertSlides(slides);
-    this.releaseLock();
     this.setSlide(this._currentSlide);
     this.removeAttribute("initializing");
     this._resolvePlayer();
@@ -292,48 +278,14 @@ class VizzuPlayer extends HTMLElement {
     return this.hasAttribute("controller");
   }
 
-  async _step(step, options = {}) {
-    return await this.vizzu.animate(step, options);
-  }
-
-  // TODO proper exception handling to re-enable rendering and such
-  // TODO remove subslide concept
-  async _jump(cs, percent) {
-    return new Promise((resolve) =>
-      setTimeout(async () => {
-        this.log("jump to", cs, percent);
-        const subSlide = this._slides[cs];
-        const seek = () => this._seekTo(percent);
-
-        this.vizzu.feature("rendering", false);
-        // animate to previous slide
-        if (cs > 0) {
-          const prevSlide = this._slides[cs - 1];
-          const prevSubSlide = prevSlide[prevSlide.length - 1];
-          const seekToEnd = () => this._seekToEnd();
-          this.vizzu.on("animation-begin", seekToEnd);
-          await this.vizzu.animate(...prevSubSlide);
-          this.vizzu.off("animation-begin", seekToEnd);
-        }
-        this.vizzu.feature("rendering", true);
-
-        // jump to subSlide
-        this.vizzu.on("animation-begin", seek);
-        await this.vizzu.animate(...subSlide);
-        this.vizzu.off("animation-begin", seek);
-
-        resolve(this.vizzu);
-      }, 0)
-    );
+  _step(step, options = {}) {
+    this.animationQueue.enqueue(step, options, {
+      currentSlide: this._currentSlide,
+    });
   }
 
   async _seekTo(percent) {
-    return new Promise((resolve) =>
-      setTimeout(() => {
-        this.vizzu.animation.seek(`${percent}%`);
-        resolve(this.vizzu);
-      }, 0)
-    );
+    this.vizzu.animation.seek(`${percent}%`);
   }
 
   async _seekToStart() {
@@ -344,8 +296,24 @@ class VizzuPlayer extends HTMLElement {
     return this._seekTo(100);
   }
 
+  set seekPosition(percent) {
+    this._seekPosition = percent;
+  }
+
+  get seekPosition() {
+    return this._seekPosition;
+  }
+
+  set animationQueue(queue) {
+    this._animationQueue = queue;
+  }
+
+  get animationQueue() {
+    return this._animationQueue;
+  }
+
   async setSlide(slide) {
-    if (this.length === 0 || !this.acquireLock()) {
+    if (this.length === 0) {
       return;
     }
 
@@ -356,44 +324,41 @@ class VizzuPlayer extends HTMLElement {
           this._currentSlide === this._slides.length - 1) ||
         slide === this._currentSlide)
     ) {
-      // if the next slide is smallest zero and the current slide is first or the nex slide is largest the slides length and the current slide is last then not jump
       return;
     }
 
     this._update(this._state);
 
     const actualSlideKey = this._currentSlide || 0;
-
     if (!slide || slide < 0) {
       slide = 0;
     } else if (slide >= this.length) {
       slide = this.length - 1;
     }
-
     this._currentSlide = slide;
-
+    this.direction = "normal";
     if (actualSlideKey - slide === 1) {
-      // previous
-      const cs = this._slides[actualSlideKey];
-      await this._step(cs[0], { position: 1, direction: "reverse" });
+      if (actualSlideKey > 0) {
+        this.direction = "reverse";
+        const currentSlide = this._slides[actualSlideKey];
 
-      const ps = this._slides[slide];
-      await this._step(ps[0], { position: 1 });
+        this._step(currentSlide, { position: 1, direction: "reverse" });
+        this.lastAnimation = currentSlide;
+      }
     } else if (actualSlideKey - slide === -1) {
-      // next
       const ns = this._slides[slide];
-      await this._step(ns[0]);
+      this._step(ns);
+      this.lastAnimation = ns;
     } else {
-      // jump
-      const cs = this._slides[slide];
-      await this._step(cs[0]);
+      const targetSlide = this._slides[slide];
+      const currentSlide = this._slides[actualSlideKey];
+
+      this._step([currentSlide.at(-1), ...targetSlide]);
+      this.lastAnimation = targetSlide;
     }
 
-    this._seekPosition = 100;
-    this.releaseLock();
     this._update(this._state);
 
-    // update url hash
     if (this.hashNavigation) {
       document.location.hash = `#${slide + 1}`;
     }
@@ -416,31 +381,11 @@ class VizzuPlayer extends HTMLElement {
   }
 
   async seek(percent) {
-    // TODO remove subslide concept
-    if (this.acquireLock()) {
-      this._update(this._state);
-      this.log(
-        `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`
-      );
-      const sspercent = 100 / this.slide.length;
-      let ss = Math.floor(percent / sspercent); // new subslide
-      let sp = (100 * (percent - ss * sspercent)) / sspercent; // new seek position
-      this.log(`ss ${ss}, sp ${sp}`);
-      if (ss >= this.slide.length) {
-        ss = this.slide.length - 1;
-        sp = 100;
-      }
-      if (ss !== this._subSlide) {
-        // need to change subslide
-        this._subSlide = ss;
-        await this._jump(this._currentSlide, this._subSlide, sp);
-      } else {
-        this.vizzu.animation.seek(`${sp}%`);
-      }
-      this._seekPosition = percent;
-      this._subSeekPosition = sp;
-      this.releaseLock();
-    }
+    this._update(this._state);
+    this.log(
+      `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`
+    );
+    this.vizzu.animation.seek(`${percent}%`);
     this._update(this._state);
   }
 
@@ -450,7 +395,6 @@ class VizzuPlayer extends HTMLElement {
       slide: this.slide,
       seekPosition: this._seekPosition,
       length: this.length,
-      locked: this._locked,
     };
   }
 
