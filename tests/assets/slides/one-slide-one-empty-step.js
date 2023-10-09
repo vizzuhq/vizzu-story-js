@@ -1,19 +1,19 @@
-const slidesWithOneSlideWithOneEmptyStep = [];
+const slidesWithOneSlideWithOneEmptyStep = []
 
 slidesWithOneSlideWithOneEmptyStep.push({
-  description: "object step",
+  description: 'object step',
   input: {
-    slides: [{}],
+    slides: [{}]
   },
-  expected: [[{ target: { config: {}, style: {} } }]],
-});
+  expected: [[{ target: { config: {}, style: {} } }]]
+})
 
 slidesWithOneSlideWithOneEmptyStep.push({
-  description: "list step",
+  description: 'list step',
   input: {
-    slides: [[{}]],
+    slides: [[{}]]
   },
-  expected: [[{ target: { config: {}, style: {} } }]],
-});
+  expected: [[{ target: { config: {}, style: {} } }]]
+})
 
-export { slidesWithOneSlideWithOneEmptyStep };
+export { slidesWithOneSlideWithOneEmptyStep }

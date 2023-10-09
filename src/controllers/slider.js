@@ -1,95 +1,94 @@
 const LOG_PREFIX = [
-  "%cVIZZU%cSLIDER",
-  "background: #e2ae30; color: #3a60bf; font-weight: bold",
-  "background: #000000; color: #fafafa;",
-];
+  '%cVIZZU%cSLIDER',
+  'background: #e2ae30; color: #3a60bf; font-weight: bold',
+  'background: #000000; color: #fafafa;'
+]
 
 class Slider extends HTMLElement {
   constructor() {
-    super();
+    super()
 
-    this.attachShadow({ mode: "open" });
-    this.shadowRoot.innerHTML = this._render();
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.innerHTML = this._render()
 
-    this.slider = this.shadowRoot.getElementById("slider");
+    this.slider = this.shadowRoot.getElementById('slider')
 
     // Set up slider event listener
-    this.slider.addEventListener("input", (event) => {
+    this.slider.addEventListener('input', (event) => {
       if (this.isDisabled()) {
-        return;
+        return
       }
 
-      this.seek(event.target.value / 10);
-    });
+      this.seek(event.target.value / 10)
+    })
 
-    this.slider.addEventListener("pointerdown", async (e) => {
+    this.slider.addEventListener('pointerdown', async (e) => {
       if (this.isDisabled()) {
-        return;
+        return
       }
-      const currentSlide =
-        this.player.animationQueue.getParameter("currentSlide");
-      this.player._currentSlide = currentSlide;
-      this.player.animationQueue.clear();
-      this.player.animationQueue.seekStart(this.slider.value / 10);
-    });
+      const currentSlide = this.player.animationQueue.getParameter('currentSlide')
+      this.player._currentSlide = currentSlide
+      this.player.animationQueue.clear()
+      this.player.animationQueue.seekStart(this.slider.value / 10)
+    })
 
-    this.slider.addEventListener("pointerup", async (e) => {
+    this.slider.addEventListener('pointerup', async (e) => {
       if (this.isDisabled()) {
-        return;
+        return
       }
-      this.player.animationQueue.continue();
-    });
+      this.player.animationQueue.continue()
+    })
   }
 
   async connectedCallback() {
-    await Promise.resolve();
+    await Promise.resolve()
     if (!this.controller) {
-      const parent = this.getRootNode()?.host;
-      if (parent.nodeName === "VIZZU-CONTROLLER") {
-        this.controller = parent;
-        await parent.initializing;
-        this.player = parent.player;
+      const parent = this.getRootNode()?.host
+      if (parent.nodeName === 'VIZZU-CONTROLLER') {
+        this.controller = parent
+        await parent.initializing
+        this.player = parent.player
 
         const updateSlider = (event) => {
           if (this.player.animationQueue.playing) {
-            this._updateSlider(event.data.progress * 1000);
+            this._updateSlider(event.data.progress * 1000)
           }
-        };
-        this.player.vizzu.on("update", updateSlider);
+        }
+        this.player.vizzu.on('update', updateSlider)
       }
     }
   }
 
   seek(percent) {
-    this.player.animationQueue.seek(percent);
+    this.player.animationQueue.seek(percent)
   }
 
   isDisabled() {
-    return this.slider.hasAttribute("disabled");
+    return this.slider.hasAttribute('disabled')
   }
 
   log(...msg) {
     if (this.player.debug) {
-      console.log(...LOG_PREFIX, ...msg);
+      console.log(...LOG_PREFIX, ...msg)
     }
   }
 
   _update(state) {
-    this.log("update", state);
-    const e = new CustomEvent("update", { detail: state });
-    this.dispatchEvent(e);
+    this.log('update', state)
+    const e = new CustomEvent('update', { detail: state })
+    this.dispatchEvent(e)
   }
 
   _updateSlider(value) {
     if (!this.slider) {
-      return null;
+      return null
     }
-    if (this.player.direction === "normal" && this.player.currentSlide === 0) {
-      this.slider.setAttribute("disabled", true);
-      this.slider.value = 0;
+    if (this.player.direction === 'normal' && this.player.currentSlide === 0) {
+      this.slider.setAttribute('disabled', true)
+      this.slider.value = 0
     } else {
-      this.slider.removeAttribute("disabled");
-      this.slider.value = value;
+      this.slider.removeAttribute('disabled')
+      this.slider.value = value
     }
   }
 
@@ -175,18 +174,18 @@ class Slider extends HTMLElement {
     </style>
     <div class="slider" id="slider-container">
         <input aria-label="Seek animation" type="range" min="0" max="1000" value="0" id="slider" disabled/>
-      </div>`;
+      </div>`
   }
 }
 
 try {
-  if (!customElements.get("vizzu-controller-slider")) {
-    customElements.define("vizzu-controller-slider", Slider);
+  if (!customElements.get('vizzu-controller-slider')) {
+    customElements.define('vizzu-controller-slider', Slider)
   } else {
-    console.warn("Slider already defined");
+    console.warn('Slider already defined')
   }
 } catch (e) {
-  console.error("Failed to register custom element: ", e);
+  console.error('Failed to register custom element: ', e)
 }
 
-export default Slider;
+export default Slider

@@ -1,8 +1,8 @@
 const config = {
-  rootDir: "../../../",
-  testEnvironment: "node",
-  testMatch: ["**/vizzu/node/*.test.cjs"],
-  transform: {},
-};
+  rootDir: '../../../',
+  testEnvironment: 'node',
+  testMatch: ['**/vizzu/node/*.test.cjs'],
+  transform: {}
+}
 
-module.exports = config;
+module.exports = config
