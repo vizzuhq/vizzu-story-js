@@ -1,239 +1,234 @@
-import Slider from "./controllers/slider.js";
+import Slider from './controllers/slider.js'
 
 const LOG_PREFIX = [
-  "%cVIZZU%cCONTROLLER",
-  "background: #e2ae30; color: #3a60bf; font-weight: bold",
-  "background: #3a60bf; color: #e2ae30;",
-];
+  '%cVIZZU%cCONTROLLER',
+  'background: #e2ae30; color: #3a60bf; font-weight: bold',
+  'background: #3a60bf; color: #e2ae30;'
+]
 
 class VizzuController extends HTMLElement {
   constructor() {
-    super();
+    super()
 
-    this.attachShadow({ mode: "open" });
-    this.shadowRoot.innerHTML = this._render();
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.innerHTML = this._render()
 
-    this._update = this.update.bind(this);
-    this._keyHandler = this._handleKey.bind(this);
+    this._update = this.update.bind(this)
+    this._keyHandler = this._handleKey.bind(this)
 
-    this.shadowRoot.addEventListener("click", (e) => {
-      const btn = e.target.closest("button");
+    this.shadowRoot.addEventListener('click', (e) => {
+      const btn = e.target.closest('button')
 
-      if (!btn) return;
+      if (!btn) return
       switch (btn.id) {
-        case "start":
-          this.toStart();
-          break;
-        case "end":
-          this.toEnd();
-          break;
-        case "previous":
-          this.previous();
-          break;
-        case "next":
-          this.next();
-          break;
-        case "fullscreen":
-          this.fullscreen();
-          break;
+        case 'start':
+          this.toStart()
+          break
+        case 'end':
+          this.toEnd()
+          break
+        case 'previous':
+          this.previous()
+          break
+        case 'next':
+          this.next()
+          break
+        case 'fullscreen':
+          this.fullscreen()
+          break
       }
-    });
+    })
 
-    this._resolvePlayer = null;
+    this._resolvePlayer = null
     this.initializing = new Promise((resolve) => {
-      this._resolvePlayer = resolve;
-    });
+      this._resolvePlayer = resolve
+    })
   }
 
   update(e) {
-    const data = e.detail;
-    this.log("update", data);
-    this._state = data;
+    const data = e.detail
+    this.log('update', data)
+    this._state = data
 
     if (data.currentSlide === 0) {
-      this.setAttribute("first", "");
+      this.setAttribute('first', '')
     } else {
-      this.removeAttribute("first");
+      this.removeAttribute('first')
     }
 
     if (data.currentSlide === data.length - 1) {
-      this.setAttribute("last", "");
+      this.setAttribute('last', '')
     } else {
-      this.removeAttribute("last");
+      this.removeAttribute('last')
     }
 
-    this.shadowRoot.getElementById("status").innerHTML = this._html_status;
+    this.shadowRoot.getElementById('status').innerHTML = this._html_status
   }
 
   get currentSlide() {
-    if (!this.player || !this.player.animationQueue) return null;
-    return this?.player?.animationQueue.getParameter("currentSlide");
+    if (!this.player || !this.player.animationQueue) return null
+    return this?.player?.animationQueue.getParameter('currentSlide')
   }
 
   get _html_status() {
-    return `<span class="current">${
-      (this.currentSlide || 0) + 1
-    }</span>/<span class="length">${this._state?.length || "?"}</span>`;
+    return `<span class="current">${(this.currentSlide || 0) + 1}</span>/<span class="length">${
+      this._state?.length || '?'
+    }</span>`
   }
 
   _unsubscribe(player) {
-    player?.removeEventListener("update", this._update);
-    this._player = null;
+    player?.removeEventListener('update', this._update)
+    this._player = null
   }
 
   _subscribe(player) {
-    player?.addEventListener("update", this._update);
-    this._player = player;
+    player?.addEventListener('update', this._update)
+    this._player = player
   }
 
   _handleKey(e) {
-    const kbmode = this._player?.getAttribute("keyboard") || "focus";
-    this.log(`key[${kbmode}]: ${e.key}`);
+    const kbmode = this._player?.getAttribute('keyboard') || 'focus'
+    this.log(`key[${kbmode}]: ${e.key}`)
 
     const usedControllKeys = [
-      "PageUp",
-      "PageDown",
-      "ArrowRight",
-      "ArrowLeft",
-      "Home",
-      "End",
-      "f",
-      "F",
-      "Escape",
-      "Enter",
-    ];
+      'PageUp',
+      'PageDown',
+      'ArrowRight',
+      'ArrowLeft',
+      'Home',
+      'End',
+      'f',
+      'F',
+      'Escape',
+      'Enter'
+    ]
 
     if (
       usedControllKeys.includes(e.key) &&
-      (kbmode === "focus" ||
-        (kbmode === "fullscreen" && document.fullscreenElement))
+      (kbmode === 'focus' || (kbmode === 'fullscreen' && document.fullscreenElement))
     ) {
-      e.preventDefault();
+      e.preventDefault()
       switch (e.key) {
-        case "ArrowRight":
-        case "PageDown":
-          this.next();
-          break;
+        case 'ArrowRight':
+        case 'PageDown':
+          this.next()
+          break
 
-        case "ArrowLeft":
-        case "PageUp":
-          this.previous();
-          break;
+        case 'ArrowLeft':
+        case 'PageUp':
+          this.previous()
+          break
 
-        case "Home":
-          this.toStart();
-          break;
+        case 'Home':
+          this.toStart()
+          break
 
-        case "End":
-          this.toEnd();
-          break;
+        case 'End':
+          this.toEnd()
+          break
 
-        case "f":
-        case "F":
-          this.fullscreen();
-          break;
-        case "Escape":
+        case 'f':
+        case 'F':
+          this.fullscreen()
+          break
+        case 'Escape':
           if (document.fullscreenElement) {
-            document.exitFullscreen();
+            document.exitFullscreen()
           }
-          break;
+          break
       }
     }
   }
 
   async connectedCallback() {
     if (!this._player) {
-      const p = this.getRootNode()?.host;
-      if (p.nodeName === "VIZZU-PLAYER") {
-        const player = this.getRootNode()?.host;
+      const p = this.getRootNode()?.host
+      if (p.nodeName === 'VIZZU-PLAYER') {
+        const player = this.getRootNode()?.host
 
-        await player.initializing;
-        this._resolvePlayer(player.initializing);
-        player.controller = this;
-        this._player = player;
-        this._subscribe(this._player);
+        await player.initializing
+        this._resolvePlayer(player.initializing)
+        player.controller = this
+        this._player = player
+        this._subscribe(this._player)
       }
     }
 
     if (this._player) {
-      this._player.addEventListener("keydown", this._keyHandler);
+      this._player.addEventListener('keydown', this._keyHandler)
     }
   }
 
   disconnectedCallback() {
     if (this._player) {
-      this._player.removeEventListener("keydown", this._keyHandler);
-      this._unsubscribe(this._player);
+      this._player.removeEventListener('keydown', this._keyHandler)
+      this._unsubscribe(this._player)
     }
   }
 
   get player() {
-    return this._player;
+    return this._player
   }
 
   set player(player) {
-    this._player = player;
+    this._player = player
   }
 
   get debug() {
     try {
-      const debugCookie = document.cookie
-        .split(";")
-        .some((c) => c.startsWith("vizzu-debug"));
-      return debugCookie || this.hasAttribute("debug");
+      const debugCookie = document.cookie.split(';').some((c) => c.startsWith('vizzu-debug'))
+      return debugCookie || this.hasAttribute('debug')
     } catch (e) {
-      return this.hasAttribute("debug");
+      return this.hasAttribute('debug')
     }
   }
 
   set debug(debug) {
-    document.cookie = `vizzu-debug=${debug ? "true" : ""}; path=/`;
+    document.cookie = `vizzu-debug=${debug ? 'true' : ''}; path=/`
   }
 
   log(...msg) {
     if (this.debug) {
-      console.log(...LOG_PREFIX, ...msg);
+      console.log(...LOG_PREFIX, ...msg)
     }
   }
 
   seek(percent) {
-    this.log("seek", percent);
-    this._player?._update(this?._player._state);
-    this.player?.seek(percent);
+    this.log('seek', percent)
+    this._player?._update(this?._player._state)
+    this.player?.seek(percent)
   }
 
   toStart() {
-    this.log("toStart");
-    this.player?.toStart();
+    this.log('toStart')
+    this.player?.toStart()
   }
 
   toEnd() {
-    this.log("toEnd");
-    this.player?.toEnd();
+    this.log('toEnd')
+    this.player?.toEnd()
   }
 
   previous() {
-    this.log("previous");
-    this.player?.previous();
+    this.log('previous')
+    this.player?.previous()
   }
 
   next() {
-    this.log("next");
-    this.player?.next();
+    this.log('next')
+    this.player?.next()
   }
 
   get fullscreenTarget() {
-    return (
-      this._fullscreenTarget || this.getRootNode()?.host || this.parentElement
-    );
+    return this._fullscreenTarget || this.getRootNode()?.host || this.parentElement
   }
 
   fullscreen() {
-    this.log("fullscreen");
+    this.log('fullscreen')
     if (document.fullscreenElement) {
-      document.exitFullscreen();
+      document.exitFullscreen()
     } else {
-      this.fullscreenTarget?.requestFullscreen();
+      this.fullscreenTarget?.requestFullscreen()
     }
   }
 
@@ -341,19 +336,19 @@ class VizzuController extends HTMLElement {
           <path id="fullscreen_pass" d="M9.000,12.000 L12.000,12.000 L12.000,9.000 L15.000,9.000 L15.000,15.000 L12.000,15.000 L9.000,15.000 L9.000,12.000 zM9.000,-0.000 L15.000,-0.000 L15.000,6.000 L12.000,6.000 L12.000,3.000 L9.000,3.000 L9.000,-0.000 zM3.000,9.000 L3.000,12.000 L6.000,12.000 L6.000,15.000 L-0.000,15.000 L-0.000,9.000 L3.000,9.000 zM-0.000,-0.000 L6.000,-0.000 L6.000,3.000 L3.000,3.000 L3.000,6.000 L-0.000,6.000 L-0.000,-0.000 z" fill="#A2A2A2" />
         </svg>
       </button>
-      `;
+      `
   }
 }
 
 try {
-  if (!customElements.get("vizzu-controller")) {
-    customElements.define("vizzu-controller", VizzuController);
+  if (!customElements.get('vizzu-controller')) {
+    customElements.define('vizzu-controller', VizzuController)
   } else {
-    console.warn("VizzuController already defined");
+    console.warn('VizzuController already defined')
   }
 } catch (e) {
-  console.error("Failed to register custom element: ", e);
+  console.error('Failed to register custom element: ', e)
 }
 
-export default VizzuController;
-export { Slider };
+export default VizzuController
+export { Slider }
