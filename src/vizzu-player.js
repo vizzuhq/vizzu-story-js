@@ -352,8 +352,7 @@ class VizzuPlayer extends HTMLElement {
     } else {
       const targetSlide = this._slides[slide];
       const currentSlide = this._slides[actualSlideKey];
-
-      this._step([currentSlide.at(-1), ...targetSlide]);
+      this._step([currentSlide.at(-1), targetSlide.at(-1)], { duration: 0.1, regroupStrategy: 'fade' });
       this.lastAnimation = targetSlide;
     }
 
