@@ -281,6 +281,7 @@ class VizzuPlayer extends HTMLElement {
   _step(step, options = {}) {
     this.animationQueue.enqueue(step, options, {
       currentSlide: this._currentSlide,
+      steppType: this.steppType,
     });
   }
 
@@ -337,7 +338,7 @@ class VizzuPlayer extends HTMLElement {
     }
     this._currentSlide = slide;
     this.direction = "normal";
-    this.animationQueue.seekerEnabled = true;
+    this.steppType = "normal";
     if (actualSlideKey - slide === 1) {
       if (actualSlideKey > 0) {
         this.direction = "reverse";
@@ -351,9 +352,7 @@ class VizzuPlayer extends HTMLElement {
       this._step(ns);
       this.lastAnimation = ns;
     } else {
-      if (slide === 0 || slide === this._slides.length - 1) {
-        this.animationQueue.seekerEnabled = false;
-      }
+      this.steppType = "jump";
       const targetSlide = this._slides[slide];
       if (actualSlideKey > slide) {
         this.direction = "reverse";

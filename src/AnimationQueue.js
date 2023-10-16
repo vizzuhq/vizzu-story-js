@@ -107,6 +107,10 @@ class AnimationQueue {
     } else {
       this.direction = "normal";
     }
+    this.seekerEnabled = true;
+    if (firstAnimation.parameters.steppType !== "normal") {
+      this.seekerEnabled = false;
+    }
 
     // change speed when the current animate is not a last
     let configObject = firstAnimation.configObject;

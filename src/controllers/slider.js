@@ -60,19 +60,25 @@ class Slider extends HTMLElement {
             } else {
               this._updateSlider(1000 - process);
             }
+
+            if (!this.player.animationQueue.seekerEnabled) {
+              this.slider.setAttribute("readonly", true);
+            }
           }
         };
         this.player.vizzu.on("update", updateSlider);
 
-        const _checkEnabled = () => {
+
+        const _checkDisabeld = () => {
+          this.slider.removeAttribute("readonly");
           if (
             !this.player.animationQueue.playing &&
             !this.player.animationQueue.seekerEnabled
           ) {
             this.slider.setAttribute("disabled", true);
           }
-        };
-        this.player.vizzu.on("animation-complete", _checkEnabled);
+        }
+        this.player.vizzu.on("animation-complete", _checkDisabeld);
       }
     }
   }
@@ -82,7 +88,7 @@ class Slider extends HTMLElement {
   }
 
   isDisabled() {
-    return this.slider.hasAttribute("disabled");
+    return this.slider.hasAttribute("disabled") || this.slider.hasAttribute("readonly");
   }
 
   log(...msg) {
@@ -106,6 +112,7 @@ class Slider extends HTMLElement {
       this.slider.value = 0;
     } else {
       this.slider.removeAttribute("disabled");
+      this.slider.removeAttribute("readonly");
       this.slider.value = value;
     }
   }
@@ -134,10 +141,11 @@ class Slider extends HTMLElement {
         border: none;
         outline: none;
     }
-    .slider input[type="range"]:disabled {
+    .slider input[type="range"]:disabled,
+    .slider input[type="range"]:read-only {
       opacity: 0.5;
     }
-    .slider input[type="range"]:not([disabled]):hover
+    .slider input[type="range"]:not([disabled]):not([readonly]):hover
      {
       background: var(--_hc);
       cursor: pointer;
