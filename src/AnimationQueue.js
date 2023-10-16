@@ -15,8 +15,10 @@ class AnimationQueue {
     this.playing = false;
     this.paused = false;
     this.controller = null;
+    this.direction = "normal";
     this.lastAnimation = null;
     this._lastParameters = null;
+    this.seekerEnabled = false;
 
     this.vizzu.on("animation-complete", () => {
       this.playing = false;
@@ -100,6 +102,12 @@ class AnimationQueue {
       firstAnimation.animOptions.playState = "running";
     }
 
+    if (firstAnimation.animOptions.direction === "reverse") {
+      this.direction = "reverse";
+    } else {
+      this.direction = "normal";
+    }
+
     // change speed when the current animate is not a last
     let configObject = firstAnimation.configObject;
 
@@ -132,7 +140,7 @@ class AnimationQueue {
     };
     if (
       !this.paused &&
-      firstAnimation.animOptions.direction === "reverse" &&
+      this.direction === "reverse" &&
       startSlideConfig !== null
     ) {
       this.vizzu.animate(startSlideConfig.target, 0);
@@ -161,6 +169,7 @@ class AnimationQueue {
   reverse() {
     if (!this.controller) return;
     this.playing = true;
+    this.direction = "reverse";
     this.controller.reverse();
     this.controller.play();
   }
@@ -248,7 +257,7 @@ class AnimationQueue {
     this.paused = false;
     this.playing = true;
 
-    if (this.head?.animOptions?.direction === "reverse") {
+    if (this.direction === "reverse") {
       this.reverse();
       return;
     }
@@ -258,19 +267,19 @@ class AnimationQueue {
   _speedUp(configObject, duration = "500ms") {
     if (configObject instanceof Array) {
       return configObject.map((elem) => {
-        return { target: elem.target, options: { duration: duration } };
+        return { target: elem.target, options: { duration } };
       });
     }
 
     if (configObject instanceof Object && configObject.target) {
       return {
         target: configObject.target,
-        options: { duration: duration },
+        options: { duration },
       };
     }
     return {
       target: configObject,
-      options: { duration: duration },
+      options: { duration },
     };
   }
 }

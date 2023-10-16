@@ -337,6 +337,7 @@ class VizzuPlayer extends HTMLElement {
     }
     this._currentSlide = slide;
     this.direction = "normal";
+    this.animationQueue.seekerEnabled = true;
     if (actualSlideKey - slide === 1) {
       if (actualSlideKey > 0) {
         this.direction = "reverse";
@@ -350,9 +351,15 @@ class VizzuPlayer extends HTMLElement {
       this._step(ns);
       this.lastAnimation = ns;
     } else {
+      if (slide === 0 || slide === this._slides.length - 1) {
+        this.animationQueue.seekerEnabled = false;
+      }
       const targetSlide = this._slides[slide];
-      const currentSlide = this._slides[actualSlideKey];
-      this._step([currentSlide.at(-1), targetSlide.at(-1)], { duration: 0.1, regroupStrategy: 'fade' });
+      if (actualSlideKey > slide) {
+        this.direction = "reverse";
+      }
+      this._step(targetSlide, { duration: 0.1, regroupStrategy: "fade" });
+
       this.lastAnimation = targetSlide;
     }
 

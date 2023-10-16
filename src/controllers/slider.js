@@ -52,10 +52,27 @@ class Slider extends HTMLElement {
 
         const updateSlider = (event) => {
           if (this.player.animationQueue.playing) {
-            this._updateSlider(event.data.progress * 1000);
+            const process = event.data.progress * 1000;
+            if (
+              this.player.direction === this.player.animationQueue.direction
+            ) {
+              this._updateSlider(process);
+            } else {
+              this._updateSlider(1000 - process);
+            }
           }
         };
         this.player.vizzu.on("update", updateSlider);
+
+        const _checkEnabled = () => {
+          if (
+            !this.player.animationQueue.playing &&
+            !this.player.animationQueue.seekerEnabled
+          ) {
+            this.slider.setAttribute("disabled", true);
+          }
+        };
+        this.player.vizzu.on("animation-complete", _checkEnabled);
       }
     }
   }
