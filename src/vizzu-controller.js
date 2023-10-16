@@ -6,6 +6,18 @@ const LOG_PREFIX = [
   "background: #3a60bf; color: #e2ae30;",
 ];
 
+const TEXT = {
+  PLAY: "Play",
+  PAUSE: "Pause",
+  NEXT: "Next",
+  PREVIOUS: "Previous",
+  FIRST: "First",
+  LAST: "Last",
+  FULLSCREEN: "Fullscreen",
+  EXIT_FULLSCREEN: "Exit fullscreen",
+  FULLSCREEN_NOT_ALLOWED: "Fullscreen not allowed",
+};
+
 class VizzuController extends HTMLElement {
   constructor() {
     super();
@@ -229,7 +241,11 @@ class VizzuController extends HTMLElement {
   }
 
   fullscreen() {
-    this.log("fullscreen");
+    if (!this.shadowRoot.ownerDocument.fullscreenEnabled) {
+      console.warn(TEXT.FULLSCREEN_NOT_ALLOWED);
+      return;
+    }
+
     if (document.fullscreenElement) {
       document.exitFullscreen();
     } else {
@@ -294,6 +310,10 @@ class VizzuController extends HTMLElement {
         #fullscreen {
           margin-right: 10px;
         }
+        #fullscreen[disabled] {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
         #splaceholder {
           flex: 1;
           max-width: 350px;
@@ -314,29 +334,33 @@ class VizzuController extends HTMLElement {
       </style>
       <div id="status">${this._html_status}</div>
       <div id="playerctrls">
-        <button id="start" aria-label="First">
+        <button id="start" aria-label="${TEXT.FIRST}">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="11" height="11" viewBox="0 0 11 11">
             <path id="first-pass" d="M1.467,5.867 L1.467,5.133 L11.000,0.000 L11.000,2.200 L11.000,8.800 L11.000,11.000 L1.467,5.867 zM0.000,11.000 C0.000,11.000 0.000,2.019 0.000,-0.000 C0.000,-0.000 1.467,-0.000 1.467,-0.000 L1.467,11.000 L0.000,11.000 z" fill="#A2A2A2" />
           </svg>
         </button>
-        <button id="previous" aria-label="Prev.">
+        <button id="previous" aria-label="${TEXT.PREVIOUS}">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13" height="15" viewBox="0 0 13 15">
             <path id="play_pass" d="M13.000,15.000 L-0.000,8.000 L-0.000,7.000 L13.000,-0.000 L13.000,15.000 z" fill="#A2A2A2" />
           </svg>
         </button>
         <vizzu-controller-slider></vizzu-controller-slider>
-        <button id="next" aria-label="Next">
+        <button id="next" aria-label="${TEXT.NEXT}">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13" height="15" viewBox="0 0 13 15">
             <path id="nextBtn" d="M-0.000,15.000 L13.000,8.000 L13.000,7.000 L-0.000,-0.000 L-0.000,15.000 z" fill="#A2A2A2" />
           </svg>
         </button>
-        <button id="end" aria-label="Last">
+        <button id="end" aria-label="${TEXT.LAST}">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="11" height="11" viewBox="0 0 11 11">
             <path id="first-pass" d="M9.533,5.133 L-0.000,-0.000 L-0.000,2.200 L-0.000,8.800 L-0.000,11.000 L9.533,5.867 L9.533,5.133 zM11.000,-0.000 C11.000,-0.000 9.533,-0.000 9.533,-0.000 C9.533,11.000 9.533,11.000 9.533,11.000 L11.000,11.000 C11.000,11.000 11.000,2.019 11.000,-0.000 z" fill="#A2A2A2" />
           </svg>
         </button>
       </div>
-      <button id="fullscreen" aria-label="Toggle fullscreen">
+      <button id="fullscreen" ${
+        !this.shadowRoot.ownerDocument.fullscreenEnabled
+          ? `disabled  aria-label="${TEXT.FULLSCREEN_NOT_ALLOWED}"`
+          : ` aria-label="${TEXT.FULLSCREEN}"`
+      }>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" viewBox="0 0 15 15">
           <path id="fullscreen_pass" d="M9.000,12.000 L12.000,12.000 L12.000,9.000 L15.000,9.000 L15.000,15.000 L12.000,15.000 L9.000,15.000 L9.000,12.000 zM9.000,-0.000 L15.000,-0.000 L15.000,6.000 L12.000,6.000 L12.000,3.000 L9.000,3.000 L9.000,-0.000 zM3.000,9.000 L3.000,12.000 L6.000,12.000 L6.000,15.000 L-0.000,15.000 L-0.000,9.000 L3.000,9.000 zM-0.000,-0.000 L6.000,-0.000 L6.000,3.000 L3.000,3.000 L3.000,6.000 L-0.000,6.000 L-0.000,-0.000 z" fill="#A2A2A2" />
         </svg>
