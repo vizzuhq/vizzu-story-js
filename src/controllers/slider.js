@@ -68,7 +68,6 @@ class Slider extends HTMLElement {
         };
         this.player.vizzu.on("update", updateSlider);
 
-
         const _checkDisabeld = () => {
           this.slider.removeAttribute("readonly");
           if (
@@ -77,7 +76,7 @@ class Slider extends HTMLElement {
           ) {
             this.slider.setAttribute("disabled", true);
           }
-        }
+        };
         this.player.vizzu.on("animation-complete", _checkDisabeld);
       }
     }
@@ -88,7 +87,10 @@ class Slider extends HTMLElement {
   }
 
   isDisabled() {
-    return this.slider.hasAttribute("disabled") || this.slider.hasAttribute("readonly");
+    return (
+      this.slider.hasAttribute("disabled") ||
+      this.slider.hasAttribute("readonly")
+    );
   }
 
   log(...msg) {
