@@ -1,13 +1,13 @@
-import VizzuMock from "./vizzu.js";
+import VizzuMock from './vizzu.js'
 
 class Vizzu extends VizzuMock {
   get instanceMockType() {
-    return "cdnInstance";
+    return 'cdnInstance'
   }
 
   static get classMockType() {
-    return "cdnClass";
+    return 'cdnClass'
   }
 }
 
-export default Vizzu;
+export default Vizzu

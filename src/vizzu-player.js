@@ -1,397 +1,388 @@
-import VizzuController from "./vizzu-controller.js";
-import AnimationQueue from "./AnimationQueue.js";
+import VizzuController from './vizzu-controller.js'
+import AnimationQueue from './AnimationQueue.js'
 
 const LOG_PREFIX = [
-  "%cVIZZU%cPLAYER",
-  "background: #e2ae30; color: #3a60bf; font-weight: bold",
-  "background: #3a60bf; color: #e2ae30;",
-];
+  '%cVIZZU%cPLAYER',
+  'background: #e2ae30; color: #3a60bf; font-weight: bold',
+  'background: #3a60bf; color: #e2ae30;'
+]
 
-let Vizzu;
+let Vizzu
 
 class VizzuPlayer extends HTMLElement {
   constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-    this.shadowRoot.innerHTML = this._render();
+    super()
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.innerHTML = this._render()
 
-    this._resolveVizzu = null;
+    this._resolveVizzu = null
     this.initializing = new Promise((resolve) => {
-      this._resolveVizzu = resolve;
-    }).then(() => this.vizzu.initializing);
+      this._resolveVizzu = resolve
+    }).then(() => this.vizzu.initializing)
 
-    this._resolvePlayer = null;
+    this._resolvePlayer = null
     this.ready = new Promise((resolve) => {
-      this._resolvePlayer = resolve;
-    });
+      this._resolvePlayer = resolve
+    })
   }
 
   async connectedCallback() {
-    await this._initVizzu();
-    if (!this.hasAttribute("tabindex")) {
-      this.setAttribute("tabindex", 0);
-      this.tabIndex = 0;
+    await this._initVizzu()
+    if (!this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', 0)
+      this.tabIndex = 0
     }
 
-    window.addEventListener("hashchange", () => {
+    window.addEventListener('hashchange', () => {
       if (this.hashNavigation) {
-        const hashSlide = this._slideFromHash(this._slides.length);
+        const hashSlide = this._slideFromHash(this._slides.length)
         if (this._currentSlide !== hashSlide) {
-          this.setSlide(hashSlide);
+          this.setSlide(hashSlide)
         }
       }
-    });
+    })
   }
 
   get debug() {
     try {
-      const debugCookie = document.cookie
-        .split(";")
-        .some((c) => c.startsWith("vizzu-debug"));
-      return debugCookie || this.hasAttribute("debug") || this.player.debug;
+      const debugCookie = document.cookie.split(';').some((c) => c.startsWith('vizzu-debug'))
+      return debugCookie || this.hasAttribute('debug') || this.player.debug
     } catch (e) {
-      return this.hasAttribute("debug");
+      return this.hasAttribute('debug')
     }
   }
 
   log(...msg) {
     if (this.debug) {
-      console.log(...LOG_PREFIX, ...msg);
+      console.log(...LOG_PREFIX, ...msg)
     }
   }
 
   get Vizzu() {
-    return Vizzu;
+    return Vizzu
   }
 
   get hashNavigation() {
-    return this.hasAttribute("hash-navigation");
+    return this.hasAttribute('hash-navigation')
   }
 
   get vizzuUrl() {
-    if (window.Vizzu) return undefined;
+    if (window.Vizzu) return undefined
     return (
-      this.getAttribute("vizzu-url") ||
-      "https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js"
-    );
+      this.getAttribute('vizzu-url') || 'https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js'
+    )
   }
 
   async _initVizzu() {
     if (!this.vizzu) {
-      Vizzu = window.Vizzu || (await import(this.vizzuUrl)).default;
-      this._resolveVizzu(Vizzu);
-      this.vizzu = new Vizzu(this.vizzuCanvas);
+      Vizzu = window.Vizzu || (await import(this.vizzuUrl)).default
+      this._resolveVizzu(Vizzu)
+      this.vizzu = new Vizzu(this.vizzuCanvas)
     }
   }
 
   _slideToAnimparams(slide) {
     if (slide._id) {
-      return slide._id;
+      return slide._id
     }
 
-    const animTarget = {};
+    const animTarget = {}
     if (slide.config) {
-      animTarget.config = slide.config;
+      animTarget.config = slide.config
     }
     if (slide.style) {
-      animTarget.style = slide.style;
+      animTarget.style = slide.style
     }
     if (slide.data) {
-      animTarget.data = slide.data;
+      animTarget.data = slide.data
     }
-    if (typeof slide.filter !== "undefined") {
+    if (typeof slide.filter !== 'undefined') {
       if (!animTarget.data) {
-        animTarget.data = {};
+        animTarget.data = {}
       }
-      animTarget.data.filter = slide.filter;
+      animTarget.data.filter = slide.filter
     }
 
-    const animParams = { target: animTarget };
+    const animParams = { target: animTarget }
     if (slide.animOptions) {
-      animParams.options = slide.animOptions;
+      animParams.options = slide.animOptions
     }
 
-    return animParams;
+    return animParams
   }
 
   async _convertSlides(slides) {
     if (slides?.slides?.length) {
       if (!Array.isArray(slides.slides[0])) {
-        slides.slides[0] = [slides.slides[0]];
+        slides.slides[0] = [slides.slides[0]]
       }
-      const firstSlide = slides.slides[0][0];
-      firstSlide.data = firstSlide.data || Object.assign({}, slides.data);
-      firstSlide.style = firstSlide.style || slides.style;
+      const firstSlide = slides.slides[0][0]
+      firstSlide.data = firstSlide.data || Object.assign({}, slides.data)
+      firstSlide.style = firstSlide.style || slides.style
     }
 
-    await this.initializing;
-    this.vizzu.on("animation-complete", () => {
-      this._update(this._state);
-    });
-    this.animationQueue = new AnimationQueue(this.vizzu);
+    await this.initializing
+    this.vizzu.on('animation-complete', () => {
+      this._update(this._state)
+    })
+    this.animationQueue = new AnimationQueue(this.vizzu)
 
-    if (typeof this.vizzu._setStyle === "function") {
+    if (typeof this.vizzu._setStyle === 'function') {
       // workaround
       if (!slides.style) {
-        slides.style = {};
+        slides.style = {}
       }
       if (!slides.style.fontSize) {
-        slides.style.fontSize = "100%";
+        slides.style.fontSize = '100%'
       }
-      this.vizzu._setStyle(slides.style ?? null);
+      this.vizzu._setStyle(slides.style ?? null)
     }
-    const seekToEnd = () => this._seekToEnd();
-    this.vizzu.on("animation-begin", seekToEnd);
+    const seekToEnd = () => this._seekToEnd()
+    this.vizzu.on('animation-begin', seekToEnd)
 
-    const convertedSlides = [];
+    const convertedSlides = []
 
-    let lastFilter;
+    let lastFilter
     for (const slide of slides.slides) {
-      let steps = slide;
+      let steps = slide
       if (!Array.isArray(steps)) {
-        steps = [steps];
+        steps = [steps]
       }
 
-      const chartSteps =
-        convertedSlides.length > 0 ? [convertedSlides?.at(-1)?.at(-1)] : [];
-      const animParams = steps.map((step) => this._slideToAnimparams(step));
+      const chartSteps = convertedSlides.length > 0 ? [convertedSlides?.at(-1)?.at(-1)] : []
+      const animParams = steps.map((step) => this._slideToAnimparams(step))
 
       for (const animParam of animParams) {
-        const anim = this.vizzu.animate(animParam.target);
-        await anim;
+        const anim = this.vizzu.animate(animParam.target)
+        await anim
         const targetData = {
           target: {
             config: this.vizzu.config,
-            style: this.vizzu.getComputedStyle(),
-          },
-        };
+            style: this.vizzu.getComputedStyle()
+          }
+        }
         if (animParam.options) {
-          targetData.options = animParam.options;
+          targetData.options = animParam.options
         }
         if (
           animParam.target?.data &&
-          "filter" in animParam.target?.data &&
+          'filter' in animParam.target?.data &&
           animParam.target.data.filter !== undefined
         ) {
-          targetData.target.data = { filter: animParam.target.data.filter };
-          lastFilter = animParam.target.data.filter;
+          targetData.target.data = { filter: animParam.target.data.filter }
+          lastFilter = animParam.target.data.filter
         } else if (targetData.target.filter) {
-          targetData.target.data = { filter: animParam.target.data.filter };
+          targetData.target.data = { filter: animParam.target.data.filter }
         } else if (lastFilter) {
-          targetData.target.data = { filter: lastFilter };
+          targetData.target.data = { filter: lastFilter }
         }
 
-        chartSteps.push(targetData);
+        chartSteps.push(targetData)
       }
-      convertedSlides.push(chartSteps);
+      convertedSlides.push(chartSteps)
     }
     if (convertedSlides.length) {
-      await this.vizzu.animate(convertedSlides[this._currentSlide || 0]);
+      await this.vizzu.animate(convertedSlides[this._currentSlide || 0])
     }
-    this.vizzu.off("animation-begin", seekToEnd);
+    this.vizzu.off('animation-begin', seekToEnd)
 
-    return convertedSlides;
+    return convertedSlides
   }
 
   _slideFromHash(length) {
-    const hashSlide = parseInt(document.location.hash.substring(1));
+    const hashSlide = parseInt(document.location.hash.substring(1))
 
-    return this._normalizeSlideNumber(hashSlide, length);
+    return this._normalizeSlideNumber(hashSlide, length)
   }
 
   _getStartSlide(length) {
-    const startSlide = parseInt(this.getAttribute("start-slide")) || 0;
+    const startSlide = parseInt(this.getAttribute('start-slide')) || 0
 
-    return this._normalizeSlideNumber(startSlide, length);
+    return this._normalizeSlideNumber(startSlide, length)
   }
 
   _normalizeSlideNumber(nr, length) {
-    if (isNaN(nr)) return null;
-    if (!nr) return 0;
-    return nr < 0 ? Math.max(length + nr, 0) : Math.min(nr - 1, length - 1);
+    if (isNaN(nr)) return null
+    if (!nr) return 0
+    return nr < 0 ? Math.max(length + nr, 0) : Math.min(nr - 1, length - 1)
   }
 
   get slides() {
-    return this._slides;
+    return this._slides
   }
 
   set slides(slidesSourceData) {
-    const slides = this._recursiveCopy(slidesSourceData);
-    let startSlide = this._getStartSlide(slides.slides.length);
+    const slides = this._recursiveCopy(slidesSourceData)
+    let startSlide = this._getStartSlide(slides.slides.length)
     if (this.hashNavigation) {
-      const hashSlide = this._slideFromHash(slides.slides.length);
+      const hashSlide = this._slideFromHash(slides.slides.length)
       if (hashSlide !== null) {
-        startSlide = hashSlide;
+        startSlide = hashSlide
       }
     }
-    this._currentSlide = startSlide;
-    this._setSlides(slides);
+    this._currentSlide = startSlide
+    this._setSlides(slides)
   }
 
   _recursiveCopy(obj) {
-    if (obj === null) return null;
-    const clone = Object.assign({}, obj);
+    if (obj === null) return null
+    const clone = Object.assign({}, obj)
     Object.keys(clone).forEach(
       (key) =>
-        (clone[key] =
-          typeof obj[key] === "object"
-            ? this._recursiveCopy(obj[key])
-            : obj[key])
-    );
+        (clone[key] = typeof obj[key] === 'object' ? this._recursiveCopy(obj[key]) : obj[key])
+    )
     if (Array.isArray(obj)) {
-      clone.length = obj.length;
-      return Array.from(clone);
+      clone.length = obj.length
+      return Array.from(clone)
     }
-    return clone;
+    return clone
   }
 
   async _setSlides(slides) {
-    this.setAttribute("initializing", "");
-    this._originalSlides = slides;
-    this._slides = await this._convertSlides(slides);
-    this.setSlide(this._currentSlide);
-    this.removeAttribute("initializing");
-    this._resolvePlayer();
+    this.setAttribute('initializing', '')
+    this._originalSlides = slides
+    this._slides = await this._convertSlides(slides)
+    this.setSlide(this._currentSlide)
+    this.removeAttribute('initializing')
+    this._resolvePlayer()
   }
 
   get vizzuCanvas() {
-    return this.shadowRoot.getElementById("vizzu");
+    return this.shadowRoot.getElementById('vizzu')
   }
 
   get length() {
-    return this._slides?.length || 0;
+    return this._slides?.length || 0
   }
 
   get currentSlide() {
-    return this._currentSlide;
+    return this._currentSlide
   }
 
   set currentSlide(slide) {
-    this.setSlide(slide);
+    this.setSlide(slide)
   }
 
   get slide() {
-    return this._slides?.[this._currentSlide];
+    return this._slides?.[this._currentSlide]
   }
 
   get _includeController() {
-    return this.hasAttribute("controller");
+    return this.hasAttribute('controller')
   }
 
   _step(step, options = {}) {
     this.animationQueue.enqueue(step, options, {
       currentSlide: this._currentSlide,
-      steppType: this.steppType,
-    });
+      steppType: this.steppType
+    })
   }
 
   async _seekTo(percent) {
-    this.vizzu.animation.seek(`${percent}%`);
+    this.vizzu.animation.seek(`${percent}%`)
   }
 
   async _seekToStart() {
-    return this._seekTo(0);
+    return this._seekTo(0)
   }
 
   async _seekToEnd() {
-    return this._seekTo(100);
+    return this._seekTo(100)
   }
 
   set seekPosition(percent) {
-    this._seekPosition = percent;
+    this._seekPosition = percent
   }
 
   get seekPosition() {
-    return this._seekPosition;
+    return this._seekPosition
   }
 
   set animationQueue(queue) {
-    this._animationQueue = queue;
+    this._animationQueue = queue
   }
 
   get animationQueue() {
-    return this._animationQueue;
+    return this._animationQueue
   }
 
   async setSlide(slide) {
     if (this.length === 0) {
-      return;
+      return
     }
 
     if (
       this._state.seekPosition &&
       ((slide <= 0 && this._currentSlide === 0) ||
-        (this._slides.length <= slide &&
-          this._currentSlide === this._slides.length - 1) ||
+        (this._slides.length <= slide && this._currentSlide === this._slides.length - 1) ||
         slide === this._currentSlide)
     ) {
-      return;
+      return
     }
 
-    this._update(this._state);
+    this._update(this._state)
 
-    const actualSlideKey = this._currentSlide || 0;
+    const actualSlideKey = this._currentSlide || 0
     if (!slide || slide < 0) {
-      slide = 0;
+      slide = 0
     } else if (slide >= this.length) {
-      slide = this.length - 1;
+      slide = this.length - 1
     }
-    this._currentSlide = slide;
-    this.direction = "normal";
-    this.steppType = "normal";
+    this._currentSlide = slide
+    this.direction = 'normal'
+    this.steppType = 'normal'
     if (actualSlideKey - slide === 1) {
       if (actualSlideKey > 0) {
-        this.direction = "reverse";
-        const currentSlide = this._slides[actualSlideKey];
+        this.direction = 'reverse'
+        const currentSlide = this._slides[actualSlideKey]
 
-        this._step(currentSlide, { position: 1, direction: "reverse" });
-        this.lastAnimation = currentSlide;
+        this._step(currentSlide, { position: 1, direction: 'reverse' })
+        this.lastAnimation = currentSlide
       }
     } else if (actualSlideKey - slide === -1) {
-      const ns = this._slides[slide];
-      this._step(ns);
-      this.lastAnimation = ns;
+      const ns = this._slides[slide]
+      this._step(ns)
+      this.lastAnimation = ns
     } else {
-      this.steppType = "jump";
-      const targetSlide = this._slides[slide];
+      this.steppType = 'jump'
+      const targetSlide = this._slides[slide]
       if (actualSlideKey > slide) {
-        this.direction = "reverse";
+        this.direction = 'reverse'
       }
-      this._step(targetSlide, { duration: 0.1, regroupStrategy: "fade" });
+      const currentSlide = this._slides[actualSlideKey]
+      this._step(targetSlide, { duration: 0.1, regroupStrategy: 'fade' })
 
-      this.lastAnimation = targetSlide;
+      this.lastAnimation = targetSlide
     }
 
-    this._update(this._state);
+    this._update(this._state)
 
     if (this.hashNavigation) {
-      document.location.hash = `#${slide + 1}`;
+      document.location.hash = `#${slide + 1}`
     }
   }
 
   next() {
-    return this.setSlide(this.currentSlide + 1);
+    return this.setSlide(this.currentSlide + 1)
   }
 
   previous() {
-    return this.setSlide(this.currentSlide - 1);
+    return this.setSlide(this.currentSlide - 1)
   }
 
   toStart() {
-    return this.setSlide(0);
+    return this.setSlide(0)
   }
 
   toEnd() {
-    return this.setSlide(this.length - 1);
+    return this.setSlide(this.length - 1)
   }
 
   async seek(percent) {
-    this._update(this._state);
-    this.log(
-      `seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`
-    );
-    this.vizzu.animation.seek(`${percent}%`);
-    this._update(this._state);
+    this._update(this._state)
+    this.log(`seek to ${percent}%, current: ${this._seekPosition}% [${this._currentSlide}]`)
+    this.vizzu.animation.seek(`${percent}%`)
+    this._update(this._state)
   }
 
   get _state() {
@@ -399,17 +390,17 @@ class VizzuPlayer extends HTMLElement {
       currentSlide: this.currentSlide,
       slide: this.slide,
       seekPosition: this._seekPosition,
-      length: this.length,
-    };
+      length: this.length
+    }
   }
 
   _update(state) {
-    const e = new CustomEvent("update", { detail: state });
-    this.dispatchEvent(e);
+    const e = new CustomEvent('update', { detail: state })
+    this.dispatchEvent(e)
   }
 
   get customSpinner() {
-    return this.getAttribute("custom-spinner");
+    return this.getAttribute('custom-spinner')
   }
 
   _render() {
@@ -500,21 +491,21 @@ class VizzuPlayer extends HTMLElement {
       ${
         this._includeController
           ? `<vizzu-controller id="controller" slider-update="input"></vizzu-controller>`
-          : ""
+          : ''
       }
-      `;
+      `
   }
 }
 
 try {
-  if (!customElements.get("vizzu-player")) {
-    customElements.define("vizzu-player", VizzuPlayer);
+  if (!customElements.get('vizzu-player')) {
+    customElements.define('vizzu-player', VizzuPlayer)
   } else {
-    console.warn("VizzuPlayer already defined");
+    console.warn('VizzuPlayer already defined')
   }
 } catch (e) {
-  console.error("Failed to register custom element: ", e);
+  console.error('Failed to register custom element: ', e)
 }
 
-export default VizzuPlayer;
-export { VizzuController };
+export default VizzuPlayer
+export { VizzuController }
