@@ -261,10 +261,6 @@ class AnimationQueue {
     this.paused = false;
     this.playing = true;
 
-    if (this.direction === "reverse") {
-      this.reverse();
-      return;
-    }
     this.controller.play();
   }
 
