@@ -4,6 +4,10 @@ const LOG_PREFIX = [
   "background: #000000; color: #fafafa;",
 ];
 
+const TEXT = {
+  SEEK: "Seek animation",
+};
+
 class Slider extends HTMLElement {
   constructor() {
     super();
@@ -18,7 +22,6 @@ class Slider extends HTMLElement {
       if (this.isDisabled()) {
         return;
       }
-
       this.seek(event.target.value / 10);
     });
 
@@ -144,7 +147,7 @@ class Slider extends HTMLElement {
         outline: none;
     }
     .slider input[type="range"]:disabled,
-    .slider input[type="range"]:read-only {
+    .slider input[type="range"][readonly] {
       opacity: 0.5;
     }
     .slider input[type="range"]:not([disabled]):not([readonly]):hover
@@ -201,7 +204,7 @@ class Slider extends HTMLElement {
       }
     </style>
     <div class="slider" id="slider-container">
-        <input aria-label="Seek animation" type="range" min="0" max="1000" value="0" id="slider" disabled/>
+        <input aria-label="${TEXT.SEEK}" type="range" min="0" max="1000" value="0" id="slider" disabled/>
       </div>`;
   }
 }
