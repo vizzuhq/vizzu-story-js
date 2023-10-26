@@ -15,8 +15,10 @@ class AnimationQueue {
     this.playing = false
     this.paused = false
     this.controller = null
+    this.direction = 'normal'
     this.lastAnimation = null
     this._lastParameters = null
+    this.seekerEnabled = false
 
     this.vizzu.on('animation-complete', () => {
       this.playing = false
@@ -100,6 +102,16 @@ class AnimationQueue {
       firstAnimation.animOptions.playState = 'running'
     }
 
+    if (firstAnimation.animOptions.direction === 'reverse') {
+      this.direction = 'reverse'
+    } else {
+      this.direction = 'normal'
+    }
+    this.seekerEnabled = true
+    if (firstAnimation.parameters.steppType !== 'normal') {
+      this.seekerEnabled = false
+    }
+
     // change speed when the current animate is not a last
     let configObject = firstAnimation.configObject
 
@@ -128,11 +140,7 @@ class AnimationQueue {
       configObject,
       animOptions: firstAnimation.animOptions
     }
-    if (
-      !this.paused &&
-      firstAnimation.animOptions.direction === 'reverse' &&
-      startSlideConfig !== null
-    ) {
+    if (!this.paused && this.direction === 'reverse' && startSlideConfig !== null) {
       this.vizzu.animate(startSlideConfig.target, 0)
     }
   }
@@ -159,6 +167,7 @@ class AnimationQueue {
   reverse() {
     if (!this.controller) return
     this.playing = true
+    this.direction = 'reverse'
     this.controller.reverse()
     this.controller.play()
   }
@@ -243,10 +252,6 @@ class AnimationQueue {
     this.paused = false
     this.playing = true
 
-    if (this.head?.animOptions?.direction === 'reverse') {
-      this.reverse()
-      return
-    }
     this.controller.play()
   }
 

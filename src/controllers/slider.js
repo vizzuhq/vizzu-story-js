@@ -4,6 +4,10 @@ const LOG_PREFIX = [
   'background: #000000; color: #fafafa;'
 ]
 
+const TEXT = {
+  SEEK: 'Seek animation'
+}
+
 class Slider extends HTMLElement {
   constructor() {
     super()
@@ -51,10 +55,27 @@ class Slider extends HTMLElement {
 
         const updateSlider = (event) => {
           if (this.player.animationQueue.playing) {
-            this._updateSlider(event.data.progress * 1000)
+            const process = event.data.progress * 1000
+            if (this.player.direction === this.player.animationQueue.direction) {
+              this._updateSlider(process)
+            } else {
+              this._updateSlider(1000 - process)
+            }
+
+            if (!this.player.animationQueue.seekerEnabled) {
+              this.slider.setAttribute('readonly', true)
+            }
           }
         }
         this.player.vizzu.on('update', updateSlider)
+
+        const _checkDisabeld = () => {
+          this.slider.removeAttribute('readonly')
+          if (!this.player.animationQueue.playing && !this.player.animationQueue.seekerEnabled) {
+            this.slider.setAttribute('disabled', true)
+          }
+        }
+        this.player.vizzu.on('animation-complete', _checkDisabeld)
       }
     }
   }
@@ -64,7 +85,7 @@ class Slider extends HTMLElement {
   }
 
   isDisabled() {
-    return this.slider.hasAttribute('disabled')
+    return this.slider.hasAttribute('disabled') || this.slider.hasAttribute('readonly')
   }
 
   log(...msg) {
@@ -88,6 +109,7 @@ class Slider extends HTMLElement {
       this.slider.value = 0
     } else {
       this.slider.removeAttribute('disabled')
+      this.slider.removeAttribute('readonly')
       this.slider.value = value
     }
   }
@@ -116,10 +138,11 @@ class Slider extends HTMLElement {
         border: none;
         outline: none;
     }
-    .slider input[type="range"]:disabled {
+    .slider input[type="range"]:disabled,
+    .slider input[type="range"][readonly] {
       opacity: 0.5;
     }
-    .slider input[type="range"]:not([disabled]):hover
+    .slider input[type="range"]:not([disabled]):not([readonly]):hover
      {
       background: var(--_hc);
       cursor: pointer;
@@ -173,7 +196,7 @@ class Slider extends HTMLElement {
       }
     </style>
     <div class="slider" id="slider-container">
-        <input aria-label="Seek animation" type="range" min="0" max="1000" value="0" id="slider" disabled/>
+        <input aria-label="${TEXT.SEEK}" type="range" min="0" max="1000" value="0" id="slider" disabled/>
       </div>`
   }
 }
