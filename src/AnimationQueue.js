@@ -125,7 +125,9 @@ class AnimationQueue {
       this.vizzu.feature('rendering', false)
       this.vizzu.animate(startSlideConfig.target, 0)
     }
-    this.vizzu.animate(configObject, firstAnimation.animOptions).activated.then((control) => {
+    const vizzuAnimate = this.vizzu.animate(configObject, firstAnimation.animOptions)
+
+    vizzuAnimate.activated.then((control) => {
       this.playing = true
       this._lastParameters = firstAnimation.parameters || null
       this.vizzu.feature('rendering', true)
@@ -133,6 +135,12 @@ class AnimationQueue {
 
       if (this.paused) {
         control.pause()
+      }
+    })
+
+    vizzuAnimate.catch((message) => {
+      if (message !== 'animation canceled') {
+        console.error(message)
       }
     })
 
@@ -182,15 +190,24 @@ class AnimationQueue {
         duration: '0s'
       })
     }
-    this.vizzu
-      .animate(this._speedUp(this.lastAnimation.configObject), this.lastAnimation.animOptions)
-      .activated.then((control) => {
-        this.controller = control
-        control.pause()
-        this.pushed = true
-        control.seek((this._currentSeek || percent) + '%')
-        this.vizzu.feature('rendering', true)
-      })
+    const vizzuAnimate = this.vizzu.animate(
+      this._speedUp(this.lastAnimation.configObject),
+      this.lastAnimation.animOptions
+    )
+
+    vizzuAnimate.activated.then((control) => {
+      this.controller = control
+      control.pause()
+      this.pushed = true
+      control.seek((this._currentSeek || percent) + '%')
+      this.vizzu.feature('rendering', true)
+    })
+
+    vizzuAnimate.catch((message) => {
+      if (message !== 'animation canceled') {
+        console.error(message)
+      }
+    })
   }
 
   seek(percent) {
