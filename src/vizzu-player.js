@@ -349,7 +349,7 @@ class VizzuPlayer extends HTMLElement {
       if (actualSlideKey > slide) {
         this.direction = 'reverse'
       }
-      this._step(targetSlide, { duration: 0, regroupStrategy: 'fade' , position: 0.99})
+      this._step(targetSlide, { duration: 0, regroupStrategy: 'fade', position: 0.99 })
 
       this.lastAnimation = targetSlide
     }
