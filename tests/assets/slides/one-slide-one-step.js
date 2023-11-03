@@ -28,14 +28,14 @@ slidesWithOneSlideWithOneStep.push(
     input: {
       slides: [{ config: configAssets.config1 }]
     },
-    expected: [[{ target: { config: configAssets.config1, style: {}, data: { filter: null} } }]]
+    expected: [[{ target: { data: { filter: null }, config: configAssets.config1, style: {} } }]]
   },
   {
     description: 'style',
     input: {
       slides: [{ style: styleAssets.style1 }]
     },
-    expected: [[{ target: { config: {}, style: styleAssets.style1, data: { filter: null} } }]]
+    expected: [[{ target: { data: { filter: null }, config: {}, style: styleAssets.style1 } }]]
   },
   {
     description: 'animOptions',
@@ -45,7 +45,7 @@ slidesWithOneSlideWithOneStep.push(
     expected: [
       [
         {
-          target: { config: {}, style: {}, data: { filter: null} },
+          target: { data: { filter: null }, config: {}, style: {} },
           options: animOptionsAssets.animOptions1
         }
       ]
@@ -90,7 +90,7 @@ slidesWithOneSlideWithOneStep.push(
     expected: [
       [
         {
-          target: { style: {}, config: configAssets.config1, data: { filter: null} },
+          target: { data: { filter: null }, style: {}, config: configAssets.config1 },
           options: animOptionsAssets.animOptions1
         }
       ]
@@ -109,7 +109,7 @@ slidesWithOneSlideWithOneStep.push(
     expected: [
       [
         {
-          target: { config: {}, style: styleAssets.style1, data: { filter: null} },
+          target: { data: { filter: null }, config: {}, style: styleAssets.style1 },
           options: animOptionsAssets.animOptions1
         }
       ]

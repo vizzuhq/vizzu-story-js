@@ -19,7 +19,11 @@ function addLastFilterToExpected(expected) {
   let lastFilter
   return expected.map((keyFrame, key) => {
     return keyFrame.map((keyFrameItem) => {
-      if (keyFrameItem.target.data && 'filter' in keyFrameItem.target.data) {
+      if (
+        keyFrameItem.target.data &&
+        'filter' in keyFrameItem.target.data &&
+        keyFrameItem.target.data.filter !== null
+      ) {
         lastFilter = keyFrameItem.target.data.filter
       } else if (lastFilter) {
         keyFrameItem.target.data = { filter: lastFilter }
@@ -43,28 +47,22 @@ function generateSlides() {
     oneStepAsListSlidePlusMoreStepsSlide.expected = addPreviousSlideLastKeyframeToExpected(
       oneStepAsListSlidePlusMoreStepsSlide.expected
     )
-
     slidesWithMoreSlides.push(oneStepAsListSlidePlusMoreStepsSlide)
 
     const moreStepsSlidePlusOneStepAsObjectSlide =
       generateMoreStepsSlidePlusOneStepAsObjectSlide(slide)
-
     moreStepsSlidePlusOneStepAsObjectSlide.expected = addLastFilterToExpected(
       moreStepsSlidePlusOneStepAsObjectSlide.expected
     )
-
     moreStepsSlidePlusOneStepAsObjectSlide.expected = addPreviousSlideLastKeyframeToExpected(
       moreStepsSlidePlusOneStepAsObjectSlide.expected
     )
-
     slidesWithMoreSlides.push(moreStepsSlidePlusOneStepAsObjectSlide)
 
     const moreStepsSlidePlusOneStepAsListSlide = generateMoreStepsSlidePlusOneStepAsListSlide(slide)
-
     moreStepsSlidePlusOneStepAsListSlide.expected = addLastFilterToExpected(
       moreStepsSlidePlusOneStepAsListSlide.expected
     )
-
     moreStepsSlidePlusOneStepAsListSlide.expected = addPreviousSlideLastKeyframeToExpected(
       moreStepsSlidePlusOneStepAsListSlide.expected
     )
@@ -86,13 +84,7 @@ function generateOneStepAsListSlidePlusMoreStepsSlide(slide) {
   slides.description = `slide1(list step with ${slides.description}), slide2(more steps)`
   slides.input.slides[0] = [slides.input.slides[0]]
   slides.input.slides.push(slideWithMoreSteps.input.slides[0])
-
   slides.expected.push(slideWithMoreSteps.expected[0])
-
-/*   slides.expected = slides.expected.map((excepted) => {
-    excepted[0].target.data = { filter: null }
-    return excepted;
-  }) */
   return slides
 }
 
