@@ -86,7 +86,13 @@ function generateOneStepAsListSlidePlusMoreStepsSlide(slide) {
   slides.description = `slide1(list step with ${slides.description}), slide2(more steps)`
   slides.input.slides[0] = [slides.input.slides[0]]
   slides.input.slides.push(slideWithMoreSteps.input.slides[0])
+
   slides.expected.push(slideWithMoreSteps.expected[0])
+
+/*   slides.expected = slides.expected.map((excepted) => {
+    excepted[0].target.data = { filter: null }
+    return excepted;
+  }) */
   return slides
 }
 

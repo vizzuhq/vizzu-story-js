@@ -433,7 +433,8 @@ describe('if vp.slides setter is called', () => {
           {
             target: {
               config: { channels: { color: 'Z', x: 'X', y: ['Y', 'Z'] } },
-              style: {}
+              style: {},
+              data: { filter: null}
             }
           }
         ]
