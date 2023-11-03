@@ -142,7 +142,7 @@ class VizzuPlayer extends HTMLElement {
 
     const convertedSlides = []
 
-    let lastFilter
+    let lastFilter = null
     for (const slide of slides.slides) {
       let steps = slide
       if (!Array.isArray(steps)) {
@@ -173,7 +173,7 @@ class VizzuPlayer extends HTMLElement {
           lastFilter = animParam.target.data.filter
         } else if (targetData.target.filter) {
           targetData.target.data = { filter: animParam.target.data.filter }
-        } else if (lastFilter) {
+        } else if (lastFilter !== undefined) {
           targetData.target.data = { filter: lastFilter }
         }
 
