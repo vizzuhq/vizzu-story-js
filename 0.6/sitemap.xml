@@ -2,367 +2,367 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/CODE_OF_CONDUCT/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/CONTRIBUTING/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/LICENSE/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/installation/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/dev/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/examples/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/examples/_basic/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/examples/linkedinpoll/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/examples/population/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/examples/proglangs/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/examples/titanic/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/examples/trumptwitter/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/examples/usbudget/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/modules/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/classes/VizzuPlayer/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Phase/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Story/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Anim.Animation/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Anim.Completing/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Anim.Control/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Anim.ControlOptions/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Anim.GroupOptions/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Anim.Keyframe/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Anim.Options/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Anim.Target/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Config.Channel/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Config.ChannelRange/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Config.Channels/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Config.Chart/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.AbstractSeriesInfo/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.Cube/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.CubeData/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.DimensionSeriesInfo/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.Filter/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.MeasureSeriesInfo/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.Metainfo/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.Range/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.Record/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.Series/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.SeriesMetaInfo/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.TableByRecords/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Data.TableBySeries/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Axis/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.AxisLabel/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.AxisTitle/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Box/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Chart/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.DataPoint/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Font/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Guides/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Interlacing/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Legend/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.LegendMarker/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Logo/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Marker/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.MarkerLabel/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.OrientedLabel/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Padding/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Plot/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Text/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Ticks/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/interfaces/Vizzu.Styles.Tooltip/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/modules/Vizzu.Anim/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/modules/Vizzu.Config/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/modules/Vizzu.Data/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/modules/Vizzu.Styles/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/reference/modules/Vizzu/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/tutorial/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/tutorial/building_blocks/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/tutorial/data/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://vizzu-story.vizzuhq.com/latest/tutorial/initialization/</loc>
-         <lastmod>2023-10-31</lastmod>
+         <lastmod>2023-11-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
