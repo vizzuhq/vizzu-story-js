@@ -5,8 +5,6 @@ import lodashClonedeep from 'lodash.clonedeep'
 
 const slidesWithMoreSlides = generateSlides()
 
-export { slidesWithMoreSlides }
-
 function addPreviousSlideLastKeyframeToExpected(expected) {
   return expected.map((keyFrame, key) => {
     if (key === 0) return keyFrame
@@ -105,3 +103,63 @@ function generateMoreStepsSlidePlusOneStepAsListSlide(slide) {
   slides.expected.push(expected)
   return slides
 }
+
+const filterNull = {
+  target: {
+    data: { filter: null },
+    config: {},
+    style: {}
+  }
+}
+const filterTrue = {
+  target: {
+    data: { filter: true },
+    config: {},
+    style: {}
+  }
+}
+const filterFalse = {
+  target: {
+    data: { filter: false },
+    config: {},
+    style: {}
+  }
+}
+
+const slidesWithMoreSlidesWithMoreFilters = {
+  input: {
+    slides: [
+      {},
+      [{}, { filter: true }, {}, { filter: false }, {}, { filter: null }, {}],
+      {},
+      { filter: true },
+      {},
+      { filter: false },
+      {},
+      { filter: null },
+      {}
+    ]
+  },
+  expected: [
+    [filterNull],
+    [
+      filterNull,
+      filterNull,
+      filterTrue,
+      filterTrue,
+      filterFalse,
+      filterFalse,
+      filterNull,
+      filterNull
+    ],
+    [filterNull, filterNull],
+    [filterNull, filterTrue],
+    [filterTrue, filterTrue],
+    [filterTrue, filterFalse],
+    [filterFalse, filterFalse],
+    [filterFalse, filterNull],
+    [filterNull, filterNull]
+  ]
+}
+
+export { slidesWithMoreSlides, slidesWithMoreSlidesWithMoreFilters }
