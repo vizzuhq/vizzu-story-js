@@ -5,8 +5,6 @@ import lodashClonedeep from 'lodash.clonedeep'
 
 const slidesWithMoreSlides = generateSlides()
 
-export { slidesWithMoreSlides }
-
 function addPreviousSlideLastKeyframeToExpected(expected) {
   return expected.map((keyFrame, key) => {
     if (key === 0) return keyFrame
@@ -19,7 +17,11 @@ function addLastFilterToExpected(expected) {
   let lastFilter
   return expected.map((keyFrame, key) => {
     return keyFrame.map((keyFrameItem) => {
-      if (keyFrameItem.target.data && 'filter' in keyFrameItem.target.data) {
+      if (
+        keyFrameItem.target.data &&
+        'filter' in keyFrameItem.target.data &&
+        keyFrameItem.target.data.filter !== null
+      ) {
         lastFilter = keyFrameItem.target.data.filter
       } else if (lastFilter) {
         keyFrameItem.target.data = { filter: lastFilter }
@@ -43,28 +45,22 @@ function generateSlides() {
     oneStepAsListSlidePlusMoreStepsSlide.expected = addPreviousSlideLastKeyframeToExpected(
       oneStepAsListSlidePlusMoreStepsSlide.expected
     )
-
     slidesWithMoreSlides.push(oneStepAsListSlidePlusMoreStepsSlide)
 
     const moreStepsSlidePlusOneStepAsObjectSlide =
       generateMoreStepsSlidePlusOneStepAsObjectSlide(slide)
-
     moreStepsSlidePlusOneStepAsObjectSlide.expected = addLastFilterToExpected(
       moreStepsSlidePlusOneStepAsObjectSlide.expected
     )
-
     moreStepsSlidePlusOneStepAsObjectSlide.expected = addPreviousSlideLastKeyframeToExpected(
       moreStepsSlidePlusOneStepAsObjectSlide.expected
     )
-
     slidesWithMoreSlides.push(moreStepsSlidePlusOneStepAsObjectSlide)
 
     const moreStepsSlidePlusOneStepAsListSlide = generateMoreStepsSlidePlusOneStepAsListSlide(slide)
-
     moreStepsSlidePlusOneStepAsListSlide.expected = addLastFilterToExpected(
       moreStepsSlidePlusOneStepAsListSlide.expected
     )
-
     moreStepsSlidePlusOneStepAsListSlide.expected = addPreviousSlideLastKeyframeToExpected(
       moreStepsSlidePlusOneStepAsListSlide.expected
     )
@@ -107,3 +103,63 @@ function generateMoreStepsSlidePlusOneStepAsListSlide(slide) {
   slides.expected.push(expected)
   return slides
 }
+
+const filterNull = {
+  target: {
+    data: { filter: null },
+    config: {},
+    style: {}
+  }
+}
+const filterTrue = {
+  target: {
+    data: { filter: true },
+    config: {},
+    style: {}
+  }
+}
+const filterFalse = {
+  target: {
+    data: { filter: false },
+    config: {},
+    style: {}
+  }
+}
+
+const slidesWithMoreSlidesWithMoreFilters = {
+  input: {
+    slides: [
+      {},
+      [{}, { filter: true }, {}, { filter: false }, {}, { filter: null }, {}],
+      {},
+      { filter: true },
+      {},
+      { filter: false },
+      {},
+      { filter: null },
+      {}
+    ]
+  },
+  expected: [
+    [filterNull],
+    [
+      filterNull,
+      filterNull,
+      filterTrue,
+      filterTrue,
+      filterFalse,
+      filterFalse,
+      filterNull,
+      filterNull
+    ],
+    [filterNull, filterNull],
+    [filterNull, filterTrue],
+    [filterTrue, filterTrue],
+    [filterTrue, filterFalse],
+    [filterFalse, filterFalse],
+    [filterFalse, filterNull],
+    [filterNull, filterNull]
+  ]
+}
+
+export { slidesWithMoreSlides, slidesWithMoreSlidesWithMoreFilters }
