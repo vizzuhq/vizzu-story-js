@@ -26,7 +26,6 @@ describe('vizzu chart data', () => {
   test.each(cases)(`slide data test with $name`, async ({ name, slides, excepted }) => {
     const page = await browser.newPage()
 
-
     const keyFramesLengths = slides.slides.map((slide) => slide.length)
     const allKeyFrames = keyFramesLengths.reduce((accumulator, currentValue) => {
       return accumulator + currentValue
@@ -42,7 +41,7 @@ describe('vizzu chart data', () => {
         })
 
         let completeCounter = 0
-        let datas = []
+        const datas = []
         function labelDrawHandler(event) {
           if (completeCounter < allKeyFrames) {
             datas.push(event.data.text)
@@ -56,8 +55,7 @@ describe('vizzu chart data', () => {
           completeCounter++
         }
 
-        const VizzuPlayerModule = await import(`http://127.0.0.1:${serverPort}/src/vizzu-player.js`)
-        const VizzuPlayer = VizzuPlayerModule.default
+        await import(`http://127.0.0.1:${serverPort}/src/vizzu-player.js`)
         const vp = document.getElementById('story')
         window.vp = vp
         vp.initializing.then(async (chart) => {
