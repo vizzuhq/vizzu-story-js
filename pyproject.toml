@@ -11,9 +11,6 @@ readme = "README.md"
 license = {text = "Apache-2.0"}
 
 [tool.pdm.dev-dependencies]
-packagetool = [
-    "pdm==2.8.0",
-]
 codequality = [
     "black",
     "pylint",
