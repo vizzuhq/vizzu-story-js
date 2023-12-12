@@ -55,7 +55,7 @@ class Slider extends HTMLElement {
 
         const updateSlider = (event) => {
           if (this.player.animationQueue.playing) {
-            const process = event.data.progress * 1000
+            const process = event.detail.progress * 1000
             if (this.player.direction === this.player.animationQueue.direction) {
               this._updateSlider(process)
             } else {
