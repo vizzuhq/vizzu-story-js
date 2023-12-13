@@ -144,7 +144,7 @@ events.
 ```javascript
 vp.initializing.then((chart) => {
     chart.on("click", (event) => {
-        alert(JSON.stringify(event.data))
+        alert(JSON.stringify(event.detail))
     });
 });
 ```
