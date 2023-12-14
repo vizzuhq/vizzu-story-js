@@ -69,7 +69,7 @@ class VizzuPlayer extends HTMLElement {
   get vizzuUrl() {
     if (window.Vizzu) return undefined
     return (
-      this.getAttribute('vizzu-url') || 'https://cdn.jsdelivr.net/npm/vizzu@0.8/dist/vizzu.min.js'
+      this.getAttribute('vizzu-url') || 'https://cdn.jsdelivr.net/npm/vizzu@0.9/dist/vizzu.min.js'
     )
   }
 
@@ -127,16 +127,6 @@ class VizzuPlayer extends HTMLElement {
     })
     this.animationQueue = new AnimationQueue(this.vizzu)
 
-    if (typeof this.vizzu._setStyle === 'function') {
-      // workaround
-      if (!slides.style) {
-        slides.style = {}
-      }
-      if (!slides.style.fontSize) {
-        slides.style.fontSize = '100%'
-      }
-      this.vizzu._setStyle(slides.style ?? null)
-    }
     const seekToEnd = () => this._seekToEnd()
     this.vizzu.on('animation-begin', seekToEnd)
 

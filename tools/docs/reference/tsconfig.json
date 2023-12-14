@@ -1,4 +1,6 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
   "files": ["../../../src/vizzu-story.d.ts"]
 }
