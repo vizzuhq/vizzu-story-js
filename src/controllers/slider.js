@@ -33,20 +33,7 @@ class Slider extends HTMLElement {
         return
       }
       e.preventDefault()
-      const currentPoition = e.offsetX - this.slider.offsetLeft
-
-      if (currentPoition > this.slider.offsetWidth) {
-        this.seek(100)
-        this.slider.value = 1000
-        return
-      }
-
-      if (currentPoition < 0) {
-        this.seek(0)
-        this.slider.value = 0
-        return
-      }
-
+      const currentPoition = Math.min(Math.max(0, e.offsetX - this.slider.offsetLeft), this.slider.offsetWidth)
       const currentPoistionInPercent = currentPoition / this.slider.offsetWidth
 
       this.seek(currentPoistionInPercent * 100)
