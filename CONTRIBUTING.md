@@ -90,10 +90,10 @@ You can check the code's formatting using the `format` script:
 npm run format
 ```
 
-If you need to fix any formatting issues, you can use the `fix:format` script:
+If you need to fix any formatting issues, you can use the `fix-format` script:
 
 ```sh
-npm run fix:format
+npm run fix-format
 ```
 
 If you wish to format specific parts of the project, you can use the following
