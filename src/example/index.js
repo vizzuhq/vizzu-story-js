@@ -5,7 +5,7 @@ import data from './data.js'
 import style from './style.js'
 
 function labelHandler(event) {
-  const Year = parseFloat(event.data.text)
+  const Year = parseFloat(event.detail.text)
   if (!isNaN(Year) && Year > 1950 && Year < 2020 && Year % 5 !== 0) {
     event.preventDefault()
   }

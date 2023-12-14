@@ -123,7 +123,7 @@ class AnimationQueue {
     if (configObject.length > 1) {
       startSlideConfig = configObject[0]
       this.vizzu.feature('rendering', false)
-      this.vizzu.animate(startSlideConfig.target, 0)
+      this.vizzu.animate(startSlideConfig.target, 0).catch(this.vizzuCatch)
     }
     const vizzuAnimate = this.vizzu.animate(configObject, firstAnimation.animOptions)
 
@@ -139,7 +139,7 @@ class AnimationQueue {
     })
 
     vizzuAnimate.catch((message) => {
-      if (message !== 'animation canceled') {
+      if (message.name !== 'CancelError') {
         console.error(message)
       }
     })
@@ -149,7 +149,7 @@ class AnimationQueue {
       animOptions: firstAnimation.animOptions
     }
     if (!this.paused && this.direction === 'reverse' && startSlideConfig !== null) {
-      this.vizzu.animate(startSlideConfig.target, 0)
+      this.vizzu.animate(startSlideConfig.target, 0).catch(this.vizzuCatch)
     }
   }
 
@@ -185,10 +185,12 @@ class AnimationQueue {
     this.controller.cancel()
     this.vizzu.feature('rendering', false)
     if (this.lastAnimation.configObject.length > 1) {
-      this.vizzu.animate(this.lastAnimation.configObject[0].target, {
-        position: 1,
-        duration: '0s'
-      })
+      this.vizzu
+        .animate(this.lastAnimation.configObject[0].target, {
+          position: 1,
+          duration: '0s'
+        })
+        .catch(this.vizzuCatch)
     }
     const vizzuAnimate = this.vizzu.animate(
       this._speedUp(this.lastAnimation.configObject),
@@ -203,17 +205,19 @@ class AnimationQueue {
       this.vizzu.feature('rendering', true)
     })
 
-    vizzuAnimate.catch((message) => {
-      if (message !== 'animation canceled') {
-        console.error(message)
-      }
-    })
+    vizzuAnimate.catch(this.vizzuCatch)
   }
 
   seek(percent) {
     if (!this.controller) return
     this._currentSeek = percent
     this.controller.seek(percent + '%')
+  }
+
+  vizzuCatch(message) {
+    if (message.name !== 'CancelError') {
+      console.error(message)
+    }
   }
 
   getParameter(key) {

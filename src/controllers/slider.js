@@ -15,6 +15,8 @@ class Slider extends HTMLElement {
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.innerHTML = this._render()
 
+    let isPointerDown = false
+
     this.slider = this.shadowRoot.getElementById('slider')
 
     // Set up slider event listener
@@ -26,10 +28,26 @@ class Slider extends HTMLElement {
       this.seek(event.target.value / 10)
     })
 
+    window.addEventListener('pointermove', async (e) => {
+      if (this.isDisabled() || !isPointerDown) {
+        return
+      }
+      e.preventDefault()
+      const currentPoition = Math.min(
+        Math.max(0, e.offsetX - this.slider.offsetLeft),
+        this.slider.offsetWidth
+      )
+      const currentPoistionInPercent = currentPoition / this.slider.offsetWidth
+
+      this.seek(currentPoistionInPercent * 100)
+      this.slider.value = currentPoistionInPercent * 1000
+    })
+
     this.slider.addEventListener('pointerdown', async (e) => {
       if (this.isDisabled()) {
         return
       }
+      isPointerDown = true
       const currentSlide = this.player.animationQueue.getParameter('currentSlide')
       this.player._currentSlide = currentSlide
       this.player.animationQueue.clear()
@@ -40,6 +58,7 @@ class Slider extends HTMLElement {
       if (this.isDisabled()) {
         return
       }
+      isPointerDown = false
       this.player.animationQueue.continue()
     })
   }
@@ -55,7 +74,7 @@ class Slider extends HTMLElement {
 
         const updateSlider = (event) => {
           if (this.player.animationQueue.playing) {
-            const process = event.data.progress * 1000
+            const process = event.detail.progress * 1000
             if (this.player.direction === this.player.animationQueue.direction) {
               this._updateSlider(process)
             } else {
