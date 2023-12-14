@@ -1,74 +1,74 @@
 name: Documentation
 
 on:
-  workflow_dispatch:
-  release:
-    types: [published]
-  workflow_call:
+    workflow_dispatch:
+    release:
+        types: [published]
+    workflow_call:
 
 jobs:
-  build_docs:
-    if: ${{ !((github.event_name == 'release' && github.event.action == 'published') || github.event_name == 'workflow_dispatch') }}
+    build_docs:
+        if: ${{ !((github.event_name == 'release' && github.event.action == 'published') || github.event_name == 'workflow_dispatch') }}
 
-    runs-on: ubuntu-22.04
+        runs-on: ubuntu-22.04
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 1
 
-      - name: Cache dev-js environment
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
+            - name: Cache dev-js environment
+              uses: actions/cache@v3
+              with:
+                  path: node_modules
+                  key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Cache dev-py environment
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
+            - name: Cache dev-py environment
+              uses: actions/cache@v3
+              with:
+                  path: .venv
+                  key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
 
-      - name: Build documentation
-        run: |
-          source .venv/bin/activate
-          npm run build-docs
+            - name: Build documentation
+              run: |
+                  source .venv/bin/activate
+                  npm run build-docs
 
-  publish_docs:
-    if: ${{ ((github.event_name == 'release' && github.event.action == 'published') || github.event_name == 'workflow_dispatch') }}
+    publish_docs:
+        if: ${{ ((github.event_name == 'release' && github.event.action == 'published') || github.event_name == 'workflow_dispatch') }}
 
-    runs-on: ubuntu-22.04
+        runs-on: ubuntu-22.04
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 1
 
-      - name: Cache dev-js environment
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
+            - name: Cache dev-js environment
+              uses: actions/cache@v3
+              with:
+                  path: node_modules
+                  key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Cache dev-py environment
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
+            - name: Cache dev-py environment
+              uses: actions/cache@v3
+              with:
+                  path: .venv
+                  key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "${{ env.GIT_USER_NAME }}"
-          git config --global user.email "${{ env.GIT_USER_EMAIL }}"
-        env:
-          GIT_USER_NAME: David Vegh
-          GIT_USER_EMAIL: veghdev@gmail.com
+            - name: Configure Git
+              run: |
+                  git config --global user.name "${{ env.GIT_USER_NAME }}"
+                  git config --global user.email "${{ env.GIT_USER_EMAIL }}"
+              env:
+                  GIT_USER_NAME: David Vegh
+                  GIT_USER_EMAIL: veghdev@gmail.com
 
-      - name: Deploy documentation
-        run: |
-          source .venv/bin/activate
-          git fetch origin gh-pages || echo "gh-pages does not exist"
-          npm run deploy-docs
-          git push origin gh-pages
+            - name: Deploy documentation
+              run: |
+                  source .venv/bin/activate
+                  git fetch origin gh-pages || echo "gh-pages does not exist"
+                  npm run deploy-docs
+                  git push origin gh-pages

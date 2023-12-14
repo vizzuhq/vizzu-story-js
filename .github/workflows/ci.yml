@@ -1,106 +1,106 @@
 name: CI
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
-  check_src:
-    runs-on: ubuntu-22.04
+    check_src:
+        runs-on: ubuntu-22.04
 
-    env:
-      PUPPETEER_CACHE_DIR: ${{ github.workspace }}/node_modules/.chromium
+        env:
+            PUPPETEER_CACHE_DIR: ${{ github.workspace }}/node_modules/.chromium
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 1
 
-      - name: Cache dev-js environment
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
+            - name: Cache dev-js environment
+              uses: actions/cache@v3
+              with:
+                  path: node_modules
+                  key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Format
-        run: |
-          npm run format:src
+            - name: Format
+              run: |
+                  npm run format:src
 
-      - name: Lint
-        run: |
-          npm run lint:src
+            - name: Lint
+              run: |
+                  npm run lint:src
 
-      - name: Type
-        run: |
-          npm run type:src
+            - name: Type
+              run: |
+                  npm run type:src
 
-      - name: Test
-        run: |
-          npm test
+            - name: Test
+              run: |
+                  npm test
 
-  check_docs:
-    runs-on: ubuntu-22.04
+    check_docs:
+        runs-on: ubuntu-22.04
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 1
 
-      - name: Cache dev-js environment
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
+            - name: Cache dev-js environment
+              uses: actions/cache@v3
+              with:
+                  path: node_modules
+                  key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Cache dev-py environment
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
+            - name: Cache dev-py environment
+              uses: actions/cache@v3
+              with:
+                  path: .venv
+                  key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
 
-      - name: Format
-        run: |
-          source .venv/bin/activate
-          npm run format:docs
+            - name: Format
+              run: |
+                  source .venv/bin/activate
+                  npm run format:docs
 
-      - name: Lint
-        run: |
-          source .venv/bin/activate
-          npm run lint:docs
+            - name: Lint
+              run: |
+                  source .venv/bin/activate
+                  npm run lint:docs
 
-  check_tools:
-    runs-on: ubuntu-22.04
+    check_tools:
+        runs-on: ubuntu-22.04
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 1
 
-      - name: Cache dev-js environment
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
+            - name: Cache dev-js environment
+              uses: actions/cache@v3
+              with:
+                  path: node_modules
+                  key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-      - name: Cache dev-py environment
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
+            - name: Cache dev-py environment
+              uses: actions/cache@v3
+              with:
+                  path: .venv
+                  key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
 
-      - name: Format
-        run: |
-          source .venv/bin/activate
-          npm run format:tools
+            - name: Format
+              run: |
+                  source .venv/bin/activate
+                  npm run format:tools
 
-      - name: Lint
-        run: |
-          source .venv/bin/activate
-          npm run lint:tools
+            - name: Lint
+              run: |
+                  source .venv/bin/activate
+                  npm run lint:tools
 
-      - name: Type
-        run: |
-          source .venv/bin/activate
-          npm run type:tools
+            - name: Type
+              run: |
+                  source .venv/bin/activate
+                  npm run type:tools

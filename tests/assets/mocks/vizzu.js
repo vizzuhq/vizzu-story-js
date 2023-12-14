@@ -1,58 +1,58 @@
 class Presets {
-  stream(config) {
-    return {
-      channels: {
-        x: config.x,
-        y: [config.y, config.stackedBy],
-        color: config.stackedBy
-      }
-    }
-  }
+	stream(config) {
+		return {
+			channels: {
+				x: config.x,
+				y: [config.y, config.stackedBy],
+				color: config.stackedBy
+			}
+		}
+	}
 }
 
 class Control {
-  constructor(animation) {
-    this._animation = animation
-  }
+	constructor(animation) {
+		this._animation = animation
+	}
 
-  stop() {}
+	stop() {}
 
-  pause() {}
+	pause() {}
 }
 
 class Vizzu {
-  constructor() {
-    this._snapshot = {}
-  }
+	constructor() {
+		this._snapshot = {}
+	}
 
-  animate() {
-    this._snapshot = [...arguments][0]
-    const anim = Promise.resolve('test1')
-    anim.activated = Promise.resolve(new Control([...arguments][0]))
-    return anim
-  }
+	animate() {
+		this._snapshot = [...arguments][0]
+		const anim = Promise.resolve('test1')
+		anim.activated = Promise.resolve(new Control([...arguments][0]))
+		return anim
+	}
 
-  get config() {
-    return this._snapshot.config || {}
-  }
+	get config() {
+		return this._snapshot.config || {}
+	}
 
-  getComputedStyle() {
-    return this._snapshot?.style || {}
-  }
+	getComputedStyle() {
+		return this._snapshot?.style || {}
+	}
 
-  feature() {}
+	feature() {}
 
-  on() {}
+	on() {}
 
-  off() {}
+	off() {}
 
-  static get presets() {
-    return new Presets()
-  }
+	static get presets() {
+		return new Presets()
+	}
 
-  async initializing() {
-    return Promise.resolve()
-  }
+	async initializing() {
+		return Promise.resolve()
+	}
 }
 
 export default Vizzu
