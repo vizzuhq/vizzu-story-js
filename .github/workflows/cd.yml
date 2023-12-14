@@ -1,4 +1,4 @@
-name: Release
+name: CD
 
 on:
     release:
@@ -6,7 +6,7 @@ on:
     workflow_call:
 
 jobs:
-    publish_pkg:
+    publish:
         if: ${{ (github.event_name == 'release' && github.event.action == 'published') }}
 
         runs-on: ubuntu-22.04
@@ -17,11 +17,11 @@ jobs:
               with:
                   fetch-depth: 1
 
-            - name: Cache dev-js environment
+            - name: Cache node modules
               uses: actions/cache@v3
               with:
                   path: node_modules
-                  key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
+                  key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
 
             - name: Get workflow ID
               id: workflow_id
@@ -50,9 +50,9 @@ jobs:
                       README.md
                       build/
                       dist/
-                  key: cache_package_${{ steps.run_id.outputs.run_id }}
+                  key: package_${{ steps.run_id.outputs.run_id }}
 
-            - name: Release package
+            - name: Publish package
               run: |
                   npm config set registry=https://registry.npmjs.org/
                   npm config set //registry.npmjs.org/:_authToken=${NPM_API_TOKEN}

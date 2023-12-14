@@ -16,11 +16,11 @@ jobs:
               with:
                   fetch-depth: 1
 
-            - name: Cache dev-js environment
+            - name: Cache node modules
               uses: actions/cache@v3
               with:
                   path: node_modules
-                  key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
+                  key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
 
             - name: Format
               run: |
@@ -47,17 +47,17 @@ jobs:
               with:
                   fetch-depth: 1
 
-            - name: Cache dev-js environment
+            - name: Cache node modules
               uses: actions/cache@v3
               with:
                   path: node_modules
-                  key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
+                  key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-            - name: Cache dev-py environment
+            - name: Cache venv
               uses: actions/cache@v3
               with:
                   path: .venv
-                  key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
+                  key: venv_ubuntu22_${{ hashFiles('pdm.lock') }}
 
             - name: Format
               run: |
@@ -78,17 +78,17 @@ jobs:
               with:
                   fetch-depth: 1
 
-            - name: Cache dev-js environment
+            - name: Cache node modules
               uses: actions/cache@v3
               with:
                   path: node_modules
-                  key: cache_dev_js_ubuntu22_${{ hashFiles('package-lock.json') }}
+                  key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
 
-            - name: Cache dev-py environment
+            - name: Cache venv
               uses: actions/cache@v3
               with:
                   path: .venv
-                  key: cache_dev_py_ubuntu22_${{ hashFiles('pdm.lock') }}
+                  key: venv_ubuntu22_${{ hashFiles('pdm.lock') }}
 
             - name: Format
               run: |
