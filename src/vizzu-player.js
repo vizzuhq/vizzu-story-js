@@ -127,16 +127,6 @@ class VizzuPlayer extends HTMLElement {
     })
     this.animationQueue = new AnimationQueue(this.vizzu)
 
-    if (typeof this.vizzu._setStyle === 'function') {
-      // workaround
-      if (!slides.style) {
-        slides.style = {}
-      }
-      if (!slides.style.fontSize) {
-        slides.style.fontSize = '100%'
-      }
-      this.vizzu._setStyle(slides.style ?? null)
-    }
     const seekToEnd = () => this._seekToEnd()
     this.vizzu.on('animation-begin', seekToEnd)
 
