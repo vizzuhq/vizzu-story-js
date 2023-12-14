@@ -15,6 +15,8 @@ class Slider extends HTMLElement {
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.innerHTML = this._render()
 
+    let isPointerDown = false
+
     this.slider = this.shadowRoot.getElementById('slider')
 
     // Set up slider event listener
@@ -26,10 +28,38 @@ class Slider extends HTMLElement {
       this.seek(event.target.value / 10)
     })
 
+    window.addEventListener('pointermove', async (e) => {
+      if (this.isDisabled() || !isPointerDown) {
+        return
+      }
+      e.preventDefault()
+      const currentPoition = e.offsetX - this.slider.offsetLeft
+
+      if (currentPoition > this.slider.offsetWidth) {
+        this.seek(100)
+        this.slider.value = 1000
+        return
+      }
+
+      if (currentPoition < 0) {
+        this.seek(0)
+        this.slider.value = 0
+        return
+      }
+
+      const currentPoistionInPercent = currentPoition / this.slider.offsetWidth
+
+      this.seek(currentPoistionInPercent * 100)
+      this.slider.value = currentPoistionInPercent * 1000
+
+    })
+
+
     this.slider.addEventListener('pointerdown', async (e) => {
       if (this.isDisabled()) {
         return
       }
+      isPointerDown = true
       const currentSlide = this.player.animationQueue.getParameter('currentSlide')
       this.player._currentSlide = currentSlide
       this.player.animationQueue.clear()
@@ -40,6 +70,7 @@ class Slider extends HTMLElement {
       if (this.isDisabled()) {
         return
       }
+      isPointerDown = false
       this.player.animationQueue.continue()
     })
   }
