@@ -33,7 +33,7 @@ jobs:
       - name: Build documentation
         run: |
           source .venv/bin/activate
-          npm run docs-build
+          npm run build-docs
 
   publish_docs:
     if: ${{ ((github.event_name == 'release' && github.event.action == 'published') || github.event_name == 'workflow_dispatch') }}
@@ -70,5 +70,5 @@ jobs:
         run: |
           source .venv/bin/activate
           git fetch origin gh-pages || echo "gh-pages does not exist"
-          npm run docs-deploy
+          npm run deploy-docs
           git push origin gh-pages

@@ -35,7 +35,7 @@ To start using the `Vizzu-Story` development environment, you need to install
 the development dependencies.
 
 ```sh
-npm run init-js
+npm install
 ```
 
 If you want to work with the documantation too, you need to set up the `Python`
@@ -45,23 +45,14 @@ development environment.
 python3.10 -m venv ".venv"
 source .venv/bin/activate
 pip install pdm==2.8.0
-
-npm run init-py
+pdm install
 ```
-
-Once set up, you can utilize the pre-defined `npm` scripts. For example, you can
-initialize the entire development environment using the command `npm run init`,
-or specific parts like `init-src`, `init-docs`, or `init-tools`.
-
-```sh
-npm run init
-```
-
-**Note:** For all available `npm` scripts, run `npm run --list`.
 
 The development requirements are installed based on the `package-lock.json` and
 `pdm.lock` files. To update the development requirements, you can use the
 command `npm run lock`.
+
+**Note:** For all available `npm` scripts, run `npm run --list`.
 
 For better development practices, you can set up `pre-commit` and `pre-push`
 hooks in your local `Git` repository. The `pre-commit` hook will format the code
@@ -89,7 +80,7 @@ npm run ci
 ```
 
 However, if you want to run the CI steps on specific parts of the project, you
-can use the following scripts: `ci-src`, `ci-docs`, or `ci-tools`.
+can use the following scripts: `ci:src`, `ci:docs`, or `ci:tools`.
 
 #### Formatting
 
@@ -99,15 +90,15 @@ You can check the code's formatting using the `format` script:
 npm run format
 ```
 
-If you need to fix any formatting issues, you can use the `fix-format` script:
+If you need to fix any formatting issues, you can use the `fix:format` script:
 
 ```sh
-npm run fix-format
+npm run fix:format
 ```
 
 If you wish to format specific parts of the project, you can use the following
-scripts: `format-src`, `format-docs`, `format-tools`, or `fix-format-src`,
-`fix-format-docs`, `fix-format-tools`.
+scripts: `format:src`, `format:docs`, `format:tools`, or `fix-format:src`,
+`fix-format:docs`, `fix-format:tools`.
 
 #### Code analyses
 
@@ -118,7 +109,7 @@ npm run lint
 ```
 
 If you need to run code analyses for specific parts of the project, you can
-utilize the following scripts: `lint-src`, `lint-docs`, or `lint-tools`.
+utilize the following scripts: `lint:src`, `lint:docs`, or `lint:tools`.
 
 #### Typing
 
@@ -129,7 +120,7 @@ npm run type
 ```
 
 If you want to check specific parts of the project, you can use the following
-scripts: `type-src` or `type-tools`.
+scripts: `type:src` or `type:tools`.
 
 #### Testing
 
@@ -142,10 +133,10 @@ npm test
 
 ### Documentation
 
-To build the documentation, you can use the `docs-build` script:
+To build the documentation, you can use the `build-docs` script:
 
 ```sh
-npm run docs-build
+npm run build-docs
 ```
 
 You can read the online version at
@@ -169,9 +160,9 @@ To release `Vizzu-Story`, follow the steps below:
 workflow which builds and uploads the `Vizzu-Story` package to
 [npm](https://www.npmjs.com/package/vizzu-story).
 
-Before making a release, you can build and check the package using the
-`pkg-build` script:
+Before making a release, you can build and check the package using the `build`
+script:
 
 ```sh
-npm run pkg-build
+npm run build
 ```

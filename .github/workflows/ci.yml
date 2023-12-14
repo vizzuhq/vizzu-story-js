@@ -24,15 +24,15 @@ jobs:
 
       - name: Format
         run: |
-          npm run format-src
+          npm run format:src
 
       - name: Lint
         run: |
-          npm run lint-src
+          npm run lint:src
 
       - name: Type
         run: |
-          npm run type-src
+          npm run type:src
 
       - name: Test
         run: |
@@ -62,12 +62,12 @@ jobs:
       - name: Format
         run: |
           source .venv/bin/activate
-          npm run format-docs
+          npm run format:docs
 
       - name: Lint
         run: |
           source .venv/bin/activate
-          npm run lint-docs
+          npm run lint:docs
 
   check_tools:
     runs-on: ubuntu-22.04
@@ -93,14 +93,14 @@ jobs:
       - name: Format
         run: |
           source .venv/bin/activate
-          npm run format-tools
+          npm run format:tools
 
       - name: Lint
         run: |
           source .venv/bin/activate
-          npm run lint-tools
+          npm run lint:tools
 
       - name: Type
         run: |
           source .venv/bin/activate
-          npm run type-tools
+          npm run type:tools

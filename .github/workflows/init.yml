@@ -41,12 +41,12 @@ jobs:
           python3.10 -m venv ".venv"
           source .venv/bin/activate
           pip install pdm==2.8.0
-          npm run init-py
+          pdm install
 
-      - name: Init package
+      - name: Build package
         run: |
           source .venv/bin/activate
-          npm run pkg-init
+          npm run build
 
       - name: Cache package
         uses: actions/cache@v3
