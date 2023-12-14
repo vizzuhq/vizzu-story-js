@@ -33,14 +33,15 @@ class Slider extends HTMLElement {
         return
       }
       e.preventDefault()
-      const currentPoition = Math.min(Math.max(0, e.offsetX - this.slider.offsetLeft), this.slider.offsetWidth)
+      const currentPoition = Math.min(
+        Math.max(0, e.offsetX - this.slider.offsetLeft),
+        this.slider.offsetWidth
+      )
       const currentPoistionInPercent = currentPoition / this.slider.offsetWidth
 
       this.seek(currentPoistionInPercent * 100)
       this.slider.value = currentPoistionInPercent * 1000
-
     })
-
 
     this.slider.addEventListener('pointerdown', async (e) => {
       if (this.isDisabled()) {

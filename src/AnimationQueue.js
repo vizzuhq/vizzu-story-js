@@ -185,10 +185,12 @@ class AnimationQueue {
     this.controller.cancel()
     this.vizzu.feature('rendering', false)
     if (this.lastAnimation.configObject.length > 1) {
-      this.vizzu.animate(this.lastAnimation.configObject[0].target, {
-        position: 1,
-        duration: '0s'
-      }).catch(this.vizzuCatch)
+      this.vizzu
+        .animate(this.lastAnimation.configObject[0].target, {
+          position: 1,
+          duration: '0s'
+        })
+        .catch(this.vizzuCatch)
     }
     const vizzuAnimate = this.vizzu.animate(
       this._speedUp(this.lastAnimation.configObject),
