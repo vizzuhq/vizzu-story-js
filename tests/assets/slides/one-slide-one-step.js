@@ -6,141 +6,143 @@ import { animOptionsAssets } from '../chart-params/animOptions.js'
 const slidesWithOneSlideWithOneStep = []
 
 slidesWithOneSlideWithOneStep.push(
-  {
-    description: 'filter',
-    input: {
-      slides: [{ filter: filterAssets.filter1 }]
-    },
-    expected: [
-      [
-        {
-          target: {
-            config: {},
-            style: {},
-            data: { filter: filterAssets.filter1 }
-          }
-        }
-      ]
-    ]
-  },
-  {
-    description: 'config',
-    input: {
-      slides: [{ config: configAssets.config1 }]
-    },
-    expected: [[{ target: { data: { filter: null }, config: configAssets.config1, style: {} } }]]
-  },
-  {
-    description: 'style',
-    input: {
-      slides: [{ style: styleAssets.style1 }]
-    },
-    expected: [[{ target: { data: { filter: null }, config: {}, style: styleAssets.style1 } }]]
-  },
-  {
-    description: 'animOptions',
-    input: {
-      slides: [{ animOptions: animOptionsAssets.animOptions1 }]
-    },
-    expected: [
-      [
-        {
-          target: { data: { filter: null }, config: {}, style: {} },
-          options: animOptionsAssets.animOptions1
-        }
-      ]
-    ]
-  }
+	{
+		description: 'filter',
+		input: {
+			slides: [{ filter: filterAssets.filter1 }]
+		},
+		expected: [
+			[
+				{
+					target: {
+						config: {},
+						style: {},
+						data: { filter: filterAssets.filter1 }
+					}
+				}
+			]
+		]
+	},
+	{
+		description: 'config',
+		input: {
+			slides: [{ config: configAssets.config1 }]
+		},
+		expected: [
+			[{ target: { data: { filter: null }, config: configAssets.config1, style: {} } }]
+		]
+	},
+	{
+		description: 'style',
+		input: {
+			slides: [{ style: styleAssets.style1 }]
+		},
+		expected: [[{ target: { data: { filter: null }, config: {}, style: styleAssets.style1 } }]]
+	},
+	{
+		description: 'animOptions',
+		input: {
+			slides: [{ animOptions: animOptionsAssets.animOptions1 }]
+		},
+		expected: [
+			[
+				{
+					target: { data: { filter: null }, config: {}, style: {} },
+					options: animOptionsAssets.animOptions1
+				}
+			]
+		]
+	}
 )
 
 slidesWithOneSlideWithOneStep.push(
-  {
-    description: 'filter, animOptions',
-    input: {
-      slides: [
-        {
-          filter: filterAssets.filter1,
-          animOptions: animOptionsAssets.animOptions1
-        }
-      ]
-    },
-    expected: [
-      [
-        {
-          target: {
-            data: { filter: filterAssets.filter1 },
-            config: {},
-            style: {}
-          },
-          options: animOptionsAssets.animOptions1
-        }
-      ]
-    ]
-  },
-  {
-    description: 'config, animOptions',
-    input: {
-      slides: [
-        {
-          config: configAssets.config1,
-          animOptions: animOptionsAssets.animOptions1
-        }
-      ]
-    },
-    expected: [
-      [
-        {
-          target: { data: { filter: null }, style: {}, config: configAssets.config1 },
-          options: animOptionsAssets.animOptions1
-        }
-      ]
-    ]
-  },
-  {
-    description: 'style, animOptions',
-    input: {
-      slides: [
-        {
-          style: styleAssets.style1,
-          animOptions: animOptionsAssets.animOptions1
-        }
-      ]
-    },
-    expected: [
-      [
-        {
-          target: { data: { filter: null }, config: {}, style: styleAssets.style1 },
-          options: animOptionsAssets.animOptions1
-        }
-      ]
-    ]
-  }
+	{
+		description: 'filter, animOptions',
+		input: {
+			slides: [
+				{
+					filter: filterAssets.filter1,
+					animOptions: animOptionsAssets.animOptions1
+				}
+			]
+		},
+		expected: [
+			[
+				{
+					target: {
+						data: { filter: filterAssets.filter1 },
+						config: {},
+						style: {}
+					},
+					options: animOptionsAssets.animOptions1
+				}
+			]
+		]
+	},
+	{
+		description: 'config, animOptions',
+		input: {
+			slides: [
+				{
+					config: configAssets.config1,
+					animOptions: animOptionsAssets.animOptions1
+				}
+			]
+		},
+		expected: [
+			[
+				{
+					target: { data: { filter: null }, style: {}, config: configAssets.config1 },
+					options: animOptionsAssets.animOptions1
+				}
+			]
+		]
+	},
+	{
+		description: 'style, animOptions',
+		input: {
+			slides: [
+				{
+					style: styleAssets.style1,
+					animOptions: animOptionsAssets.animOptions1
+				}
+			]
+		},
+		expected: [
+			[
+				{
+					target: { data: { filter: null }, config: {}, style: styleAssets.style1 },
+					options: animOptionsAssets.animOptions1
+				}
+			]
+		]
+	}
 )
 
 slidesWithOneSlideWithOneStep.push({
-  description: 'filter, config, style, animOptions',
-  input: {
-    slides: [
-      {
-        filter: filterAssets.filter1,
-        config: configAssets.config1,
-        style: styleAssets.style1,
-        animOptions: animOptionsAssets.animOptions1
-      }
-    ]
-  },
-  expected: [
-    [
-      {
-        target: {
-          data: { filter: filterAssets.filter1 },
-          config: configAssets.config1,
-          style: styleAssets.style1
-        },
-        options: animOptionsAssets.animOptions1
-      }
-    ]
-  ]
+	description: 'filter, config, style, animOptions',
+	input: {
+		slides: [
+			{
+				filter: filterAssets.filter1,
+				config: configAssets.config1,
+				style: styleAssets.style1,
+				animOptions: animOptionsAssets.animOptions1
+			}
+		]
+	},
+	expected: [
+		[
+			{
+				target: {
+					data: { filter: filterAssets.filter1 },
+					config: configAssets.config1,
+					style: styleAssets.style1
+				},
+				options: animOptionsAssets.animOptions1
+			}
+		]
+	]
 })
 
 export { slidesWithOneSlideWithOneStep }

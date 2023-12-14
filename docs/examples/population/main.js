@@ -17,54 +17,54 @@ const dataLoaded = Csv2Js.csv('./population.csv', ['Year'])
 // create the configuration object after initialization
 // (then presets are accessible via vp.Vizzu.presets)
 Promise.all([dataLoaded, vpInitialized]).then((results) => {
-  const data = results[0]
-  const chart = results[1]
+	const data = results[0]
+	const chart = results[1]
 
-  // Switch on the tooltip that appears
-  // when the user hovers the mouse over a chart element
-  chart.feature('tooltip', true)
+	// Switch on the tooltip that appears
+	// when the user hovers the mouse over a chart element
+	chart.feature('tooltip', true)
 
-  // Each slide here is a page in the final interactive story
-  const slides = [
-    {
-      filter: (record) => record.Continent === 'Africa',
-      style: { plot: { xAxis: { label: { angle: 2.0 } } } },
-      config: vp.Vizzu.presets.stackedArea({
-        x: 'Year',
-        y: 'Medium',
-        stackedBy: 'Subregion',
-        title: 'Population of Africa 1953-2098'
-      })
-    },
-    {
-      config: vp.Vizzu.presets.percentageArea({
-        x: 'Year',
-        y: 'Medium',
-        stackedBy: 'Subregion'
-      })
-    },
-    {
-      config: vp.Vizzu.presets.stream({
-        x: 'Year',
-        y: 'Medium',
-        stackedBy: 'Subregion'
-      })
-    },
-    {
-      config: vp.Vizzu.presets.violin({
-        x: 'Year',
-        y: 'Medium',
-        splittedBy: 'Subregion'
-      })
-    }
-  ]
+	// Each slide here is a page in the final interactive story
+	const slides = [
+		{
+			filter: (record) => record.Continent === 'Africa',
+			style: { plot: { xAxis: { label: { angle: 2.0 } } } },
+			config: vp.Vizzu.presets.stackedArea({
+				x: 'Year',
+				y: 'Medium',
+				stackedBy: 'Subregion',
+				title: 'Population of Africa 1953-2098'
+			})
+		},
+		{
+			config: vp.Vizzu.presets.percentageArea({
+				x: 'Year',
+				y: 'Medium',
+				stackedBy: 'Subregion'
+			})
+		},
+		{
+			config: vp.Vizzu.presets.stream({
+				x: 'Year',
+				y: 'Medium',
+				stackedBy: 'Subregion'
+			})
+		},
+		{
+			config: vp.Vizzu.presets.violin({
+				x: 'Year',
+				y: 'Medium',
+				splittedBy: 'Subregion'
+			})
+		}
+	]
 
-  // Create story configuration object, add data and slides to it
-  const story = {
-    data,
-    slides
-  }
+	// Create story configuration object, add data and slides to it
+	const story = {
+		data,
+		slides
+	}
 
-  // Set up the created element with the configuration object
-  vp.slides = story
+	// Set up the created element with the configuration object
+	vp.slides = story
 })

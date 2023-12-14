@@ -1,8 +1,8 @@
 const zeroSlide = {
-  input: {
-    slides: []
-  },
-  expected: []
+	input: {
+		slides: []
+	},
+	expected: []
 }
 
 export { zeroSlide }

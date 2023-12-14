@@ -1,16 +1,16 @@
 const configAssets = {}
 
 configAssets.config1 = {
-  x: 'Foo',
-  y: 'Bar'
+	x: 'Foo',
+	y: 'Bar'
 }
 
 configAssets.config2 = {
-  geometry: 'circle'
+	geometry: 'circle'
 }
 
 configAssets.config3 = {
-  coordSystem: 'polar'
+	coordSystem: 'polar'
 }
 
 export { configAssets }
