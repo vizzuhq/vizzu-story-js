@@ -42,7 +42,7 @@ const vpd = {
 			config: {
 				channels: {
 					y: {
-						set: ['Amount[B$]', 'Function'],
+						set: ['Amount', 'Function'],
 						range: {
 							min: '0%',
 							max: '100%'
@@ -116,7 +116,7 @@ const vpd = {
 			config: {
 				title: 'Total U.S. R&D Budget - Components Side by Side',
 				x: 'Year',
-				y: 'Amount[B$]',
+				y: 'Amount',
 				noop: 'Function',
 				align: 'none',
 				geometry: 'line'

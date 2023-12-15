@@ -9,8 +9,9 @@ const data = {
 			type: 'dimension'
 		},
 		{
-			name: 'Amount[B$]',
-			type: 'measure'
+			name: 'Amount',
+			type: 'measure',
+			unit: 'B$'
 		}
 	],
 	records: [

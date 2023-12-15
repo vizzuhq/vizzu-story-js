@@ -29,7 +29,7 @@
 		"lint:tools": "npm-run-all lint-tools:*",
 		"lint-tools:js": "npx eslint --ext .js,.cjs,.mjs tools",
 		"lint-tools:py": "pylint tools",
-		"type": "npm-run-all type:",
+		"type": "npm-run-all type:*",
 		"type:src": "npm-run-all type-src:*",
 		"type-src:js": "npx check-dts src/vizzu-story.d.ts || echo 'not checked'",
 		"type:tools": "npm-run-all type-tools:*",
