@@ -11,7 +11,6 @@ const dataLoaded = Csv2Js.csv('./linkedinpoll.csv', {
 	units: { 'Vote percentage': '%', 'GroupVote percentage': '%', 'Answer percentage': '%' }
 })
 dataLoaded.then((data) => {
-	console.log(data)
 	// Each slide here is a page in the final interactive story
 	const slides = [
 		{
