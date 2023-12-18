@@ -174,6 +174,27 @@ class VizzuPlayer extends HTMLElement {
 		}
 		if (convertedSlides.length) {
 			await this.vizzu.animate(convertedSlides[this._currentSlide || 0])
+
+			await this.vizzu.animate(
+				{
+					align: 'none',
+					coordSystem: 'cartesian',
+					orientation: 'auto',
+					rotate: -this.vizzu.config?.rotate || 0,
+					split: false,
+					geometry: 'rectangle',
+					channels: {
+						x: { set: null },
+						y: { set: null },
+						color: { set: null },
+						lightness: { set: null },
+						size: { set: null },
+						noop: { set: null },
+						label: { set: null }
+					}
+				},
+				0
+			)
 		}
 		this.vizzu.off('animation-begin', seekToEnd)
 
