@@ -11,7 +11,7 @@ vp.style.cssText = 'width: 100%; height: 400px;'
 const vpInitialized = vp.initializing
 
 // Create data object
-const dataLoaded = Csv2Js.csv('./population.csv', ['Year'])
+const dataLoaded = Csv2Js.csv('./population.csv', { dimensions: ['Year'] })
 
 // Because using presets here, you need to
 // create the configuration object after initialization
