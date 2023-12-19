@@ -44,7 +44,7 @@ describe('vizzu chart data', () => {
 				const datas = []
 				function labelDrawHandler(event) {
 					if (completeCounter < allKeyFrames) {
-						datas.push(event.data.text)
+						datas.push(event.detail.text)
 					}
 				}
 
