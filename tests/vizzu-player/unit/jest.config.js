@@ -13,7 +13,7 @@ const config = {
 	},
 	coveragePathIgnorePatterns: ['assets', 'node_modules'],
 	testEnvironment: 'jsdom',
-	testMatch: ['**/vizzu-player/jsdom/*.test.js'],
+	testMatch: ['**/vizzu-player/unit/*.test.js'],
 	transform: {},
 	moduleNameMapper: {
 		'https://cdn.jsdelivr.net/npm/vizzu@0.9/dist/vizzu.min.js':
