@@ -423,7 +423,6 @@ describe('if vp.slides setter is called', () => {
 					return vp.initializing.then(() => {
 						vp.slides = slidesWithMoreSlidesWithMoreFilters.input
 						return waitForSlidesToBeSet(vp, 5000).then(() => {
-							console.log(vp.slides)
 							expect(vp.slides).toStrictEqual(
 								slidesWithMoreSlidesWithMoreFilters.expected
 							)
