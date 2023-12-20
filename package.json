@@ -31,7 +31,7 @@
 		"lint-tools:py": "pylint tools",
 		"type": "npm-run-all type:*",
 		"type:src": "npm-run-all type-src:*",
-		"type-src:js": "npx check-dts src/vizzu-story.d.ts || echo 'not checked'",
+		"type-src:js": "npx check-dts src/vizzu-story.d.ts",
 		"type:tools": "npm-run-all type-tools:*",
 		"type-tools:py": "mypy tools",
 		"test": "npm-run-all test:*",
