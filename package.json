@@ -107,7 +107,7 @@
 		"typescript": "^5.2.2"
 	},
 	"dependencies": {
-		"vizzu": "~0.9.2"
+		"vizzu": "~0.9.3"
 	},
 	"prettier": "@vizzu/prettier-config",
 	"eslintConfig": {
