@@ -1,6 +1,6 @@
 {
 	"name": "vizzu-story",
-	"version": "0.6.3",
+	"version": "0.7.0",
 	"description": "Build and present animated data stories",
 	"main": "dist/vizzu-story.min.js",
 	"types": "dist/vizzu-story.d.ts",
@@ -31,7 +31,7 @@
 		"lint-tools:py": "pylint tools",
 		"type": "npm-run-all type:*",
 		"type:src": "npm-run-all type-src:*",
-		"type-src:js": "npx check-dts src/vizzu-story.d.ts || echo 'not checked'",
+		"type-src:js": "npx check-dts src/vizzu-story.d.ts",
 		"type:tools": "npm-run-all type-tools:*",
 		"type-tools:py": "mypy tools",
 		"test": "npm-run-all test:*",
@@ -107,7 +107,7 @@
 		"typescript": "^5.2.2"
 	},
 	"dependencies": {
-		"vizzu": "~0.9.2"
+		"vizzu": "~0.9.3"
 	},
 	"prettier": "@vizzu/prettier-config",
 	"eslintConfig": {
