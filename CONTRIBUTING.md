@@ -156,8 +156,8 @@ To release `Vizzu-Story`, follow the steps below:
 - Generate the release notes and publish the new release on
   [Releases](https://github.com/vizzuhq/vizzu-story-js/releases).
 
-**Note:** Publishing a new release will automatically trigger the `release`
-workflow which builds and uploads the `Vizzu-Story` package to
+**Note:** Publishing a new release will automatically trigger the `cd` workflow
+which builds and uploads the `Vizzu-Story` package to
 [npm](https://www.npmjs.com/package/vizzu-story).
 
 Before making a release, you can build and check the package using the `build`
