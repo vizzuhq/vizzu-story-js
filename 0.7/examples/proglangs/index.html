@@ -948,7 +948,7 @@ dataLoaded.then((data) =&gt; {
 
         // Set a handler that prevents showing specific elements
         chart.on('plot-marker-label-draw', (event) =&gt; {
-            if (event.detail.text.split(' ')[0] &lt; 5) event.preventDefault()
+            if (event.detail.text.split('%')[0] &lt; 5) event.preventDefault()
         })
     })
 })
