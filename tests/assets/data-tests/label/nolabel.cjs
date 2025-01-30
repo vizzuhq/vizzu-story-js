@@ -1,6 +1,3 @@
-const first = []
-const rest = []
-
-const excepted = [...first, ...rest, ...first]
+const excepted = {}
 
 module.exports = excepted
