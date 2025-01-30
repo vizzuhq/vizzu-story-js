@@ -2,7 +2,7 @@ strict: true
 
 site_name: vizzu-story
 site_url: https://vizzu-story.vizzuhq.com
-copyright: Copyright &copy; 2022-2023 Vizzu Inc.
+copyright: Copyright &copy; 2022-2025 Vizzu Inc.
 
 docs_dir: ../../docs
 site_dir: ../../site

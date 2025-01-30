@@ -31,7 +31,7 @@ corresponding to an [animate](https://lib.vizzuhq.com/latest/tutorial/) call
 from `Vizzu`, with a minor, but important difference:
 
 - all of the data has to be added to the story at initialization, and it can be
-  filtered at every `step` throughout the `story`.
+    filtered at every `step` throughout the `story`.
 
 In case of a `slide` with multiple `steps`, all, but the last `steps` are
 interim charts that connect a `slide` with a previous `slide` but the animation

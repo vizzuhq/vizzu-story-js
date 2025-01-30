@@ -154,14 +154,17 @@ further info.
 ## Contact
 
 - Join our Slack:
-  [vizzu-community.slack.com](https://join.slack.com/t/vizzu-community/shared_invite/zt-w2nqhq44-2CCWL4o7qn2Ns1EFSf9kEg)
+    [vizzu-community.slack.com](https://join.slack.com/t/vizzu-community/shared_invite/zt-w2nqhq44-2CCWL4o7qn2Ns1EFSf9kEg)
+    
+
 - Drop us a line at hello@vizzuhq.com
+
 - Follow us on Twitter:
-  [https://twitter.com/VizzuHQ](https://twitter.com/VizzuHQ)
+    [https://twitter.com/VizzuHQ](https://twitter.com/VizzuHQ)
 
 ## License
 
-Copyright © 2022-2023 [Vizzu Inc.](https://vizzuhq.com)
+Copyright © 2022-2025 [Vizzu Inc.](https://vizzuhq.com)
 
 Released under the
 [Apache 2.0 License](https://vizzu-story.vizzuhq.com/latest/LICENSE/).

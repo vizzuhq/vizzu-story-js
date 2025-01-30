@@ -79,10 +79,11 @@ const slides = [
 ```
 
 !!! tip
+
     Check
     [Vizzu - Filtering & adding new records chapter](https://lib.vizzuhq.com/latest/tutorial/filter_add_new_records/)
-    and [Vizzu - Style chapter](https://lib.vizzuhq.com/latest/tutorial/style/)
-    for more details on data filtering and style options.
+    and [Vizzu - Style chapter](https://lib.vizzuhq.com/latest/tutorial/style/) for
+    more details on data filtering and style options.
 
 ## Story
 
@@ -132,6 +133,7 @@ vp.initializing.then((chart) => {
 ```
 
 !!! tip
+
     See
     [Vizzu - Axes, title, tooltip chapter](https://lib.vizzuhq.com/latest/tutorial/axes_title_tooltip/)
     for more details on chart features.
@@ -150,6 +152,6 @@ vp.initializing.then((chart) => {
 ```
 
 !!! tip
-    See
-    [Vizzu - Events chapter](https://lib.vizzuhq.com/latest/tutorial/events/)
+
+    See [Vizzu - Events chapter](https://lib.vizzuhq.com/latest/tutorial/events/)
     for more details on events.
