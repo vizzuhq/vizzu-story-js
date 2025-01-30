@@ -5,19 +5,19 @@ on:
 
 jobs:
     check_src:
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
 
         env:
             PUPPETEER_CACHE_DIR: ${{ github.workspace }}/node_modules/.chromium
 
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 1
 
             - name: Cache node modules
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: node_modules
                   key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
@@ -39,22 +39,22 @@ jobs:
                   npm test
 
     check_docs:
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
 
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 1
 
             - name: Cache node modules
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: node_modules
                   key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
 
             - name: Cache venv
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: .venv
                   key: venv_ubuntu22_${{ hashFiles('pdm.lock') }}
@@ -70,22 +70,22 @@ jobs:
                   npm run lint:docs
 
     check_tools:
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
 
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 1
 
             - name: Cache node modules
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: node_modules
                   key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
 
             - name: Cache venv
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: .venv
                   key: venv_ubuntu22_${{ hashFiles('pdm.lock') }}

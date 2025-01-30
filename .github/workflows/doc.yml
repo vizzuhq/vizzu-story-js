@@ -10,22 +10,22 @@ jobs:
     build:
         if: ${{ !((github.event_name == 'release' && github.event.action == 'published') || github.event_name == 'workflow_dispatch') }}
 
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
 
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 1
 
             - name: Cache node modules
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: node_modules
                   key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
 
             - name: Cache venv
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: .venv
                   key: venv_ubuntu22_${{ hashFiles('pdm.lock') }}
@@ -38,22 +38,22 @@ jobs:
     deploy:
         if: ${{ ((github.event_name == 'release' && github.event.action == 'published') || github.event_name == 'workflow_dispatch') }}
 
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
 
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 1
 
             - name: Cache node modules
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: node_modules
                   key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
 
             - name: Cache venv
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: .venv
                   key: venv_ubuntu22_${{ hashFiles('pdm.lock') }}

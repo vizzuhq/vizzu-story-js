@@ -9,16 +9,16 @@ jobs:
     publish:
         if: ${{ (github.event_name == 'release' && github.event.action == 'published') }}
 
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
 
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 1
 
             - name: Cache node modules
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: node_modules
                   key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
@@ -44,7 +44,7 @@ jobs:
                   echo "run_id=${run_id}" >> $GITHUB_OUTPUT
 
             - name: Cache package
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: |
                       README.md

@@ -5,20 +5,20 @@ on:
 
 jobs:
     init_ubuntu22:
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
 
         env:
             PUPPETEER_CACHE_DIR: ${{ github.workspace }}/node_modules/.chromium
 
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 1
 
             - name: Cache node modules
               id: node_modules_ubuntu22
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: node_modules
                   key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
@@ -30,7 +30,7 @@ jobs:
 
             - name: Cache venv
               id: venv_ubuntu22
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: .venv
                   key: venv_ubuntu22_${{ hashFiles('pdm.lock') }}
@@ -49,7 +49,7 @@ jobs:
                   npm run build
 
             - name: Cache package
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: |
                       README.md
