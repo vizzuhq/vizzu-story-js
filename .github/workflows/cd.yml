@@ -21,7 +21,7 @@ jobs:
               uses: actions/cache@v4
               with:
                   path: node_modules
-                  key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
+                  key: node_modules_ubuntu24_${{ hashFiles('package-lock.json') }}
 
             - name: Get workflow ID
               id: workflow_id

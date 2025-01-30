@@ -22,7 +22,7 @@ mind, that's awesome and we are very interested in hearing about it.
 
 ### Development environment
 
-For contributing to the project, it is recommended to use `Node.js` `18`.
+For contributing to the project, it is recommended to use `Node.js` `20`.
 However, for the documentation we are also using `Python`. If you plan to
 contribute to this part of the project, you will need `Python`, preferably
 version `3.13`.

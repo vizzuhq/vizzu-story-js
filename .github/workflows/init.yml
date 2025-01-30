@@ -4,7 +4,7 @@ on:
     workflow_call:
 
 jobs:
-    init_ubuntu22:
+    init_ubuntu24:
         runs-on: ubuntu-24.04
 
         env:
@@ -17,27 +17,32 @@ jobs:
                   fetch-depth: 1
 
             - name: Cache node modules
-              id: node_modules_ubuntu22
+              id: node_modules_ubuntu24
               uses: actions/cache@v4
               with:
                   path: node_modules
-                  key: node_modules_ubuntu22_${{ hashFiles('package-lock.json') }}
+                  key: node_modules_ubuntu24_${{ hashFiles('package-lock.json') }}
 
             - name: Set up node modules
-              if: steps.node_modules_ubuntu22.outputs.cache-hit != 'true'
+              if: steps.node_modules_ubuntu24.outputs.cache-hit != 'true'
               run: |
                   node -v
                   npm install
 
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: "3.13"
+
             - name: Cache venv
-              id: venv_ubuntu22
+              id: venv_ubuntu24
               uses: actions/cache@v4
               with:
                   path: .venv
-                  key: venv_ubuntu22_${{ hashFiles('pdm.lock') }}
+                  key: venv_ubuntu24_${{ hashFiles('pdm.lock') }}
 
             - name: Set up venv
-              if: steps.venv_ubuntu22.outputs.cache-hit != 'true'
+              if: steps.venv_ubuntu24.outputs.cache-hit != 'true'
               run: |
                   python3.13 -m venv ".venv"
                   source .venv/bin/activate
