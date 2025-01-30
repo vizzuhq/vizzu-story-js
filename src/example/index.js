@@ -71,7 +71,7 @@ const vpd = {
 				filter: (record) => record.Function === 'Health' || record.Function === 'Space',
 				config: {
 					title: 'Compare Space & Health',
-					align: 'min',
+					align: 'none',
 					split: true
 				}
 			},
@@ -80,7 +80,7 @@ const vpd = {
 				filter: (record) => record.Function !== 'Defense',
 				config: {
 					title: 'All Non-defense Functions Side-by-Side',
-					align: 'min',
+					align: 'none',
 					split: true
 				}
 			}
@@ -100,7 +100,7 @@ const vpd = {
 				filter: (record) => record.Function === 'Defense',
 				config: {
 					title: 'Defense Expenditures',
-					align: 'min'
+					align: 'none'
 				}
 			}
 		],
