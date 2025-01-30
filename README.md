@@ -164,7 +164,7 @@ further info.
 
 ## License
 
-Copyright © 2022-2023 [Vizzu Inc.](https://vizzuhq.com)
+Copyright © 2022-2025 [Vizzu Inc.](https://vizzuhq.com)
 
 Released under the
 [Apache 2.0 License](https://vizzu-story.vizzuhq.com/latest/LICENSE/).
