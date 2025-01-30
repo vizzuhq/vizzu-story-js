@@ -44,7 +44,7 @@ development environment.
 ```sh
 python3.10 -m venv ".venv"
 source .venv/bin/activate
-pip install pdm==2.8.0
+pip install pdm==2.22.3
 pdm install
 ```
 

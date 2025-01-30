@@ -23,9 +23,6 @@ from chdir import (  # pylint: disable=import-error, wrong-import-position, wron
 from vizzu import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     Vizzu,
 )
-from markdown_format import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
-    Markdown,
-)
 from config import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     MkdocsConfig,
 )
@@ -126,7 +123,6 @@ class Docs:
                 content = f_src.read()
                 if path.suffix == ".md":
                     content = Vizzu.set_version(content)
-                    content = Markdown.format(content)
                     mkdocs_gen_files.set_edit_path(dst, dst)
                 with mkdocs_gen_files.open(dst, "w") as f_dst:
                     f_dst.write(content)
