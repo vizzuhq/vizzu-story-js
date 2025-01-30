@@ -23,7 +23,7 @@ describe('if slides set', () => {
 
 		browser = await puppeteer.launch({
 			headless: 'new',
-   			args: ['--disable-web-security', '--no-sandbox']
+			args: ['--disable-web-security', '--no-sandbox']
 		})
 	})
 
