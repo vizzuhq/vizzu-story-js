@@ -36,7 +36,7 @@
 		"type-tools:py": "mypy tools",
 		"test": "npm-run-all test:*",
 		"test:unit": "NODE_OPTIONS='--no-warnings --experimental-vm-modules' npx jest --config tests/vizzu-player/unit/jest.config.js --verbose",
-		"test:e2e": "NODE_OPTIONS='--no-warnings --experimental-vm-modules' npx jest --config tests/vizzu-player/e2e/jest.config.cjs --verbose",
+		"test:e2e": "NODE_OPTIONS='--no-warnings --experimental-vm-modules' npx jest --config tests/vizzu-player/e2e/jest.config.cjs --verbose --runInBand --no-sandbox",
 		"ci": "npm-run-all ci:*",
 		"ci:src": "npm-run-all ci-src:*",
 		"ci-src:js": "npm-run-all format-src:js lint-src:js type-src:js test",
