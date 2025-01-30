@@ -1,6 +1,7 @@
 # Installation
 
 !!! info
+
     `Vizzu-Story` requires and downloads the
     [Vizzu](https://github.com/vizzuhq/vizzu-lib) `JavaScript`/`C++`
     [library](https://www.jsdelivr.com/package/npm/vizzu) from `jsDelivr CDN`, but

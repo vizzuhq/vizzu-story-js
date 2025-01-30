@@ -6,7 +6,7 @@ authors = [
     {name = "Vizzu Inc.", email = "hello@vizzuhq.com"},
 ]
 dependencies = []
-requires-python = ">=3.10"
+requires-python = ">=3.13"
 readme = "README.md"
 license = {text = "Apache-2.0"}
 
@@ -17,6 +17,7 @@ codequality = [
     "mypy",
 ]
 docs = [
+    "setuptools",
     "mdformat",
     "mdformat-beautysh",
     "mdformat-black",
@@ -27,6 +28,7 @@ docs = [
     "mdformat-tables",
     "mdformat-footnote",
     "mdformat-frontmatter",
+    "mdformat-mkdocs",
     "mdx_truly_sane_lists",
     "mkdocs",
     "mkdocs-material",

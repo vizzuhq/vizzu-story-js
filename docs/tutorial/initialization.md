@@ -74,6 +74,7 @@ window.Vizzu = Vizzu;
 ```
 
 !!! info
+
     After initialization, you can access the imported `Vizzu` library via the
     `Vizzu` getter.
 

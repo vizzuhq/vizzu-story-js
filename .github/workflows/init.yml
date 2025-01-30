@@ -26,6 +26,7 @@ jobs:
             - name: Set up node modules
               if: steps.node_modules_ubuntu22.outputs.cache-hit != 'true'
               run: |
+                  node -v
                   npm install
 
             - name: Cache venv
@@ -38,7 +39,7 @@ jobs:
             - name: Set up venv
               if: steps.venv_ubuntu22.outputs.cache-hit != 'true'
               run: |
-                  python3.10 -m venv ".venv"
+                  python3.13 -m venv ".venv"
                   source .venv/bin/activate
                   pip install pdm==2.22.3
                   pdm install

@@ -11,7 +11,14 @@ class Markdown:
         return mdformat.text(  # type: ignore
             content,
             options={"wrap": 80, "end-of-line": "keep", "line-length": 70},
-            extensions={"gfm", "tables", "footnote", "frontmatter", "configblack"},
+            extensions={
+                "gfm",
+                "tables",
+                "footnote",
+                "frontmatter",
+                "configblack",
+                "mkdocs",
+            },
             codeformatters={
                 "python",
                 "bash",
