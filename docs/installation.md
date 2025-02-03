@@ -18,5 +18,5 @@ npm install vizzu-story
 Or use it from [CDN](https://www.jsdelivr.com/package/npm/vizzu-story):
 
 ```javascript
-import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js';
+import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js'
 ```

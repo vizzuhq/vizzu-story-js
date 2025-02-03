@@ -1,7 +1,7 @@
-import terser from "@rollup/plugin-terser";
-import copy from 'rollup-plugin-copy';
+import terser from "@rollup/plugin-terser"
+import copy from 'rollup-plugin-copy'
 
-const path = require("path");
+const path = require("path")
 
 export default [
   {
@@ -20,4 +20,4 @@ export default [
       })
     ],
   },
-];
+]
