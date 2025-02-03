@@ -54,12 +54,15 @@ describe('if slides set', () => {
 					})
 
 					let completeCounter = 0
-					const datas = []
+					const datas = {}
 
 					function labelDrawHandler(event) {
 						// check all slides, recheck first slide
 						if (completeCounter < allKeyFrames + 1) {
-							datas.push(event.detail.text)
+							if (!datas[completeCounter]) {
+								datas[completeCounter] = []
+							}
+							datas[completeCounter].push(event.detail.text)
 						}
 					}
 
@@ -68,6 +71,7 @@ describe('if slides set', () => {
 						if (completeCounter === allKeyFrames + 1) {
 							resolveComplete(true)
 						}
+						if (datas[completeCounter]) datas[completeCounter].sort()
 						completeCounter++
 					}
 

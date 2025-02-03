@@ -1,4 +1,4 @@
-// import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js";
+// import VizzuPlayer from "https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js"
 import VizzuPlayer from '../vizzu-player.js' // eslint-disable-line no-unused-vars
 
 import data from './data.js'
@@ -71,7 +71,7 @@ const vpd = {
 				filter: (record) => record.Function === 'Health' || record.Function === 'Space',
 				config: {
 					title: 'Compare Space & Health',
-					align: 'min',
+					align: 'none',
 					split: true
 				}
 			},
@@ -80,7 +80,7 @@ const vpd = {
 				filter: (record) => record.Function !== 'Defense',
 				config: {
 					title: 'All Non-defense Functions Side-by-Side',
-					align: 'min',
+					align: 'none',
 					split: true
 				}
 			}
@@ -100,7 +100,7 @@ const vpd = {
 				filter: (record) => record.Function === 'Defense',
 				config: {
 					title: 'Defense Expenditures',
-					align: 'min'
+					align: 'none'
 				}
 			}
 		],

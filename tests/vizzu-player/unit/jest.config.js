@@ -16,7 +16,7 @@ const config = {
 	testMatch: ['**/vizzu-player/unit/*.test.js'],
 	transform: {},
 	moduleNameMapper: {
-		'https://cdn.jsdelivr.net/npm/vizzu@0.9/dist/vizzu.min.js':
+		'https://cdn.jsdelivr.net/npm/vizzu@0.16/dist/vizzu.min.js':
 			'../tests/assets/mocks/vizzu-cdn.js'
 	}
 }

@@ -30,7 +30,7 @@ const data = {
         name: 'Baz',
         values: [5, 3, 2]
     }]
-};
+}
 ```
 
 ## Specify data by records
@@ -52,5 +52,5 @@ const data = {
         ['Bob', 32, 3],
         ['Ted', 12, 2],
     ],
-};
+}
 ```

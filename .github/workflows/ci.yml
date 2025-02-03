@@ -16,11 +16,16 @@ jobs:
               with:
                   fetch-depth: 1
 
-            - name: Cache node modules
-              uses: actions/cache@v4
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
               with:
-                  path: node_modules
-                  key: node_modules_ubuntu24_${{ hashFiles('package-lock.json') }}
+                  node-version: '22'
+                  cache: 'npm'
+                  cache-dependency-path: 'package-lock.json'
+
+            - name: Set up npm
+              run: |
+                  npm ci
 
             - name: Format
               run: |
@@ -47,11 +52,21 @@ jobs:
               with:
                   fetch-depth: 1
 
-            - name: Cache node modules
-              uses: actions/cache@v4
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
               with:
-                  path: node_modules
-                  key: node_modules_ubuntu24_${{ hashFiles('package-lock.json') }}
+                  node-version: '22'
+                  cache: 'npm'
+                  cache-dependency-path: 'package-lock.json'
+
+            - name: Set up npm
+              run: |
+                  npm ci
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: '3.13'
 
             - name: Cache venv
               uses: actions/cache@v4
@@ -78,11 +93,21 @@ jobs:
               with:
                   fetch-depth: 1
 
-            - name: Cache node modules
-              uses: actions/cache@v4
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
               with:
-                  path: node_modules
-                  key: node_modules_ubuntu24_${{ hashFiles('package-lock.json') }}
+                  node-version: '22'
+                  cache: 'npm'
+                  cache-dependency-path: 'package-lock.json'
+
+            - name: Set up npm
+              run: |
+                  npm ci
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: '3.13'
 
             - name: Cache venv
               uses: actions/cache@v4

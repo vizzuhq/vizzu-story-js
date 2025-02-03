@@ -320,7 +320,7 @@ describe('if attribute', () => {
 					expect(vp.vizzu.instanceMockType).toStrictEqual('cdnInstance')
 					expect(vp.Vizzu.classMockType).toStrictEqual('cdnClass')
 					expect(vp.vizzuUrl).toStrictEqual(
-						'https://cdn.jsdelivr.net/npm/vizzu@0.9/dist/vizzu.min.js'
+						'https://cdn.jsdelivr.net/npm/vizzu@0.16/dist/vizzu.min.js'
 					)
 				})
 			})
