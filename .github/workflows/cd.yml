@@ -24,6 +24,10 @@ jobs:
                   cache: 'npm'
                   cache-dependency-path: 'package-lock.json'
 
+            - name: Set up npm
+              run: |
+                  npm ci
+
             - name: Get workflow ID
               id: workflow_id
               run: |

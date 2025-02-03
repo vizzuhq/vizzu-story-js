@@ -23,6 +23,10 @@ jobs:
                   cache: 'npm'
                   cache-dependency-path: 'package-lock.json'
 
+            - name: Set up npm
+              run: |
+                  npm ci
+
             - name: Format
               run: |
                   npm run format:src
@@ -54,6 +58,10 @@ jobs:
                   node-version: '22'
                   cache: 'npm'
                   cache-dependency-path: 'package-lock.json'
+
+            - name: Set up npm
+              run: |
+                  npm ci
 
             - name: Set up Python
               uses: actions/setup-python@v5
@@ -91,6 +99,10 @@ jobs:
                   node-version: '22'
                   cache: 'npm'
                   cache-dependency-path: 'package-lock.json'
+
+            - name: Set up npm
+              run: |
+                  npm ci
 
             - name: Set up Python
               uses: actions/setup-python@v5

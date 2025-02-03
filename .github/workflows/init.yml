@@ -25,7 +25,7 @@ jobs:
 
             - name: Set up npm
               run: |
-                  npm install
+                  npm ci
 
             - name: Set up Python
               uses: actions/setup-python@v5
