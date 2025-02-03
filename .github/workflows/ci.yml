@@ -20,7 +20,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: '22'
-                  cache: 'node'
+                  cache: 'npm'
                   cache-dependency-path: 'package-lock.json'
 
             - name: Format
@@ -52,7 +52,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: '22'
-                  cache: 'node'
+                  cache: 'npm'
                   cache-dependency-path: 'package-lock.json'
 
             - name: Set up Python
@@ -89,7 +89,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: '22'
-                  cache: 'node'
+                  cache: 'npm'
                   cache-dependency-path: 'package-lock.json'
 
             - name: Set up Python
