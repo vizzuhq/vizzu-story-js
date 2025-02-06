@@ -157,7 +157,7 @@ class VizzuPlayer extends HTMLElement {
 				}
 				if (
 					animParam.target?.data &&
-					'filter' in animParam.target?.data &&
+					'filter' in animParam.target.data &&
 					animParam.target.data.filter !== undefined
 				) {
 					targetData.target.data = { filter: animParam.target.data.filter }
