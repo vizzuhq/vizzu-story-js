@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring
 
+from contextlib import chdir
 import os
 from pathlib import Path
 import shutil
@@ -17,10 +18,6 @@ SRC_PATH = REPO_PATH / "src"
 sys.path.insert(0, str(TOOLS_PATH / "modules"))
 sys.path.insert(0, str(TOOLS_PATH / "ci"))
 
-
-from chdir import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
-    chdir,
-)
 from node import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     Node,
 )
