@@ -3,7 +3,7 @@ name = "vizzu-story-dev"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Vizzu Inc.", email = "hello@vizzuhq.com"},
+    {name = "Vizzu Inc.", email = "hello@vizzu.io"},
 ]
 dependencies = []
 requires-python = ">=3.13"
