@@ -1,9 +1,8 @@
-import terser from "@rollup/plugin-terser"
-import copy from 'rollup-plugin-copy'
+const path = require('path')
+const terser = require('@rollup/plugin-terser')
+const copy = require('rollup-plugin-copy')
 
-const path = require("path")
-
-export default [
+module.exports = [
   {
     input: path.resolve(__dirname, "./src/vizzu-player.js"),
     output: {
