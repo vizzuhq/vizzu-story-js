@@ -17,7 +17,6 @@ sys.path.insert(0, str(TOOLS_PATH / "modules"))
 sys.path.insert(0, str(TOOLS_PATH / "ci"))
 sys.path.insert(0, str(MKDOCS_PATH))
 
-from contextlib import chdir
 from vizzu import (  # pylint: disable=import-error, wrong-import-position, wrong-import-order
     Vizzu,
 )
