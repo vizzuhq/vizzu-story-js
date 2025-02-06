@@ -15,7 +15,7 @@ The main entry point of the library is the
 is the [slides](./classes/VizzuPlayer.md#slides) accessor.
 
 - [VizzuPlayer](./classes/VizzuPlayer.md) class
-    - [constructor()](./classes/VizzuPlayer.md#constructor)
+    - [constructor()](./classes/VizzuPlayer.md#constructors)
     - [slides](./classes/VizzuPlayer.md#slides) ([Story](./interfaces/Story.md)) :
         `void`
 
