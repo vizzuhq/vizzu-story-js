@@ -16,7 +16,6 @@ async function reference() {
 			name: 'Vizzu-Story',
 			disableSources: true,
 			excludePrivate: true,
-			readme: path.join(repoPath, 'docs', 'reference.md'),
 			theme: 'markdown'
 		},
 		[new TypeDoc.TSConfigReader()]
