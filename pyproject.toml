@@ -29,7 +29,6 @@ docs = [
     "mdformat-footnote",
     "mdformat-frontmatter",
     "mdformat-mkdocs",
-    "mdx_truly_sane_lists",
     "mkdocs",
     "mkdocs-material",
     "mkdocs-section-index",

@@ -5,7 +5,7 @@
 groups = ["codequality", "docs"]
 strategy = []
 lock_version = "4.5.0"
-content_hash = "sha256:b7b96d27cdf8c8a8628a1d6b2abb82a94943b6093767a013ad947e467f7c997d"
+content_hash = "sha256:7bc94217fd0d863f474941a74a88a1c6db0e5a6cb3a7fa2c72dee9507bc95031"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
@@ -38,7 +38,7 @@ files = [
 
 [[package]]
 name = "beautifulsoup4"
-version = "4.13.1"
+version = "4.13.3"
 requires_python = ">=3.7.0"
 summary = "Screen-scraping library"
 dependencies = [
@@ -46,8 +46,8 @@ dependencies = [
     "typing-extensions>=4.0.0",
 ]
 files = [
-    {file = "beautifulsoup4-4.13.1-py3-none-any.whl", hash = "sha256:72465267014897bb10ca749bb632bde6c2d20f3254afd5458544bd74e6c2e6d8"},
-    {file = "beautifulsoup4-4.13.1.tar.gz", hash = "sha256:741c8b6903a1e4ae8ba32b9c9ae7510dab7a197fdbadcf9fcdeb0891ef5ec66a"},
+    {file = "beautifulsoup4-4.13.3-py3-none-any.whl", hash = "sha256:99045d7d3f08f91f0d656bc9b7efbae189426cd913d830294a15eefa0ea4df16"},
+    {file = "beautifulsoup4-4.13.3.tar.gz", hash = "sha256:1bd32405dacc920b42b83ba01644747ed77456a65760e285fbc47633ceddaf8b"},
 ]
 
 [[package]]
@@ -147,7 +147,7 @@ files = [
 
 [[package]]
 name = "cssbeautifier"
-version = "1.15.1"
+version = "1.15.3"
 summary = "CSS unobfuscator and beautifier."
 dependencies = [
     "editorconfig>=0.12.2",
@@ -155,7 +155,8 @@ dependencies = [
     "six>=1.13.0",
 ]
 files = [
-    {file = "cssbeautifier-1.15.1.tar.gz", hash = "sha256:9f7064362aedd559c55eeecf6b6bed65e05f33488dcbe39044f0403c26e1c006"},
+    {file = "cssbeautifier-1.15.3-py3-none-any.whl", hash = "sha256:0dcaf5ce197743a79b3a160b84ea58fcbd9e3e767c96df1171e428125b16d410"},
+    {file = "cssbeautifier-1.15.3.tar.gz", hash = "sha256:406b04d09e7d62c0be084fbfa2cba5126fe37359ea0d8d9f7b963a6354fc8303"},
 ]
 
 [[package]]
@@ -251,14 +252,15 @@ files = [
 
 [[package]]
 name = "jsbeautifier"
-version = "1.15.1"
+version = "1.15.3"
 summary = "JavaScript unobfuscator and beautifier."
 dependencies = [
     "editorconfig>=0.12.2",
     "six>=1.13.0",
 ]
 files = [
-    {file = "jsbeautifier-1.15.1.tar.gz", hash = "sha256:ebd733b560704c602d744eafc839db60a1ee9326e30a2a80c4adb8718adc1b24"},
+    {file = "jsbeautifier-1.15.3-py3-none-any.whl", hash = "sha256:b207a15ab7529eee4a35ae7790e9ec4e32a2b5026d51e2d0386c3a65e6ecfc91"},
+    {file = "jsbeautifier-1.15.3.tar.gz", hash = "sha256:5f1baf3d4ca6a615bb5417ee861b34b77609eeb12875555f8bbfabd9bf2f3457"},
 ]
 
 [[package]]
@@ -514,18 +516,6 @@ files = [
 ]
 
 [[package]]
-name = "mdx-truly-sane-lists"
-version = "1.3"
-summary = "Extension for Python-Markdown that makes lists truly sane. Custom indents for nested lists and fix for messy linebreaks."
-dependencies = [
-    "Markdown>=2.6",
-]
-files = [
-    {file = "mdx_truly_sane_lists-1.3-py3-none-any.whl", hash = "sha256:b9546a4c40ff8f1ab692f77cee4b6bfe8ddf9cccf23f0a24e71f3716fe290a37"},
-    {file = "mdx_truly_sane_lists-1.3.tar.gz", hash = "sha256:b661022df7520a1e113af7c355c62216b384c867e4f59fb8ee7ad511e6e77f45"},
-]
-
-[[package]]
 name = "mergedeep"
 version = "1.3.4"
 requires_python = ">=3.6"
@@ -649,7 +639,7 @@ files = [
 
 [[package]]
 name = "mkdocs-material"
-version = "9.6.1"
+version = "9.6.3"
 requires_python = ">=3.8"
 summary = "Documentation that simply works"
 dependencies = [
@@ -666,8 +656,8 @@ dependencies = [
     "requests~=2.26",
 ]
 files = [
-    {file = "mkdocs_material-9.6.1-py3-none-any.whl", hash = "sha256:c1742d410be29811a9b7e863cb25a578b9e255fe6f04c69f8c6838863a58e141"},
-    {file = "mkdocs_material-9.6.1.tar.gz", hash = "sha256:da37dba220d9fbfc5f1fc567fafc4028e3c3d7d828f2779ed09ab726ceca77dc"},
+    {file = "mkdocs_material-9.6.3-py3-none-any.whl", hash = "sha256:1125622067e26940806701219303b27c0933e04533560725d97ec26fd16a39cf"},
+    {file = "mkdocs_material-9.6.3.tar.gz", hash = "sha256:c87f7d1c39ce6326da5e10e232aed51bae46252e646755900f4b0fc9192fa832"},
 ]
 
 [[package]]
@@ -705,8 +695,8 @@ files = [
 
 [[package]]
 name = "mypy"
-version = "1.14.1"
-requires_python = ">=3.8"
+version = "1.15.0"
+requires_python = ">=3.9"
 summary = "Optional static typing for Python"
 dependencies = [
     "mypy-extensions>=1.0.0",
@@ -714,14 +704,14 @@ dependencies = [
     "typing-extensions>=4.6.0",
 ]
 files = [
-    {file = "mypy-1.14.1-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:92c3ed5afb06c3a8e188cb5da4984cab9ec9a77ba956ee419c68a388b4595255"},
-    {file = "mypy-1.14.1-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:dbec574648b3e25f43d23577309b16534431db4ddc09fda50841f1e34e64ed34"},
-    {file = "mypy-1.14.1-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:8c6d94b16d62eb3e947281aa7347d78236688e21081f11de976376cf010eb31a"},
-    {file = "mypy-1.14.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:d4b19b03fdf54f3c5b2fa474c56b4c13c9dbfb9a2db4370ede7ec11a2c5927d9"},
-    {file = "mypy-1.14.1-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:0c911fde686394753fff899c409fd4e16e9b294c24bfd5e1ea4675deae1ac6fd"},
-    {file = "mypy-1.14.1-cp313-cp313-win_amd64.whl", hash = "sha256:8b21525cb51671219f5307be85f7e646a153e5acc656e5cebf64bfa076c50107"},
-    {file = "mypy-1.14.1-py3-none-any.whl", hash = "sha256:b66a60cc4073aeb8ae00057f9c1f64d49e90f918fbcef9a977eb121da8b8f1d1"},
-    {file = "mypy-1.14.1.tar.gz", hash = "sha256:7ec88144fe9b510e8475ec2f5f251992690fcf89ccb4500b214b4226abcd32d6"},
+    {file = "mypy-1.15.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:93faf3fdb04768d44bf28693293f3904bbb555d076b781ad2530214ee53e3445"},
+    {file = "mypy-1.15.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:811aeccadfb730024c5d3e326b2fbe9249bb7413553f15499a4050f7c30e801d"},
+    {file = "mypy-1.15.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:98b7b9b9aedb65fe628c62a6dc57f6d5088ef2dfca37903a7d9ee374d03acca5"},
+    {file = "mypy-1.15.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:c43a7682e24b4f576d93072216bf56eeff70d9140241f9edec0c104d0c515036"},
+    {file = "mypy-1.15.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:baefc32840a9f00babd83251560e0ae1573e2f9d1b067719479bfb0e987c6357"},
+    {file = "mypy-1.15.0-cp313-cp313-win_amd64.whl", hash = "sha256:b9378e2c00146c44793c98b8d5a61039a048e31f429fb0eb546d93f4b000bedf"},
+    {file = "mypy-1.15.0-py3-none-any.whl", hash = "sha256:5469affef548bd1895d86d3bf10ce2b44e33d86923c29e4d675b3e323437ea3e"},
+    {file = "mypy-1.15.0.tar.gz", hash = "sha256:404534629d51d3efea5c800ee7c42b72a6554d6c400e6a79eafe15d11341fd43"},
 ]
 
 [[package]]
