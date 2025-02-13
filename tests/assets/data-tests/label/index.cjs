@@ -17,4 +17,11 @@ const testCases = [
 	}
 ]
 
+for (const testCase in testCases) {
+	const excepted = testCases[testCase].excepted
+	if (Array.isArray(excepted)) {
+		testCases[testCase].excepted = excepted.sort()
+	}
+}
+
 module.exports = testCases

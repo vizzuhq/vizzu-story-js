@@ -332,10 +332,4 @@ const excepted = {
 	57: first
 }
 
-for (const key in excepted) {
-	if (Array.isArray(excepted[key])) {
-		excepted[key] = excepted[key].sort()
-	}
-}
-
 module.exports = excepted
