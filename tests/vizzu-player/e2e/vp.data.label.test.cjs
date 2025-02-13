@@ -101,7 +101,7 @@ describe('if slides set', () => {
 				allKeyFrames
 			)
 
-			expect(data).toStrictEqual(testCase.excepted)
+			expect(data).toStrictEqual(testCase.expected)
 		})
 	})
 })

@@ -1,6 +1,6 @@
 const first = ['20 217']
 
-const excepted = {
+const expected = {
 	0: first,
 	1: [
 		'3 080',
@@ -332,4 +332,4 @@ const excepted = {
 	57: first
 }
 
-module.exports = excepted
+module.exports = expected

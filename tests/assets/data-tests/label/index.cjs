@@ -5,21 +5,23 @@ const olympics = require('./olympics.cjs')
 const testCases = [
 	{
 		name: 'nolabel',
-		excepted: nolabel
+		expected: nolabel
 	},
 	{
 		name: 'basic',
-		excepted: basic
+		expected: basic
 	},
 	{
 		name: 'olympics',
-		excepted: olympics
+		expected: olympics
 	}
 ]
 
 for (const testCase of testCases) {
-	if (Array.isArray(testCase.expected)) {
-		testCase.expected = testCase.expected.sort()
+	for (const key in testCase.expected) {
+		if (Array.isArray(testCase.expected[key])) {
+			testCase.expected[key] = testCase.expected[key].sort()
+		}
 	}
 }
 

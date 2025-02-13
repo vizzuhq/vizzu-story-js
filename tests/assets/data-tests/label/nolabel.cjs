@@ -1,3 +1,3 @@
-const excepted = {}
+const expected = {}
 
-module.exports = excepted
+module.exports = expected
