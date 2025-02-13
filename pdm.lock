@@ -5,7 +5,7 @@
 groups = ["codequality", "docs"]
 strategy = []
 lock_version = "4.5.0"
-content_hash = "sha256:7bc94217fd0d863f474941a74a88a1c6db0e5a6cb3a7fa2c72dee9507bc95031"
+content_hash = "sha256:44376c5aa10e7fae9f553f83e57aceb893415282d200849c4bfbf79ccc517f11"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
@@ -527,10 +527,7 @@ files = [
 
 [[package]]
 name = "mike"
-version = "2.2.0.dev0"
-git = "https://github.com/jimporter/mike.git"
-ref = "master"
-revision = "3b425156dec71bd7cd3440f42f41b99c7013a9ce"
+version = "2.1.3"
 summary = "Manage multiple versions of your MkDocs-powered documentation"
 dependencies = [
     "importlib-metadata",
@@ -541,6 +538,10 @@ dependencies = [
     "pyyaml-env-tag",
     "pyyaml>=5.1",
     "verspec",
+]
+files = [
+    {file = "mike-2.1.3-py3-none-any.whl", hash = "sha256:d90c64077e84f06272437b464735130d380703a76a5738b152932884c60c062a"},
+    {file = "mike-2.1.3.tar.gz", hash = "sha256:abd79b8ea483fb0275b7972825d3082e5ae67a41820f8d8a0dc7a3f49944e810"},
 ]
 
 [[package]]
@@ -571,7 +572,7 @@ files = [
 
 [[package]]
 name = "mkdocs-autorefs"
-version = "1.3.0"
+version = "1.3.1"
 requires_python = ">=3.9"
 summary = "Automatically link across pages in MkDocs."
 dependencies = [
@@ -580,8 +581,8 @@ dependencies = [
     "mkdocs>=1.1",
 ]
 files = [
-    {file = "mkdocs_autorefs-1.3.0-py3-none-any.whl", hash = "sha256:d180f9778a04e78b7134e31418f238bba56f56d6a8af97873946ff661befffb3"},
-    {file = "mkdocs_autorefs-1.3.0.tar.gz", hash = "sha256:6867764c099ace9025d6ac24fd07b85a98335fbd30107ef01053697c8f46db61"},
+    {file = "mkdocs_autorefs-1.3.1-py3-none-any.whl", hash = "sha256:18c504ae4d3ee7f344369bb26cb31d4105569ee252aab7d75ec2734c2c8b0474"},
+    {file = "mkdocs_autorefs-1.3.1.tar.gz", hash = "sha256:a6d30cbcccae336d622a66c2418a3c92a8196b69782774529ad441abb23c0902"},
 ]
 
 [[package]]
@@ -639,7 +640,7 @@ files = [
 
 [[package]]
 name = "mkdocs-material"
-version = "9.6.3"
+version = "9.6.4"
 requires_python = ">=3.8"
 summary = "Documentation that simply works"
 dependencies = [
@@ -656,8 +657,8 @@ dependencies = [
     "requests~=2.26",
 ]
 files = [
-    {file = "mkdocs_material-9.6.3-py3-none-any.whl", hash = "sha256:1125622067e26940806701219303b27c0933e04533560725d97ec26fd16a39cf"},
-    {file = "mkdocs_material-9.6.3.tar.gz", hash = "sha256:c87f7d1c39ce6326da5e10e232aed51bae46252e646755900f4b0fc9192fa832"},
+    {file = "mkdocs_material-9.6.4-py3-none-any.whl", hash = "sha256:414e8376551def6d644b8e6f77226022868532a792eb2c9accf52199009f568f"},
+    {file = "mkdocs_material-9.6.4.tar.gz", hash = "sha256:4d1d35e1c1d3e15294cb7fa5d02e0abaee70d408f75027dc7be6e30fb32e6867"},
 ]
 
 [[package]]

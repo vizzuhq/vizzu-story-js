@@ -36,7 +36,7 @@ docs = [
     "mkdocs-autorefs",
     "mkdocs-gen-files",
     "mkdocs-exclude",
-    "mike @ git+https://github.com/jimporter/mike.git@master",
+    "mike",
     "pyyaml",
     "types-pyyaml",
 ]
