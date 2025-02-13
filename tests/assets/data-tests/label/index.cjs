@@ -17,10 +17,9 @@ const testCases = [
 	}
 ]
 
-for (const testCase in testCases) {
-	const excepted = testCases[testCase].excepted
-	if (Array.isArray(excepted)) {
-		testCases[testCase].excepted = excepted.sort()
+for (const testCase of testCases) {
+	if (Array.isArray(testCase.expected)) {
+		testCase.expected = testCase.expected.sort()
 	}
 }
 
