@@ -70,7 +70,7 @@ class VizzuPlayer extends HTMLElement {
 		if (window.Vizzu) return undefined
 		return (
 			this.getAttribute('vizzu-url') ||
-			'https://cdn.jsdelivr.net/npm/vizzu@0.9/dist/vizzu.min.js'
+			'https://cdn.jsdelivr.net/npm/vizzu@0.16/dist/vizzu.min.js'
 		)
 	}
 
@@ -157,7 +157,7 @@ class VizzuPlayer extends HTMLElement {
 				}
 				if (
 					animParam.target?.data &&
-					'filter' in animParam.target?.data &&
+					'filter' in animParam.target.data &&
 					animParam.target.data.filter !== undefined
 				) {
 					targetData.target.data = { filter: animParam.target.data.filter }

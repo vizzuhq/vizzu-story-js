@@ -3,7 +3,7 @@ name = "vizzu-story-dev"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Vizzu Inc.", email = "hello@vizzuhq.com"},
+    {name = "Vizzu Inc.", email = "hello@vizzu.io"},
 ]
 dependencies = []
 requires-python = ">=3.13"
@@ -29,7 +29,6 @@ docs = [
     "mdformat-footnote",
     "mdformat-frontmatter",
     "mdformat-mkdocs",
-    "mdx_truly_sane_lists",
     "mkdocs",
     "mkdocs-material",
     "mkdocs-section-index",
@@ -37,7 +36,7 @@ docs = [
     "mkdocs-autorefs",
     "mkdocs-gen-files",
     "mkdocs-exclude",
-    "mike @ git+https://github.com/jimporter/mike.git@master",
+    "mike",
     "pyyaml",
     "types-pyyaml",
 ]

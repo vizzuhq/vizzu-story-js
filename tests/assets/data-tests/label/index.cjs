@@ -5,16 +5,24 @@ const olympics = require('./olympics.cjs')
 const testCases = [
 	{
 		name: 'nolabel',
-		excepted: nolabel
+		expected: nolabel
 	},
 	{
 		name: 'basic',
-		excepted: basic
+		expected: basic
 	},
 	{
 		name: 'olympics',
-		excepted: olympics
+		expected: olympics
 	}
 ]
+
+for (const testCase of testCases) {
+	for (const key in testCase.expected) {
+		if (Array.isArray(testCase.expected[key])) {
+			testCase.expected[key] = testCase.expected[key].sort()
+		}
+	}
+}
 
 module.exports = testCases

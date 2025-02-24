@@ -7,7 +7,7 @@ In a script module element import the extension from `CDN` or local install:
 ```
 <script type="module">
   import VizzuPlayer from 
-  'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js';
+  'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js'
 </script>
 ```
 
@@ -45,8 +45,8 @@ Set size in `HTML`
 or in `JavaScript`:
 
 ```javascript
-const vp = document.querySelector('vizzu-player');
-vp.style.cssText = 'width: 100%;height: 400px;';
+const vp = document.querySelector('vizzu-player')
+vp.style.cssText = 'width: 100%;height: 400px;'
 ```
 
 ## HTML attributes
@@ -67,10 +67,10 @@ Set `Vizzu` via the `vizzu-url` `HTML` attribute
 or add it to `window`:
 
 ```javascript
-import Vizzu from '<url>/vizzu.min.js';
+import Vizzu from '<url>/vizzu.min.js'
 
 
-window.Vizzu = Vizzu;
+window.Vizzu = Vizzu
 ```
 
 !!! info
@@ -79,11 +79,11 @@ window.Vizzu = Vizzu;
     `Vizzu` getter.
 
     ```javascript
-    const vp = document.querySelector('vizzu-player');
+    const vp = document.querySelector('vizzu-player')
 
     vp.initializing.then((chart) => {
-        const Vizzu = vp.Vizzu;
-    });
+        const Vizzu = vp.Vizzu
+    })
     ```
 
 ### hash-navigation

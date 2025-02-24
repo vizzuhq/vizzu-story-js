@@ -38,7 +38,7 @@ npm install vizzu-story
 Or use it from [CDN](https://www.jsdelivr.com/package/npm/vizzu-story):
 
 ```javascript
-import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js';
+import VizzuPlayer from 'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js'
 ```
 
 ## Usage
@@ -56,7 +56,7 @@ In a script module element import the extension from `CDN` or local install:
 ```
 <script type="module">
   import VizzuPlayer from 
-  'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js';
+  'https://cdn.jsdelivr.net/npm/vizzu-story@latest/dist/vizzu-story.min.js'
 </script>
 ```
 
@@ -78,7 +78,7 @@ const data = {
         name: 'Baz',
         values: [5, 3, 2]
     }]
-};
+}
 ```
 
 Create the data story by defining a sequence of slides. A slide can be a single
@@ -99,7 +99,7 @@ const slides = [{
         x: 'Baz',
         geometry: 'circle'
     }
-}];
+}]
 ```
 
 Navigation controls beneath the chart will navigate between the slides. You can
@@ -112,10 +112,10 @@ the slides, only the data filter used.
 
 ```typescript
 interface Chart {
-  config?: Vizzu.Config.Chart;
-  filter?: Vizzu.Data.FilterCallback | null;
-  style?: Vizzu.Styles.Chart;
-  animOptions?: Vizzu.Anim.Options;
+  config?: Vizzu.Config.Chart
+  filter?: Vizzu.Data.FilterCallback | null
+  style?: Vizzu.Styles.Chart
+  animOptions?: Vizzu.Anim.Options
 }
 ```
 
@@ -127,14 +127,14 @@ also set the `story` `style` property to set the chart style used for the whole
 const story = {
     data: data,
     slides: slides
-};
+}
 ```
 
 Then set up the created element with the configuration object:
 
 ```javascript
-const vp = document.querySelector('vizzu-player');
-vp.slides = story;
+const vp = document.querySelector('vizzu-player')
+vp.slides = story
 ```
 
 > [Check out a live example in JSFiddle!](https://jsfiddle.net/VizzuHQ/topcmuyf/3/)
@@ -157,7 +157,7 @@ further info.
     [vizzu-community.slack.com](https://join.slack.com/t/vizzu-community/shared_invite/zt-w2nqhq44-2CCWL4o7qn2Ns1EFSf9kEg)
     
 
-- Drop us a line at hello@vizzuhq.com
+- Drop us a line at hello@vizzu.io
 
 - Follow us on Twitter:
     [https://twitter.com/VizzuHQ](https://twitter.com/VizzuHQ)
