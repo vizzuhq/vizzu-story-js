@@ -35,7 +35,7 @@ const slides = [
             geometry: 'rectangle'
         }
     }],
-];
+]
 ```
 
 Navigation controls beneath the chart will navigate between the slides. You can
@@ -48,10 +48,10 @@ the slides, only the data filter used.
 
 ```typescript
 interface Chart {
-  config?: Vizzu.Config.Chart;
-  filter?: Vizzu.Data.FilterCallback | null;
-  style?: Vizzu.Styles.Chart;
-  animOptions?: Vizzu.Anim.Options;
+  config?: Vizzu.Config.Chart
+  filter?: Vizzu.Data.FilterCallback | null
+  style?: Vizzu.Styles.Chart
+  animOptions?: Vizzu.Anim.Options
 }
 ```
 
@@ -75,7 +75,7 @@ const slides = [
             duration: 1
         }
     }
-];
+]
 ```
 
 !!! tip
@@ -94,7 +94,7 @@ list into the `story` descriptor object.
 const story = {
     data: data,
     slides: slides
-};
+}
 ```
 
 Here you can also set the `story` `style` property to set the chart style used
@@ -105,20 +105,20 @@ const style = {
     title: {
         fontSize: 50
     }
-};
+}
 
 const story = {
     data: data,
     style: style,
     slides: slides
-};
+}
 ```
 
 Then set up the created element with the configuration object:
 
 ```javascript
-const vp = document.querySelector('vizzu-player');
-vp.slides = story;
+const vp = document.querySelector('vizzu-player')
+vp.slides = story
 ```
 
 ## Chart features
@@ -128,8 +128,8 @@ the viewer hovers their mouse over a specific element of the chart.
 
 ```javascript
 vp.initializing.then((chart) => {
-    chart.feature("tooltip", true);
-});
+    chart.feature("tooltip", true)
+})
 ```
 
 !!! tip
@@ -147,8 +147,8 @@ events.
 vp.initializing.then((chart) => {
     chart.on("click", (event) => {
         alert(JSON.stringify(event.detail))
-    });
-});
+    })
+})
 ```
 
 !!! tip
