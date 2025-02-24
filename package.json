@@ -1,6 +1,6 @@
 {
 	"name": "vizzu-story",
-	"version": "0.7.0",
+	"version": "0.8.0",
 	"description": "Build and present animated data stories",
 	"main": "dist/vizzu-story.min.js",
 	"types": "dist/vizzu-story.d.ts",
@@ -105,7 +105,7 @@
 		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"vizzu": "~0.16.0"
+		"vizzu": "~0.16.1"
 	},
 	"prettier": "@vizzu/prettier-config"
 }
